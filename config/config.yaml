@@ -14,16 +14,17 @@ modules:
   qc: "v0.3.0"
 
 reference:
-  coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
-  design_bed: "reference/homo_sapiens.wgs.bed"
-  exome_bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
-  exome_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
-  fasta: "reference/homo_sapiens.fasta"
-  fai: "reference/homo_sapiens.fasta.fai"
-  genepanels: "reference/genepanels.list"
-  genome_dir: "reference/homo_sapiens_star"
-  sites: "reference/homo_sapiens.known_indels.vcf.gz"
-  wgs_intervals: "reference/homo_sapiens.wgs.interval_list"
+  coverage_bed: "/beegfs-storage/data/ref_data/refseq/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
+  design_bed: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.wgs.bed"
+  exome_bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+  exome_intervals: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+  fasta: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.fasta"
+  fai: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.fasta.fai"
+  genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
+  genome_dir: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens_star"
+  sites: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.known_indels.vcf.gz"
+  #wgs_intervals: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.wgs.interval_list"
+
 
 trimmer_software: "fastp_pe"
 
@@ -91,8 +92,8 @@ multiqc:
         - "qc/mosdepth/{sample}_{type}.mosdepth.summary.txt"
         - "qc/mosdepth/{sample}_{type}.mosdepth.region.dist.txt"
         - "qc/mosdepth/{sample}_{type}.mosdepth.global.dist.txt"
-        - "qc/peddy/peddy_sex_check_mqc.tsv"
-        - "qc/peddy/peddy_rel_check_mqc.tsv"
+        # - "qc/peddy/peddy_sex_check_mqc.tsv"
+        # - "qc/peddy/peddy_rel_check_mqc.tsv"
         - "qc/picard_collect_alignment_summary_metrics/{sample}_{type}.alignment_summary_metrics.txt"
         - "qc/picard_collect_duplication_metrics/{sample}_{type}.duplication_metrics.txt"
         - "qc/picard_collect_gc_bias_metrics/{sample}_{type}.gc_bias.summary_metrics"

@@ -129,15 +129,15 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         for suffix in files[prefix]
     ]
     output_files += ["qc/multiqc/multiqc_DNA.html"]
-    output_files += [
-        "qc/peddy/peddy.peddy.ped",
-        "qc/peddy/peddy.ped_check.csv",
-        "qc/peddy/peddy.sex_check.csv",
-        "qc/peddy/peddy.het_check.csv",
-        "qc/peddy/peddy.html",
-        "qc/peddy/peddy.vs.html",
-        "qc/peddy/peddy.background_pca.json",
-    ]
+    # output_files += [
+    #     "qc/peddy/peddy.peddy.ped",
+    #     "qc/peddy/peddy.ped_check.csv",
+    #     "qc/peddy/peddy.sex_check.csv",
+    #     "qc/peddy/peddy.het_check.csv",
+    #     "qc/peddy/peddy.html",
+    #     "qc/peddy/peddy.vs.html",
+    #     "qc/peddy/peddy.background_pca.json",
+    # ]
     output_files += [
         "compression/spring/%s_%s_%s_%s_%s.spring" % (sample, flowcell, lane, barcode, t)
         for sample in get_samples(samples)
