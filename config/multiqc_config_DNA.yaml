@@ -3,8 +3,8 @@ subtitle: "Reference used: GRCh38"
 intro_text: "The MultiQC report summarise analysis results from WES data that been analysed by the pipeline hastings_rd_wes (https://github.com/clinical-genomics-uppsala/hastings_rd_wes)."
 
 report_header_info:
-  - Contact E-mail: "jessika.nordin@scilifelab.uu.se"
-  - Application Type: "Bioinformatic analysis of WGS for rare diseases"
+  - Contact E-mail: "padraic.corcoran@scilifelab.uu.se"
+  - Application Type: "Bioinformatic analysis of WES for rare diseases"
 
 show_analysis_paths: True
 

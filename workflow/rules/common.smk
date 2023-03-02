@@ -18,7 +18,6 @@ min_version("6.10")
 ### Set and validate config file
 configfile: "config/config.yaml"
 
-
 validate(config, schema="../schemas/config.schema.yaml")
 
 config = load_resources(config, config["resources"])
@@ -35,6 +34,19 @@ units = (
     .set_index(["sample", "type", "flowcell", "lane", "barcode"], drop=False)
     .sort_index()
 )
+
+# add barcodes from SampleSheet.csv
+sample_sheet_df = pandas.read_csv(config["sample_sheet"], header=13)
+
+barcode_list = []
+for row in units.itertuples():
+    sample = row.sample
+    sample_sheet_row = sample_sheet_df[sample_sheet_df['Sample_Name'] == sample]
+    barcode = '+'.join([sample_sheet_row.iat[0, 3], sample_sheet_row.iat[0, 5]])
+    barcode_list.append(barcode)
+
+units.barcode = barcode_list
+
 validate(units, schema="../schemas/units.schema.yaml")
 
 
@@ -57,12 +69,36 @@ def get_flowcell(units, wildcards):
     return flowcells.pop()
 
 
+def get_gvcf_list(wildcards):
+
+    caller = config.get("snp_caller", None)
+    if caller is None:
+        sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
+    elif caller == "deepvariant_gpu":
+        gvcf_path = "parabricks/pbrun_deepvariant"
+    elif caller == "deepvariant_cpu":
+        gvcf_path = "snv_indels/deepvariant"
+    else:
+        sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
+
+    if caller == "deepvariant_cpu":
+        gvcf_list = [
+            "{}/{}_{}.g.vcf".format(gvcf_path, sample, t)
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+        ]
+    else:   
+        gvcf_list = [
+            "{}/{}.g.vcf".format(gvcf_path, sample)
+            for sample in get_samples(samples)
+        ]
+
+
+    return gvcf_list
+
+
 def get_in_gvcf(wildcards):
-    gvcf_list = [
-        "snv_indels/deepvariant_peddy/{}_{}.g.vcf".format(sample, t)
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
-    ]
+    gvcf_list = get_gvcf_list(wildcards)
     return " -i ".join(gvcf_list)
 
 
@@ -119,7 +155,7 @@ def get_vcf_input(wildcards):
 def compile_output_list(wildcards: snakemake.io.Wildcards):
     files = {
         "compression/crumble": ["crumble.cram"],
-        "qc/create_cov_excel": ["coverage.xlsx"],
+        # "qc/create_cov_excel": ["coverage.xlsx"],
     }
     output_files = [
         "%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
@@ -129,15 +165,15 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         for suffix in files[prefix]
     ]
     output_files += ["qc/multiqc/multiqc_DNA.html"]
-    # output_files += [
-    #     "qc/peddy/peddy.peddy.ped",
-    #     "qc/peddy/peddy.ped_check.csv",
-    #     "qc/peddy/peddy.sex_check.csv",
-    #     "qc/peddy/peddy.het_check.csv",
-    #     "qc/peddy/peddy.html",
-    #     "qc/peddy/peddy.vs.html",
-    #     "qc/peddy/peddy.background_pca.json",
-    # ]
+    output_files += [
+        "qc/peddy/peddy.peddy.ped",
+        "qc/peddy/peddy.ped_check.csv",
+        "qc/peddy/peddy.sex_check.csv",
+        "qc/peddy/peddy.het_check.csv",
+        "qc/peddy/peddy.html",
+        "qc/peddy/peddy.vs.html",
+        "qc/peddy/peddy.background_pca.json",
+    ]
     output_files += [
         "compression/spring/%s_%s_%s_%s_%s.spring" % (sample, flowcell, lane, barcode, t)
         for sample in get_samples(samples)
