@@ -15,28 +15,19 @@ extra_fn_clean_exts: ##from this until end
     - type: regex
       pattern: '_fastq[12]'
 #    - '_S'
-extra_fn_clean_trim:
-  - 'Sample_VE-3297_'
+# extra_fn_clean_trim:
+#   - 'Sample_VE-3297_'
 #fn_ignore_dirs:
 #fn_ignore_files:
 
-#top_modules:
-#    - "samtools"
-#    - "picard"
-#    - "fastqc"
-
-
-# https://github.com/ewels/MultiQC/blob/master/docs/customisation.md
-
-
-custom_content: # Not working
-  order:
-    - fastqc
-    - fastp
-    - mosdepth
-    - peddy
-    - samtools
-    - picard
+top_modules:
+  - "general_stats"
+  - "fastqc"
+  - "mosdepth"
+  - "custom_content"
+  - "peddy"
+  - "Samtools"
+  - "picard"
 
 table_columns_visible:
   FastQC:
