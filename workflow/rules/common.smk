@@ -151,11 +151,25 @@ def get_vcf_input(wildcards):
     return vcf_input
 
 
+def get_postprocess_variants_args(
+    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, 
+    output: snakemake.io.Namedlist, me_config: str, extra: str):
+
+    if len(output) == 2:
+        threads = config.get(me_config, {}).get("threads", config["default_resources"]["threads"])
+        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input.examples_dir, threads)
+        gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
+        gvcf_out = " --gvcf_outfile {}".format(output.gvcf)
+        extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
+
+    return extra
+
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
     files = {
         "compression/crumble": ["crumble.cram"],
-        # "qc/create_cov_excel": ["coverage.xlsx"],
+        "cnv_sv/exomedepth_call": ["RData"],
+        "qc/create_cov_excel": ["coverage.xlsx"],
     }
     output_files = [
         "%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)

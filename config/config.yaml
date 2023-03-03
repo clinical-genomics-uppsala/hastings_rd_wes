@@ -33,7 +33,7 @@ reference:
 trimmer_software: "fastp_pe"
 
 aligner: "bwa_cpu" # or "bwa_cpu"
-snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
+snp_caller: "deepvariant_gpu" # or "deepvariant_cpu"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
@@ -53,15 +53,23 @@ crumble:
 
 deepvariant_call_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  model_dir: "/opt/models/wgs"
+  model_dir: "/opt/models/wes" # path to model in the deepvariant container
 
 deepvariant_make_examples:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  model: "WGS"
+  model: "WES"
 
 deepvariant_postprocess_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0"
   vcf_type: "gvcf"
+
+exomedepth_call:
+  container: "docker://hydragenetics/exomedepth:1.1.15"
+  exonsfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/exons_GRCh38_ensembl109.txt
+  genesfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/genes_GRCh38_ensembl109.txt
+  genome_version: "hg38"
+  male_reference: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/references/exomedepth_reference/RefCount_male.Rdata
+  female_reference: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/references/exomedepth_reference/RefCount_female.Rdata
 
 fastp_pe:
   container: "docker://hydragenetics/fastp:0.20.1"
@@ -90,8 +98,8 @@ multiqc:
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq2_fastqc.zip"
         - "qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"
         - "qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz"
-        # - "qc/peddy/peddy_sex_check_mqc.tsv"
-        # - "qc/peddy/peddy_rel_check_mqc.tsv"
+        - "qc/peddy/peddy_sex_check_mqc.tsv"
+        - "qc/peddy/peddy_rel_check_mqc.tsv"
         - "qc/picard_collect_alignment_summary_metrics/{sample}_{type}.alignment_summary_metrics.txt"
         - "qc/picard_collect_duplication_metrics/{sample}_{type}.duplication_metrics.txt"
         - "qc/picard_collect_gc_bias_metrics/{sample}_{type}.gc_bias.summary_metrics"
@@ -104,7 +112,6 @@ pbrun_deepvariant:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
   deepvariant_model: "/beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng"
   extra: "--disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
-
 
 pbrun_fq2bam:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"

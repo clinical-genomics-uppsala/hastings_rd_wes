@@ -5,7 +5,7 @@ __license__ = "GPL-3"
 
 include: "rules/common.smk"
 include: "rules/add_ref_to_vcf.smk"
-# include: "rules/coverage.smk"
+include: "rules/coverage.smk"
 include: "rules/peddy.smk"
 include: "rules/sample_order_for_multiqc.smk"
 
@@ -47,23 +47,12 @@ module cnv_sv:
 
 use rule exomedepth_call from cnv_sv as cnv_exomedepth_call with:
     input:
-        bam="parabricks/pbrun_fq2bam/{sample}_{type}.bam",
-        bedfile=config.get("exomedepth_call", {}).get("exon_bed", ""),
-        ref_count=config.get("exomedepth_call", {}).get("ref_count", ""),
-    params:
-        genes=config.get("exomedepth_call", {}).get("exonfile", ""),
-        exons=config.get("exomedepth_call", {}).get("genefile", ""),
-        extra=config.get("exomedepth_call", {}).get("extra", ""),
-    output:
-        aggregated_result=temp("cnv_sv/exomedepth/{sample}_{type}.SV.txt"),
-        aed=temp("cnv_sv/exomedepth/{sample}_{type}.aed"),
-        exon=temp("cnv_sv/exomedepth/{sample}_{type}.RData"),
-        result=temp("cnv_sv/exomedepth/{sample}_{type}.txt"),
-    log:
-        "cnv_sv/exomedepth/{sample}_{type}.output.log",
-    benchmark:
-        repeat("cnv_sv/exomedepth/{sample}_{type}.output.benchmark.tsv", config.get("exomedepth", {}).get("benchmark_repeats", 1))
-    
+        bam=lambda wildcards: get_bam_input(wildcards, use_type_wildcard=False)[0],
+        bedfile=config.get("reference", {}).get("design_bed", ""),
+        genes=config.get("exomedepth_call", {}).get("exonsfile", ""),
+        exons=config.get("exomedepth_call", {}).get("genesfile", ""),
+        peddy_sex_check="qc/peddy/peddy.sex_check.csv",
+ 
 
 module compression:
     snakefile:
@@ -187,7 +176,7 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
         bai=lambda wildcards: get_bam_input(wildcards)[1],
-        bed=config.get("reference", {}).get("design_bed", ""),
+        bed=config.get("reference", {}).get("coverage_bed", ""),
     output:
         bed=temp("qc/mosdepth_bed/{sample}_{type}.regions.bed.gz"),
         bed_csi=temp("qc/mosdepth_bed/{sample}_{type}.regions.bed.gz.csi"),
@@ -321,11 +310,20 @@ use rule deepvariant_call_variants from snv_indels as snv_indels_deepvariant_cal
 
 use rule deepvariant_postprocess_variants from snv_indels as snv_indels_deepvariant_postprocess_variants with:
     input:
+        examples_dir="snv_indels/deepvariant/{sample}_{type}/",
         infile="snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}.vcf"),
         gvcf=temp("snv_indels/deepvariant/{sample}_{type}.g.vcf"),
+    params:
+        extra=lambda wildcards, input, output: get_postprocess_variants_args(
+            wildcards,
+            input,
+            output,
+            "deepvariant_make_examples",
+            config.get("deepvariant_postprocess_variants", {}).get("extra", ""),
+        ),
     log:
         "snv_indels/deepvariant/{sample}_{type}_postprocess_variants.output.log",
     benchmark:
