@@ -48,10 +48,10 @@ module cnv_sv:
 use rule exomedepth_call from cnv_sv as cnv_exomedepth_call with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards, use_type_wildcard=False)[0],
-        bedfile=config.get("reference", {}).get("design_bed", ""),
-        genes=config.get("exomedepth_call", {}).get("exonsfile", ""),
-        exons=config.get("exomedepth_call", {}).get("genesfile", ""),
-        peddy_sex_check="qc/peddy/peddy.sex_check.csv",
+        bedfile=config.get("exomedepth_call", {}).get("design_bed", ""),
+        genes=config.get("exomedepth_call", {}).get("genesfile", ""),
+        exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
+        sex="qc/peddy/peddy.sex_check.csv",
  
 
 module compression:
@@ -80,13 +80,6 @@ use rule samtools_view from compression as compression_samtools_view with:
 use rule spring from compression as compression_spring with:
     output:
         spring=temp("compression/spring/{sample}_{flowcell}_{lane}_{barcode}_{type}.spring"),
-
-
-# module filtering:
-#     snakefile:
-#         github("hydra-genetics/filtering", path="workflow/Snakefile", tag="b7f4dc3")
-#     config:
-#         config
 
 
 module misc:
