@@ -33,7 +33,7 @@ reference:
 trimmer_software: "fastp_pe"
 
 aligner: "bwa_cpu" # or "bwa_cpu"
-snp_caller: "deepvariant_gpu" # or "deepvariant_cpu"
+snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
@@ -65,6 +65,7 @@ deepvariant_postprocess_variants:
 
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
+  design_bed: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
   exonsfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/exons_GRCh38_ensembl109.txt
   genesfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/genes_GRCh38_ensembl109.txt
   genome_version: "hg38"
