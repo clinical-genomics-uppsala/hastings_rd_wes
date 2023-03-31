@@ -9,12 +9,12 @@ rule vcf_addRef:
         vcf=lambda wildcards: get_vcf_input(wildcards),
         ref=config["reference"]["fasta"],
     output:
-        vcf=temp("vcf_final/{sample}.vcf"),
+        vcf=temp("vcf_final/{sample}_{type}.vcf"),
     log:
-        "vcf_final/{sample}_add_ref.log",
+        "vcf_final/{sample}_{type}_add_ref.log",
     benchmark:
         repeat(
-            "vcf_final/{sample}_ref.vcf.benchmark.tsv",
+            "vcf_final/{sample}_{type}_ref.vcf.benchmark.tsv",
             config.get("vcf_addRef", {}).get("benchmark_repeats", 1),
         )
     resources:
