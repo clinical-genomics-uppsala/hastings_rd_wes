@@ -7,5 +7,15 @@ properties:
   tumor_content:
     type: string
     description: tumor cell content in sample
+  sex:
+    type: string
+    description: given sex of a sample
+  trioid:
+    type: string
+    description: trio id
+  trio_member:
+    type: string
+    description: trio member (proband or mother or father)
 required:
   - sample
+
