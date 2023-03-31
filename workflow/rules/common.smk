@@ -13,8 +13,7 @@ from snakemake.utils import min_version
 from snakemake.utils import validate
 
 min_version("6.10")
-
-
+    
 ### Set and validate config file
 configfile: "config/config.yaml"
 
@@ -35,20 +34,7 @@ units = (
     .sort_index()
 )
 
-# add barcodes from SampleSheet.csv
-sample_sheet_df = pandas.read_csv(config["sample_sheet"], header=13)
-
-barcode_list = []
-for row in units.itertuples():
-    sample = row.sample
-    sample_sheet_row = sample_sheet_df[sample_sheet_df['Sample_Name'] == sample]
-    barcode = '+'.join([sample_sheet_row.iat[0, 3], sample_sheet_row.iat[0, 5]])
-    barcode_list.append(barcode)
-
-units.barcode = barcode_list
-
 validate(units, schema="../schemas/units.schema.yaml")
-
 
 ### Set wildcard constraints
 wildcard_constraints:
@@ -59,6 +45,7 @@ wildcard_constraints:
     read="fastq[1|2]",
     sample="|".join(get_samples(samples)),
     type="N|T|R",
+    #trioid='|'.join(samples.trioid.dropna().unique().tolist())
 
 
 ### Functions
@@ -81,18 +68,12 @@ def get_gvcf_list(wildcards):
     else:
         sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
 
-    if caller == "deepvariant_cpu":
-        gvcf_list = [
-            "{}/{}_{}.g.vcf".format(gvcf_path, sample, t)
-            for sample in get_samples(samples)
-            for t in get_unit_types(units, sample)
-        ]
-    else:   
-        gvcf_list = [
-            "{}/{}.g.vcf".format(gvcf_path, sample)
-            for sample in get_samples(samples)
-        ]
-
+    gvcf_list = [
+        "{}/{}_{}.g.vcf".format(gvcf_path, sample, t)
+        for sample in get_samples(samples)
+        for t in get_unit_types(units, sample)
+    ]
+    
 
     return gvcf_list
 
@@ -142,34 +123,30 @@ def get_vcf_input(wildcards):
     if caller is None:
         sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
     elif caller == "deepvariant_gpu":
-        vcf_input = "parabricks/pbrun_deepvariant/{}.vcf".format(wildcards.sample)
+        vcf_input = "parabricks/pbrun_deepvariant/{}_{}.vcf".format(wildcards.sample, wildcards.type)
     elif caller == "deepvariant_cpu":
-        vcf_input = "snv_indels/deepvariant/{}_N.vcf".format(wildcards.sample)
+        vcf_input = "snv_indels/deepvariant/{}_{}.vcf".format(wildcards.sample, wildcards.type)
     else:
         sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
 
     return vcf_input
 
 
-def get_postprocess_variants_args(
-    wildcards: snakemake.io.Wildcards, input: snakemake.io.Namedlist, 
-    output: snakemake.io.Namedlist, me_config: str, extra: str):
+def get_glnexus_input(wildcards, input):
 
-    if len(output) == 2:
-        threads = config.get(me_config, {}).get("threads", config["default_resources"]["threads"])
-        gvcf_tfrecord = "{}/gvcf.tfrecord@{}.gz".format(input.examples_dir, threads)
-        gvcf_in = "--nonvariant_site_tfrecord_path {}".format(gvcf_tfrecord)
-        gvcf_out = " --gvcf_outfile {}".format(output.gvcf)
-        extra = "{} {} {}".format(extra, gvcf_in, gvcf_out)
-
-    return extra
+   
+    gvcf_input =  "-i {}".format(" -i ".join(input.gvcfs))
+   
+    return gvcf_input
 
 
 def compile_output_list(wildcards: snakemake.io.Wildcards):
+
     files = {
         "compression/crumble": ["crumble.cram"],
         "cnv_sv/exomedepth_call": ["RData"],
         "qc/create_cov_excel": ["coverage.xlsx"],
+        "vcf_final" : ["vcf.gz.tbi"],
     }
     output_files = [
         "%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
@@ -188,6 +165,39 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
         "qc/peddy/peddy.vs.html",
         "qc/peddy/peddy.background_pca.json",
     ]
+
+    output_files += [
+        "cnv_sv/automap/%s_%s/%s_%s.HomRegions.tsv" % (sample, unit_type, sample, unit_type)
+        for sample in get_samples(samples)
+        for unit_type in get_unit_types(units, sample)
+    ]
+
+ 
+
+    files = {
+        "snv_indels/deeptrio": ["g.vcf", "vcf"],
+    }
+    output_files += [
+        "%s/%s_%s/%s.%s" % (prefix, sample, unit_type,trio_member,suffix)
+        for prefix in files.keys()
+        for sample in samples[samples.trio_member == 'proband'].index
+        for unit_type in get_unit_types(units, sample)
+        for trio_member in ['child', 'parent1', 'parent2']
+        for suffix in files[prefix]
+    ]
+
+    files = {
+        "snv_indels/glnexus": ["vcf.gz"],
+        "cnv_sv/upd": ["upd_regions.bed"],
+    }
+    output_files += [
+        "%s/%s_%s.%s" % (prefix, sample, unit_type,suffix)
+        for prefix in files.keys()
+        for sample in samples[samples.trio_member == 'proband'].index
+        for unit_type in get_unit_types(units, sample)
+        for suffix in files[prefix]
+    ]
+
     output_files += [
         "compression/spring/%s_%s_%s_%s_%s.spring" % (sample, flowcell, lane, barcode, t)
         for sample in get_samples(samples)
@@ -232,56 +242,7 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             ]
         )
     ]
-    output_files += ["vcf_final/%s.vcf.gz.tbi" % (sample) for sample in get_samples(samples)]
+
+    
     return output_files
     
-### Include copy all files we want to transfer
-# def compile_output_list(wildcards):
-#     output_files = []
-#     types = set([unit.type for unit in units.itertuples()])
-#     for output in output_json:
-#         output_files += set(
-#             [
-#                 output.format(sample=sample, type=unit_type, caller=caller)
-#                 for sample in get_samples(samples)
-#                 for unit_type in get_unit_types(units, sample)
-#                 if unit_type in set(output_json[output]["types"]).intersection(types)
-#                 for caller in config["bcbio_variation_recall_ensemble"]["callers"]
-#             ]
-#         )
-#     return list(set(output_files))
-#
-# def generate_copy_code(workflow, output_json):
-#     code = ""
-#     for result, values in output_json.items():
-#         if values["file"] is not None:
-#             input_file = values["file"]
-#             output_file = result
-#             rule_name = values["name"]
-#             mem_mb = config.get('_copy', {}).get("mem_mb", config["default_resources"]["mem_mb"])
-#             mem_per_cpu = config.get('_copy', {}).get("mem_mb", config["default_resources"]["mem_mb"])
-#             partition = config.get("_copy", {}).get("partition", config["default_resources"]["partition"])
-#             threads = config.get("_copy", {}).get("threads", config["default_resources"]["threads"])
-#             time = config.get("_copy", {}).get("time", config["default_resources"]["time"])
-#             copy_container = config.get("_copy", {}).get("container", config["default_container"])
-#             result_file = os.path.basename(output_file)
-#             code += f'@workflow.rule(name="{rule_name}")\n'
-#             code += f'@workflow.input("{input_file}")\n'
-#             code += f'@workflow.output("{output_file}")\n'
-#             code += f'@workflow.log("logs/{rule_name}_{result_file}.log")\n'
-#             code += f'@workflow.container("{copy_container}")\n'
-#             code += f'@workflow.conda("../env/copy_result.yaml")\n'
-#             code += f'@workflow.resources(time = "{time}", threads = {threads}, mem_mb = {mem_mb}, mem_per_cpu = {mem_per_cpu}, partition = "{partition}")\n'
-#             code += '@workflow.shellcmd("cp {input} {output}")\n\n'
-#             code += "@workflow.run\n"
-#             code += (
-#                 f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, log, version, rule, "
-#                 "conda_env, container_img, singularity_args, use_singularity, env_modules, bench_record, jobid, is_shell, "
-#                 "bench_iteration, cleanup_scripts, shadow_dir, edit_notebook, conda_base_path, basedir, runtime_sourcecache_path, "
-#                 "__is_snakemake_rule_func=True):\n"
-#                 '\tshell ( "(cp {input[0]} {output[0]}) &> {log}" , bench_record=bench_record, bench_iteration=bench_iteration)\n\n'
-#             )
-#     exec(compile(code, "result_to_copy", "exec"), workflow.globals)
-#
-#
-# generate_copy_code(workflow, output_json)

@@ -12,11 +12,35 @@ bwa_mem:
   mem_per_cpu: 6144
   threads: 20
 
+deeptrio_call_variants:
+  gres: "--gres=gpu:1"
+  mem_mb: 163840
+  mem_per_cpu: 16384
+  partition: "GPU"
+  threads: 10
+
+# deeptrio_call_variants:
+#   threads: 20
+
+deeptrio_make_examples:
+  threads: 1
+
+deeptrio_postprocess_variants:
+  mem_mb: 36864
+  mem_per_cpu: 36864
+
+# deepvariant_call_variants:
+#   threads: 20
+
 deepvariant_call_variants:
-  threads: 20
+  gres: "--gres=gpu:1"
+  mem_mb: 163840
+  mem_per_cpu: 16384
+  partition: "GPU"
+  threads: 10
 
 deepvariant_make_examples:
-  threads: 40
+  threads: 1
 
 deepvariant_postprocess_variants:
   mem_mb: 36864
@@ -40,19 +64,27 @@ mosdepth_bed:
   threads: 4
 
 pbrun_fq2bam:
-  gres: "--gres=gpu:4"
-  mem_mb: 655360
+  gres: "--gres=gpu:2"
+  mem_mb: 327680
   mem_per_cpu: 16384
   partition: "GPU"
-  threads: 40
+  threads: 20
   time: "20:00:00"
 
+# pbrun_fq2bam:
+#   gres: "--gres=gpu:2"
+#   mem_mb: 327680
+#   mem_per_cpu: 16384
+#   partition: "GPU"
+#   threads: 20
+#   time: "20:00:00"
+
 pbrun_deepvariant:
-  gres: "--gres=gpu:4"
-  mem_mb: 655360
+  gres: "--gres=gpu:2"
+  mem_mb: 327680
   mem_per_cpu: 16384
   partition: "GPU"
-  threads: 40
+  threads: 20
   time: "20:00:00"
 
 peddy:
