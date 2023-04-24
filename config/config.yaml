@@ -6,18 +6,20 @@ samples: "config/samples.tsv"
 sample_sheet: "config/SampleSheet.csv"
 units: "config/units.tsv"
 
+output: "config/output_list.json"
+
 default_container: "docker://hydragenetics/common:0.2.0"
 
 modules:
-  alignment: "v0.3.0"
+  alignment: "v0.4.0"
   annotation: "v0.3.0"
-  compression: "v1.1.0"
+  compression: "70bda92"
   misc: "v0.1.0"
-  cnv_sv: "22c424d"
-  parabricks: "61feb8d57d48dd6c569e4db1e1f5b0e125efa9f7"
-  prealignment: "v0.5.0"
+  cnv_sv: "develop"
+  parabricks: "64b250a"
+  prealignment: "v1.1.0"
   qc: "v0.3.0"
-  snv_indels: "055004c"
+  snv_indels: "develop"
 
 
 reference:
@@ -33,8 +35,14 @@ reference:
 
 trimmer_software: "fastp_pe"
 
-aligner: "bwa_cpu" # or "bwa_cpu"
-snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
+aligner: "bwa_gpu" # or "bwa_cpu"
+snp_caller: "deepvariant_gpu" # or "deepvariant_cpu"
+
+automap:
+  container: "docker://hydragenetics/automap:1.2"
+  build: "hg38"
+  extra: "--DP 10 --minsize 3 --chrX"
+  outdir: "cnv_sv/automap"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
@@ -45,7 +53,7 @@ bwa_mem:
   sa: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.fasta.sa"
 
 create_cov_excel:
-  container: "/projects/wp2/nobackup/Twist_Myeloid/Containers/python3.6-pysam-xlsxwriter-yaml.simg"
+  container: "/projects/wp2/nobackup/Twist_Myeloid/Containers/python3.9-0.1.0.sif"
   covLimits: "10 20 30"
 
 crumble:
@@ -59,7 +67,7 @@ deeptrio_call_variants:
     parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
 
 deeptrio_make_examples:
-  container: "docker://google/deepvariant:deeptrio-1.4.0" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
+  container: "docker://google/deepvariant:deeptrio-1.4.0-gpu" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
   extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
   n_shards: 80
 
@@ -67,8 +75,8 @@ deeptrio_postprocess_variants:
   container: "docker://google/deepvariant:deeptrio-1.4.0-gpu"
 
 deepvariant_call_variants:
-  container: "docker://google/deepvariant:1.4.0-gpu" #"docker://hydragenetics/deepvariant:1.4.0"
-  model: "/opt/models/wes/model.ckpt" # path to model in the deepvariant container
+  container: "docker://hydragenetics/deepvariant:1.4.0" #"docker://hydragenetics/deepvariant:1.4.0"
+  model: "/opt/models/wes/model.ckpt" # path to wes model in the deepvariant container
 
 deepvariant_make_examples:
   container: "docker://hydragenetics/deepvariant:1.4.0"
@@ -132,8 +140,7 @@ multiqc:
 
 pbrun_deepvariant:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
-  deepvariant_model: "/beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng"
-  extra: "--interval-file /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed --disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
+  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng --interval-file /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed --disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
@@ -176,10 +183,16 @@ spring:
   container: "docker://hydragenetics/spring:1.0.1"
 
 tabix:
-  container: "docker://hydragenetics/common:0.1.1"
+  container: "docker://hydragenetics/common:0.1.0"
+
+upd:
+  container: "docker://hydragenetics/upd:0.1.1"
+  extra: "--vep "
 
 vep:
   container: "docker://ensemblorg/ensembl-vep:release_109.3"
   vep_cache: "/beegfs-storage/data/ref_genomes/VEP/"
   extra: "--assembly GRCh38 --max_af"
-  threads: 4
+
+vt_decompose:
+  container: "docker://hydragenetics/vt:2015.11.10"
