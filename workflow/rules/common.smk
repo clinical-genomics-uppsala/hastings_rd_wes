@@ -36,6 +36,10 @@ units = (
 
 validate(units, schema="../schemas/units.schema.yaml")
 
+## read the output json
+with open(config["output"]) as output:
+    output_json = json.load(output)
+
 ### Set wildcard constraints
 wildcard_constraints:
     barcode="[A-Z+]+",
@@ -140,109 +144,196 @@ def get_glnexus_input(wildcards, input):
     return gvcf_input
 
 
-def compile_output_list(wildcards: snakemake.io.Wildcards):
+def get_parent_bams(wildcards):
+    aligner = config.get("aligner", None)
 
-    files = {
-        "compression/crumble": ["crumble.cram"],
-        "cnv_sv/exomedepth_call": ["RData"],
-        "qc/create_cov_excel": ["coverage.xlsx"],
-        "vcf_final" : ["vcf.gz.tbi"],
-    }
-    output_files = [
-        "%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
-        for prefix in files.keys()
-        for sample in get_samples(samples)
-        for unit_type in get_unit_types(units, sample)
-        for suffix in files[prefix]
-    ]
-    output_files += ["qc/multiqc/multiqc_DNA.html"]
-    output_files += [
-        "qc/peddy/peddy.peddy.ped",
-        "qc/peddy/peddy.ped_check.csv",
-        "qc/peddy/peddy.sex_check.csv",
-        "qc/peddy/peddy.het_check.csv",
-        "qc/peddy/peddy.html",
-        "qc/peddy/peddy.vs.html",
-        "qc/peddy/peddy.background_pca.json",
-    ]
+    if aligner is None:
+        sys.exit("aligner missing from config, valid options: bwa_gpu or bwa_cpu")
+    elif aligner == "bwa_gpu":
+        bam_path = "parabricks/pbrun_fq2bam"
+    elif aligner == "bwa_cpu":
+        bam_path = "alignment/samtools_merge_bam"
 
-    output_files += [
-        "cnv_sv/automap/%s_%s/%s_%s.HomRegions.tsv" % (sample, unit_type, sample, unit_type)
-        for sample in get_samples(samples)
-        for unit_type in get_unit_types(units, sample)
-    ]
+    proband_sample = samples[samples.index == wildcards.sample]
+    trio_id = proband_sample.at[wildcards.sample, "trioid"]
+
+    mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
+    mother_bam = "{}/{}_{}.bam".format(bam_path, mother_sample, list(get_unit_types(units, mother_sample))[0])
+
+    father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
+    father_bam = "{}/{}_{}.bam".format(bam_path, father_sample, list(get_unit_types(units, father_sample))[0])
+
+    bam_list = [mother_bam, father_bam]
+
+
+    return bam_list
+
+
+# def compile_output_list(wildcards: snakemake.io.Wildcards):
+
+#     files = {
+#         "compression/crumble": ["crumble.cram"],
+#         "cnv_sv/exomedepth_call": ["RData"],
+#         "qc/create_cov_excel": ["coverage.xlsx"],
+#         "vcf_final" : ["vcf.gz.tbi"],
+#     }
+#     output_files = [
+#         "%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
+#         for prefix in files.keys()
+#         for sample in get_samples(samples)
+#         for unit_type in get_unit_types(units, sample)
+#         for suffix in files[prefix]
+#     ]
+#     output_files += ["qc/multiqc/multiqc_DNA.html"]
+#     output_files += [
+#         "qc/peddy/peddy.peddy.ped",
+#         "qc/peddy/peddy.ped_check.csv",
+#         "qc/peddy/peddy.sex_check.csv",
+#         "qc/peddy/peddy.het_check.csv",
+#         "qc/peddy/peddy.html",
+#         "qc/peddy/peddy.vs.html",
+#         "qc/peddy/peddy.background_pca.json",
+#     ]
+
+#     output_files += [
+#         "cnv_sv/automap/%s_%s/%s_%s.HomRegions.tsv" % (sample, unit_type, sample, unit_type)
+#         for sample in get_samples(samples)
+#         for unit_type in get_unit_types(units, sample)
+#     ]
 
  
 
-    files = {
-        "snv_indels/deeptrio": ["g.vcf", "vcf"],
-    }
-    output_files += [
-        "%s/%s_%s/%s.%s" % (prefix, sample, unit_type,trio_member,suffix)
-        for prefix in files.keys()
-        for sample in samples[samples.trio_member == 'proband'].index
-        for unit_type in get_unit_types(units, sample)
-        for trio_member in ['child', 'parent1', 'parent2']
-        for suffix in files[prefix]
-    ]
+#     files = {
+#         "snv_indels/deeptrio": ["g.vcf", "vcf"],
+#     }
+#     output_files += [
+#         "%s/%s_%s/%s.%s" % (prefix, sample, unit_type,trio_member,suffix)
+#         for prefix in files.keys()
+#         for sample in samples[samples.trio_member == 'proband'].index
+#         for unit_type in get_unit_types(units, sample)
+#         for trio_member in ['child', 'parent1', 'parent2']
+#         for suffix in files[prefix]
+#     ]
 
-    files = {
-        "snv_indels/glnexus": ["vcf.gz"],
-        "cnv_sv/upd": ["upd_regions.bed"],
-    }
-    output_files += [
-        "%s/%s_%s.%s" % (prefix, sample, unit_type,suffix)
-        for prefix in files.keys()
-        for sample in samples[samples.trio_member == 'proband'].index
-        for unit_type in get_unit_types(units, sample)
-        for suffix in files[prefix]
-    ]
+#     files = {
+#         "snv_indels/glnexus": ["vcf.gz"],
+#         "cnv_sv/upd": ["upd_regions.bed"],
+#     }
+#     output_files += [
+#         "%s/%s_%s.%s" % (prefix, sample, unit_type,suffix)
+#         for prefix in files.keys()
+#         for sample in samples[samples.trio_member == 'proband'].index
+#         for unit_type in get_unit_types(units, sample)
+#         for suffix in files[prefix]
+#     ]
 
-    output_files += [
-        "compression/spring/%s_%s_%s_%s_%s.spring" % (sample, flowcell, lane, barcode, t)
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
-        for flowcell in set(
-            [
-                u.flowcell
-                for u in units.loc[
-                    (
-                        sample,
-                        t,
-                    )
-                ]
-                .dropna()
-                .itertuples()
-            ]
-        )
-        for barcode in set(
-            [
-                u.barcode
-                for u in units.loc[
-                    (
-                        sample,
-                        t,
-                    )
-                ]
-                .dropna()
-                .itertuples()
-            ]
-        )
-        for lane in set(
-            [
-                u.lane
-                for u in units.loc[
-                    (
-                        sample,
-                        t,
-                    )
-                ]
-                .dropna()
-                .itertuples()
-            ]
-        )
-    ]
+#     output_files += [
+#         "compression/spring/%s_%s_%s_%s_%s.spring" % (sample, flowcell, lane, barcode, t)
+#         for sample in get_samples(samples)
+#         for t in get_unit_types(units, sample)
+#         for flowcell in set(
+#             [
+#                 u.flowcell
+#                 for u in units.loc[
+#                     (
+#                         sample,
+#                         t,
+#                     )
+#                 ]
+#                 .dropna()
+#                 .itertuples()
+#             ]
+#         )
+#         for barcode in set(
+#             [
+#                 u.barcode
+#                 for u in units.loc[
+#                     (
+#                         sample,
+#                         t,
+#                     )
+#                 ]
+#                 .dropna()
+#                 .itertuples()
+#             ]
+#         )
+#         for lane in set(
+#             [
+#                 u.lane
+#                 for u in units.loc[
+#                     (
+#                         sample,
+#                         t,
+#                     )
+#                 ]
+#                 .dropna()
+#                 .itertuples()
+#             ]
+#         )
+#     ]
 
     
-    return output_files
-    
+#     return output_files
+
+def compile_output_list(wildcards):
+    output_files = []
+    types = set([unit.type for unit in units.itertuples()])
+    for output in output_json:
+        if output == "results/{sample}/{sample}.upd_regions.bed":
+            output_files += set(
+                [
+                    output.format(sample=sample, type=unit_type)
+                    for sample in samples[samples.trio_member == 'proband'].index
+                    for unit_type in get_unit_types(units, sample)
+                    if unit_type in set(output_json[output]["types"]).intersection(types)
+                ]
+            )
+        else:
+            output_files += set(
+                [
+                    output.format(sample=sample, type=unit_type)
+                    for sample in get_samples(samples)
+                    for unit_type in get_unit_types(units, sample)
+                    if unit_type in set(output_json[output]["types"]).intersection(types)
+                ]
+            )
+
+
+    return list(set(output_files))
+
+
+def generate_copy_code(workflow, output_json):
+    code = ""
+    for result, values in output_json.items():
+        if values["file"] is not None:
+            input_file = values["file"]
+            output_file = result
+            rule_name = values["name"]
+            mem_mb = config.get("_copy", {}).get("mem_mb", config["default_resources"]["mem_mb"])
+            mem_per_cpu = config.get("_copy", {}).get("mem_mb", config["default_resources"]["mem_mb"])
+            partition = config.get("_copy", {}).get("partition", config["default_resources"]["partition"])
+            threads = config.get("_copy", {}).get("threads", config["default_resources"]["threads"])
+            time = config.get("_copy", {}).get("time", config["default_resources"]["time"])
+            copy_container = config.get("_copy", {}).get("container", config["default_container"])
+            result_file = os.path.basename(output_file)
+            code += f'@workflow.rule(name="{rule_name}")\n'
+            code += f'@workflow.input("{input_file}")\n'
+            code += f'@workflow.output("{output_file}")\n'
+            code += f'@workflow.log("logs/{rule_name}_{result_file}.log")\n'
+            code += f'@workflow.container("{copy_container}")\n'
+            code += f'@workflow.conda("../envs/copy_result.yaml")\n'
+            code += f'@workflow.resources(time = "{time}", threads = {threads}, mem_mb = {mem_mb}, mem_per_cpu = {mem_per_cpu}, partition = "{partition}")\n'
+            code += '@workflow.shellcmd("cp {input} {output}")\n\n'
+            code += "@workflow.run\n"
+            code += (
+                f"def __rule_{rule_name}(input, output, params, wildcards, threads, resources, log, version, rule, "
+                "conda_env, container_img, singularity_args, use_singularity, env_modules, bench_record, jobid, is_shell, "
+                "bench_iteration, cleanup_scripts, shadow_dir, edit_notebook, conda_base_path, basedir, runtime_sourcecache_path, "
+                "__is_snakemake_rule_func=True):\n"
+                '\tshell ( "(cp {input[0]} {output[0]}) &> {log}" , bench_record=bench_record, bench_iteration=bench_iteration)\n\n'
+            )
+        
+    exec(compile(code, "result_to_copy", "exec"), workflow.globals)
+
+
+generate_copy_code(workflow, output_json)
