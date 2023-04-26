@@ -12,6 +12,6 @@ fastq_dir=/beegfs-storage/projects/wp3/nobackup/TWIST/INBOX/TE150-2_230228/23022
 ## barcodes not currently in the Nextseq fastq headers, so use Ns 
 hydra-genetics create-input-files -d ${fastq_dir} -t N --tc 0  -b 'NNNNNNNNN+NNNNNNNNN' -f
 
-python extract_sample_sheet_info.py ${sample_sheet} # adds barcodes from SampleSheet to units.tsv, and trio info to samples.sv
+python extract_sample_sheet_info.py ${sample_sheet} # adds barcodes from SampleSheet to units.tsv, and trio info to samples.tsv
 
 snakemake  --profile profiles/slurm/ --configfile config/config.yaml -p -n
