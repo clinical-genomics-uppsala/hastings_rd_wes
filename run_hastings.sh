@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # source virtual env with requirements.txt installed
 source ~/hydra-env/bin/activate 
 
