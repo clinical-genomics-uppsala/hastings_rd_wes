@@ -3,17 +3,16 @@
 
 resources: "config/resources.yaml"
 samples: "config/samples.tsv"
-sample_sheet: "config/SampleSheet.csv"
 units: "config/units.tsv"
 
 output: "config/output_list.json"
 
-default_container: "docker://hydragenetics/common:0.4.0"
+default_container: "docker://hydragenetics/common:0.3.0"
 
 modules:
   alignment: "v0.4.0"
   annotation: "v0.3.0"
-  compression: "develop"
+  compression: "v1.1.0"
   misc: "v0.1.0"
   cnv_sv: "develop"
   parabricks: "64b250a"
@@ -66,12 +65,12 @@ deeptrio_call_variants:
     parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
 
 deeptrio_make_examples:
-  container: "docker://google/deepvariant:deeptrio-1.4.0-gpu" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
-  extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+  container: "docker://google/deepvariant:deeptrio-1.4.0" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
+  extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
   n_shards: 80
 
 deeptrio_postprocess_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0-gpu"
+  container: "docker://google/deepvariant:deeptrio-1.4.0"
 
 deepvariant_call_variants:
   container: "docker://hydragenetics/deepvariant:1.4.0" #"docker://hydragenetics/deepvariant:1.4.0"
@@ -79,7 +78,7 @@ deepvariant_call_variants:
 
 deepvariant_make_examples:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  extra: "--channels insert_size"
+  extra: "--channels insert_size --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
   n_shards: 80
 
 deepvariant_postprocess_variants:
@@ -94,6 +93,9 @@ exomedepth_call:
   genome_version: "hg38"
   male_reference: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/references/exomedepth_reference/RefCount_male.Rdata
   female_reference: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/references/exomedepth_reference/RefCount_female.Rdata
+
+exomedepth_export:
+  container: "docker://hydragenetics/exomedepth:1.1.15"
 
 fastp_pe:
   container: "docker://hydragenetics/fastp:0.20.1"
@@ -139,7 +141,9 @@ multiqc:
 
 pbrun_deepvariant:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
-  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng --interval-file /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed --disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
+  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng \
+   --interval-file /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed \
+   --disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"

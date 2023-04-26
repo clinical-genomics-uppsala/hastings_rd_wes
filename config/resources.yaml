@@ -57,23 +57,13 @@ pbrun_fq2bam:
   mem_per_cpu: 16384
   partition: "GPU"
   threads: 20
-  time: "20:00:00"
-
-# pbrun_fq2bam:
-#   gres: "--gres=gpu:2"
-#   mem_mb: 327680
-#   mem_per_cpu: 16384
-#   partition: "GPU"
-#   threads: 20
-#   time: "20:00:00"
 
 pbrun_deepvariant:
-  gres: "--gres=gpu:2"
-  mem_mb: 327680
+  gres: "--gres=gpu:4"
+  mem_mb: 655360
   mem_per_cpu: 16384
   partition: "GPU"
-  threads: 20
-  time: "20:00:00"
+  threads: 40
 
 peddy:
   threads: 8
