@@ -169,112 +169,6 @@ def get_parent_bams(wildcards):
     return bam_list
 
 
-# def compile_output_list(wildcards: snakemake.io.Wildcards):
-
-#     files = {
-#         "compression/crumble": ["crumble.cram"],
-#         "cnv_sv/exomedepth_call": ["RData"],
-#         "qc/create_cov_excel": ["coverage.xlsx"],
-#         "vcf_final" : ["vcf.gz.tbi"],
-#     }
-#     output_files = [
-#         "%s/%s_%s.%s" % (prefix, sample, unit_type, suffix)
-#         for prefix in files.keys()
-#         for sample in get_samples(samples)
-#         for unit_type in get_unit_types(units, sample)
-#         for suffix in files[prefix]
-#     ]
-#     output_files += ["qc/multiqc/multiqc_DNA.html"]
-#     output_files += [
-#         "qc/peddy/peddy.peddy.ped",
-#         "qc/peddy/peddy.ped_check.csv",
-#         "qc/peddy/peddy.sex_check.csv",
-#         "qc/peddy/peddy.het_check.csv",
-#         "qc/peddy/peddy.html",
-#         "qc/peddy/peddy.vs.html",
-#         "qc/peddy/peddy.background_pca.json",
-#     ]
-
-#     output_files += [
-#         "cnv_sv/automap/%s_%s/%s_%s.HomRegions.tsv" % (sample, unit_type, sample, unit_type)
-#         for sample in get_samples(samples)
-#         for unit_type in get_unit_types(units, sample)
-#     ]
-
- 
-
-#     files = {
-#         "snv_indels/deeptrio": ["g.vcf", "vcf"],
-#     }
-#     output_files += [
-#         "%s/%s_%s/%s.%s" % (prefix, sample, unit_type,trio_member,suffix)
-#         for prefix in files.keys()
-#         for sample in samples[samples.trio_member == 'proband'].index
-#         for unit_type in get_unit_types(units, sample)
-#         for trio_member in ['child', 'parent1', 'parent2']
-#         for suffix in files[prefix]
-#     ]
-
-#     files = {
-#         "snv_indels/glnexus": ["vcf.gz"],
-#         "cnv_sv/upd": ["upd_regions.bed"],
-#     }
-#     output_files += [
-#         "%s/%s_%s.%s" % (prefix, sample, unit_type,suffix)
-#         for prefix in files.keys()
-#         for sample in samples[samples.trio_member == 'proband'].index
-#         for unit_type in get_unit_types(units, sample)
-#         for suffix in files[prefix]
-#     ]
-
-#     output_files += [
-#         "compression/spring/%s_%s_%s_%s_%s.spring" % (sample, flowcell, lane, barcode, t)
-#         for sample in get_samples(samples)
-#         for t in get_unit_types(units, sample)
-#         for flowcell in set(
-#             [
-#                 u.flowcell
-#                 for u in units.loc[
-#                     (
-#                         sample,
-#                         t,
-#                     )
-#                 ]
-#                 .dropna()
-#                 .itertuples()
-#             ]
-#         )
-#         for barcode in set(
-#             [
-#                 u.barcode
-#                 for u in units.loc[
-#                     (
-#                         sample,
-#                         t,
-#                     )
-#                 ]
-#                 .dropna()
-#                 .itertuples()
-#             ]
-#         )
-#         for lane in set(
-#             [
-#                 u.lane
-#                 for u in units.loc[
-#                     (
-#                         sample,
-#                         t,
-#                     )
-#                 ]
-#                 .dropna()
-#                 .itertuples()
-#             ]
-#         )
-#     ]
-
-    
-#     return output_files
-
 def compile_output_list(wildcards):
     output_files = []
     types = set([unit.type for unit in units.itertuples()])
@@ -291,10 +185,14 @@ def compile_output_list(wildcards):
         else:
             output_files += set(
                 [
-                    output.format(sample=sample, type=unit_type)
+                    output.format(sample=sample, flowcell=flowcell, lane=lane, barcode=barcode, type=unit_type)
                     for sample in get_samples(samples)
                     for unit_type in get_unit_types(units, sample)
-                    if unit_type in set(output_json[output]["types"]).intersection(types)
+                    if unit_type in set(output_json[output]["types"])
+                    for flowcell in set([u.flowcell for u in units.loc[(sample, unit_type)].dropna().itertuples()])
+                    for barcode in set([u.barcode for u in units.loc[(sample, unit_type)].dropna().itertuples()])
+                    for lane in set([u.lane for u in units.loc[(sample, unit_type)].dropna().itertuples()])
+                    
                 ]
             )
 
@@ -321,7 +219,7 @@ def generate_copy_code(workflow, output_json):
             code += f'@workflow.output("{output_file}")\n'
             code += f'@workflow.log("logs/{rule_name}_{result_file}.log")\n'
             code += f'@workflow.container("{copy_container}")\n'
-            code += f'@workflow.conda("../envs/copy_result.yaml")\n'
+            # code += f'@workflow.conda("../envs/copy_result.yaml")\n'
             code += f'@workflow.resources(time = "{time}", threads = {threads}, mem_mb = {mem_mb}, mem_per_cpu = {mem_per_cpu}, partition = "{partition}")\n'
             code += '@workflow.shellcmd("cp {input} {output}")\n\n'
             code += "@workflow.run\n"
