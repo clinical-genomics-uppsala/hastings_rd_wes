@@ -6,6 +6,7 @@ __license__ = "GPL-3"
 include: "rules/common.smk"
 include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
+include: "rules/exomedepth_export.smk"
 include: "rules/peddy.smk"
 include: "rules/sample_order_for_multiqc.smk"
 
@@ -232,8 +233,8 @@ use rule multiqc from qc as qc_multiqc with:
             ]
         ),
         config=lambda wildcards: config["multiqc"]["reports"][wildcards.report]["config"],
-        sample_order="qc/multiqc/sample_order.tsv",
-        sample_replacement="qc/multiqc/sample_replacement.tsv",
+        sample_order="config/sample_order.tsv",
+        sample_replacement="config/sample_replacement.tsv",
     params:
         extra=lambda wildcards, input: "--replace-names "
         + input.sample_replacement
