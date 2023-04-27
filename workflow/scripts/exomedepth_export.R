@@ -2,7 +2,7 @@
 
 load(snakemake@input[["exon"]])
 message(paste('Loaded data from', snakemake@input[["exon"]], sep = " "))
-# load("../../cnv_sv/exomedepth_call/D21-05858_N.RData")
+
 
 cnv_call_df <- data.frame(
   all.exons@CNV.calls[order(all.exons@CNV.calls$BF, decreasing = TRUE), ]
@@ -82,8 +82,7 @@ if (length(all.exons@CNV.calls) > 0) {
                       "style:color(aed:Color)")
   aed_df <- rbind(header1, aed_df)
 
-  # write.table(aed_df, file = 'test.aed', row.names = FALSE,
-  #             quote = FALSE, sep = "\t")
+
   write.table(aed_df, file = snakemake@output[["aed"]], row.names = FALSE,
               quote = FALSE, sep = "\t")
 } else {
