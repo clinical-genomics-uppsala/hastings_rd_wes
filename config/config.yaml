@@ -12,13 +12,13 @@ default_container: "docker://hydragenetics/common:0.3.0"
 modules:
   alignment: "v0.4.0"
   annotation: "v0.3.0"
-  compression: "v1.1.0"
+  compression: "3f79698"
   misc: "v0.1.0"
-  cnv_sv: "develop"
-  parabricks: "64b250a"
+  cnv_sv: "feeb98e"
+  parabricks: "v1.0.0"
   prealignment: "v1.1.0"
-  qc: "v0.3.0"
-  snv_indels: "develop"
+  qc: "v0.4.0"
+  snv_indels: "v0.4.0"
 
 
 reference:
@@ -87,7 +87,7 @@ deepvariant_postprocess_variants:
 
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
-  design_bed: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
+  bedfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
   exonsfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/exons_GRCh38_ensembl109.txt
   genesfile: /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/genes_GRCh38_ensembl109.txt
   genome_version: "hg38"
@@ -151,7 +151,6 @@ pbrun_fq2bam:
 
 peddy:
   container: "docker://hydragenetics/peddy:0.4.8"
-  samples: "config/SampleSheet.csv"
   config: "config/peddy_mqc.yaml"
   extra: "--sites hg38 "
 
