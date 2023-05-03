@@ -15,4 +15,3 @@ vcf_out = VariantFile(snakemake.output[0], 'w', header=new_header)
 
 for record in vcf_in.fetch():
     vcf_out.write(record)
-
