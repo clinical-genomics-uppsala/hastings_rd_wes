@@ -87,8 +87,8 @@ def main():
         path_or_buf="config/sample_order.tsv", sep="\t", index=False)
 
     # add trio info and sex to samples.tsv
-    trio_df = extract_trio_info(sample_sheet_df .Sample_ID, 
-                                sample_sheet_df .Description)
+    trio_df = extract_trio_info(sample_sheet_df.Sample_ID, 
+                                sample_sheet_df.Description)
 
     merged_df = samples.merge(trio_df, on="sample", validate="one_to_one")
 
