@@ -169,6 +169,27 @@ def get_parent_bams(wildcards):
     return bam_list
 
 
+def get_peddy_sex(wildcards, peddy_sex_check):
+    sample = "{}_{}".format(wildcards.sample, wildcards.type)
+    sex_df = pandas.read_table(peddy_sex_check, sep=",").set_index("sample_id", drop=False)
+
+    sample_sex = sex_df.at[sample, "predicted_sex"]
+
+    return sample_sex
+
+
+def get_exomedepth_ref(wildcards):
+
+    sex = get_peddy_sex(wildcards, checkpoints.cnv_sv_exomedepth_sex.get().output[0])
+
+    if sex == "male":
+        ref = config.get("exomedepth_call", {}).get("male_reference", "")
+    else:  # use female ref in the case of female or NA
+        ref = config.get("exomedepth_call", {}).get("female_reference", "")
+
+    return ref
+
+
 def compile_output_list(wildcards):
     output_files = []
     types = set([unit.type for unit in units.itertuples()])

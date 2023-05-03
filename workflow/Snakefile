@@ -8,7 +8,6 @@ include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
 include: "rules/exomedepth_export.smk"
 include: "rules/peddy.smk"
-include: "rules/sample_order_for_multiqc.smk"
 
 
 report: "report/workflow.rst"
@@ -77,19 +76,20 @@ module cnv_sv:
 
 use rule * from cnv_sv as cnv_sv_*
 
-use rule exomedepth_call from cnv_sv as cnv_exomedepth_call with:
+
+use rule exomedepth_call from cnv_sv as cnv_sv_exomedepth_call with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards, use_type_wildcard=False)[0],
-        bedfile=config.get("exomedepth_call", {}).get("design_bed", ""),
+        bedfile=config.get("exomedepth_call", {}).get("bedfile", ""),
         genes=config.get("exomedepth_call", {}).get("genesfile", ""),
         exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
-        sex="qc/peddy/peddy.sex_check.csv",
+        sex="qc/peddy/peddy.sex_check-checkpoint.csv",
+        ref_count=get_exomedepth_ref,
  
 
 use rule automap from cnv_sv as cnv_sv_automap with:
     input:
         vcf="vcf_final/{sample}_{type}.vcf",
-
 
 
 module compression:
