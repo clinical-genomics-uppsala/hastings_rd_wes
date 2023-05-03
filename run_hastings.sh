@@ -19,3 +19,4 @@ hydra-genetics create-input-files -d ${fastq_dir} -t N --tc 0  -b 'NNNNNNNNN+NNN
 python extract_sample_sheet_info.py ${sample_sheet} # adds barcodes from SampleSheet to units.tsv, and trio info to samples.tsv
 
 snakemake  --profile profiles/slurm/ --configfile config/config.yaml -p 
+ 
