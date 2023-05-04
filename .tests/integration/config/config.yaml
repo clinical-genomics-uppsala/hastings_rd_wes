@@ -1,0 +1,200 @@
+---
+
+
+resources: "config/resources.yaml"
+samples: "config/samples.tsv"
+units: "config/units.tsv"
+
+output: "config/output_list.json"
+
+default_container: "docker://hydragenetics/common:0.3.0"
+
+modules:
+  alignment: "v0.4.0"
+  annotation: "v0.3.0"
+  compression: "3f79698"
+  misc: "v0.1.0"
+  cnv_sv: "feeb98e"
+  parabricks: "v1.0.0"
+  prealignment: "v1.1.0"
+  qc: "v0.4.0"
+  snv_indels: "v0.4.0"
+
+
+reference:
+  coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
+  design_bed: "reference//Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+  design_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+  fasta: "reference/homo_sapiens.fasta"
+  fai: "reference/homo_sapiens.fasta.fai"
+  genepanels: "reference/genepanels.list"
+  genome_dir: "reference/homo_sapiens_star"
+  sites: "reference/homo_sapiens.known_indels.vcf.gz"
+
+
+trimmer_software: "fastp_pe"
+
+aligner: "bwa_gpu" # or "bwa_cpu"
+snp_caller: "deepvariant_gpu" # or "deepvariant_cpu"
+
+automap:
+  container: "docker://hydragenetics/automap:1.2"
+  build: "hg38"
+  extra: "--DP 10 --minsize 3 --chrX"
+  outdir: "cnv_sv/automap"
+
+bwa_mem:
+  container: "docker://hydragenetics/bwa:0.7.15"
+  amb: "reference/homo_sapiens.fasta.amb"
+  ann: "reference/homo_sapiens.fasta.ann"
+  bwt: "reference/homo_sapiens.fasta.bwt"
+  pac: "reference/homo_sapiens.fasta.pac"
+  sa: "reference/homo_sapiens.fasta.sa"
+
+create_cov_excel:
+  covLimits: "10 20 30"
+
+crumble:
+  container: "docker://hydragenetics/crumble:0.8.3"
+  extra: "-O CRAM"
+
+deeptrio_call_variants:
+  container: "docker://google/deepvariant:deeptrio-1.4.0-gpu"
+  model:
+    child: "/opt/models/deeptrio/wes/child/model.ckpt" # path to model in the deepvariant container
+    parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
+
+deeptrio_make_examples:
+  container: "docker://google/deepvariant:deeptrio-1.4.0" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
+  extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  n_shards: 80
+
+deeptrio_postprocess_variants:
+  container: "docker://google/deepvariant:deeptrio-1.4.0"
+
+deepvariant_call_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0" #"docker://hydragenetics/deepvariant:1.4.0"
+  model: "/opt/models/wes/model.ckpt" # path to wes model in the deepvariant container
+
+deepvariant_make_examples:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  extra: "--channels insert_size --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  n_shards: 80
+
+deepvariant_postprocess_variants:
+  container: "docker://hydragenetics/deepvariant:1.4.0"
+  vcf_type: "gvcf"
+
+exomedepth_call:
+  container: "docker://hydragenetics/exomedepth:1.1.15"
+  bedfile: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
+  exonsfile: "reference/exons_GRCh38_ensembl109.txt"
+  genesfile: "reference/genes_GRCh38_ensembl109.txt"
+  genome_version: "hg38"
+  male_reference: "reference/RefCount_male.Rdata"
+  female_reference: "reference/RefCount_female.Rdata"
+
+exomedepth_export:
+  container: "docker://hydragenetics/exomedepth:1.1.15"
+
+fastp_pe:
+  container: "docker://hydragenetics/fastp:0.20.1"
+  # Default enabled trimming parameters for fastp. Specified for clarity.
+  extra: "--trim_poly_g --qualified_quality_phred 15 --unqualified_percent_limit 40 --n_base_limit 5 --length_required 15"
+
+fastqc:
+  container: "docker://hydragenetics/fastqc:0.11.9"
+
+glnexus:
+  container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
+  configfile: "DeepVariantWES"
+  extra: "--bed reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
+
+glnexus_peddy:
+  container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
+  configfile: "DeepVariantWES"
+
+mosdepth_bed:
+  container: "docker://hydragenetics/mosdepth:0.3.2"
+  extra: ""
+
+multiqc:
+  container: "docker://hydragenetics/multiqc:1.11"
+  reports:
+    DNA:
+      config: "config/multiqc_config_DNA.yaml"
+      included_unit_types: ["N"]
+      qc_files:
+        - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq1_fastqc.zip"
+        - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq2_fastqc.zip"
+        - "qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"
+        - "qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz"
+        - "qc/peddy/peddy_sex_check_mqc.tsv"
+        - "qc/peddy/peddy_rel_check_mqc.tsv"
+        - "qc/picard_collect_alignment_summary_metrics/{sample}_{type}.alignment_summary_metrics.txt"
+        - "qc/picard_collect_duplication_metrics/{sample}_{type}.duplication_metrics.txt"
+        - "qc/picard_collect_gc_bias_metrics/{sample}_{type}.gc_bias.summary_metrics"
+        - "qc/picard_collect_hs_metrics/{sample}_{type}.HsMetrics.txt"
+        - "qc/picard_collect_insert_size_metrics/{sample}_{type}.insert_size_metrics.txt"
+        - "qc/samtools_stats/{sample}_{type}.samtools-stats.txt"
+        - "qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"
+
+pbrun_deepvariant:
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
+  extra: "--pb-model-file reference/deepvariant_wes.eng \
+   --interval-file /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed \
+   --disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
+
+pbrun_fq2bam:
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
+  extra: ""
+
+peddy:
+  container: "docker://hydragenetics/peddy:0.4.8"
+  config: "config/peddy_mqc.yaml"
+  extra: "--sites hg38 "
+
+picard_collect_alignment_summary_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_collect_duplication_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_collect_gc_bias_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_collect_hs_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_collect_insert_size_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_collect_multiple_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_collect_wgs_metrics:
+  container: "docker://hydragenetics/picard:2.25.0"
+
+picard_mark_duplicates:
+  container: "docker://hydragenetics/picard:2.25.4"
+
+sample_order_for_multiqc:
+  sample_sheet: "config/SampleSheet.csv"
+
+spring:
+  container: "docker://hydragenetics/spring:1.0.1"
+
+tabix:
+  container: "docker://hydragenetics/common:0.1.0"
+
+upd:
+  container: "docker://hydragenetics/upd:0.1.1"
+  extra: "--vep "
+
+vep:
+  container: "docker://ensemblorg/ensembl-vep:release_109.3"
+  vep_cache: "refereence/VEP/"
+  extra: "--assembly GRCh38 --max_af"
+
+vt_decompose:
+  container: "docker://hydragenetics/vt:2015.11.10"
