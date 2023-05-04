@@ -3,6 +3,7 @@ __copyright__ = "Copyright 2023, Padraic Corcoran"
 __email__ = "padraic.corcoran@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+
 include: "rules/common.smk"
 include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
@@ -20,7 +21,7 @@ rule all:
 
 ruleorder: parabricks_fq2bam > alignment_samtools_index
 ruleorder: _copy_crumble_crai > misc_samtools_index
-ruleorder: _copy_snv_indels_vcf  > snv_indels_bgzip
+ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
 
 
@@ -36,6 +37,7 @@ module alignment:
 
 
 use rule * from alignment as alignment_*
+
 
 module annotation:
     snakefile:
@@ -59,9 +61,9 @@ use rule vep from annotation as annotation_vep_trio with:
         "snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf.log",
     benchmark:
         repeat(
-            "snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf.benchmark.tsv", 
-            config.get("vep", {}).get("benchmark_repeats", 1)
-            )
+            "snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf.benchmark.tsv",
+            config.get("vep", {}).get("benchmark_repeats", 1),
+        )
 
 
 module cnv_sv:
@@ -74,6 +76,7 @@ module cnv_sv:
     config:
         config
 
+
 use rule * from cnv_sv as cnv_sv_*
 
 
@@ -85,7 +88,7 @@ use rule exomedepth_call from cnv_sv as cnv_sv_exomedepth_call with:
         exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
         sex="qc/peddy/peddy.sex_check-checkpoint.csv",
         ref_count=get_exomedepth_ref,
- 
+
 
 use rule automap from cnv_sv as cnv_sv_automap with:
     input:
@@ -107,6 +110,7 @@ use rule * from compression as compression_*
 
 
 use rule crumble from compression as compression_crumble
+
 
 use rule samtools_view from compression as compression_samtools_view with:
     input:
@@ -162,6 +166,7 @@ use rule pbrun_deepvariant from parabricks as parabricks_deepvariant with:
     output:
         vcf=temp("parabricks/pbrun_deepvariant/{sample}_{type}.g.vcf"),
         vcf2=temp("parabricks/pbrun_deepvariant/{sample}_{type}.vcf"),
+
 
 module prealignment:
     snakefile:
@@ -271,6 +276,7 @@ use rule picard_collect_multiple_metrics from qc as qc_pic_multi_met with:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
         ref=config["reference"]["fasta"],
 
+
 use rule samtools_stats from qc as qc_samtools_stats with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
@@ -294,7 +300,9 @@ module snv_indels:
     config:
         config
 
+
 use rule * from snv_indels as snv_indels_*
+
 
 use rule deeptrio_make_examples from snv_indels as snv_indels_deeptrio_make_examples with:
     input:
@@ -349,10 +357,10 @@ use rule deepvariant_postprocess_variants from snv_indels as snv_indels_deepvari
         call_variants_record="snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz",
         gvcf_records=expand(
             "snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
-        )
-        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+                shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
+                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+            )
+            if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
         else [],
         ref=config.get("reference", {}).get("fasta", ""),
     output:
@@ -376,7 +384,7 @@ use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
     params:
         extra=config.get("glnexus_peddy", {}).get("extra", ""),
         glnexus_config=config.get("glnexus_peddy", {}).get("configfile", ""),
-        in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input)
+        in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
     log:
         "qc/peddy/all.bcf.log",
     benchmark:

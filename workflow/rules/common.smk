@@ -13,9 +13,11 @@ from snakemake.utils import min_version
 from snakemake.utils import validate
 
 min_version("6.10")
-    
+
+
 ### Set and validate config file
 configfile: "config/config.yaml"
+
 
 validate(config, schema="../schemas/config.schema.yaml")
 
@@ -40,6 +42,7 @@ validate(units, schema="../schemas/units.schema.yaml")
 with open(config["output"]) as output:
     output_json = json.load(output)
 
+
 ### Set wildcard constraints
 wildcard_constraints:
     barcode="[A-Z+]+",
@@ -49,7 +52,6 @@ wildcard_constraints:
     read="fastq[1|2]",
     sample="|".join(get_samples(samples)),
     type="N|T|R",
-    #trioid='|'.join(samples.trioid.dropna().unique().tolist())
 
 
 ### Functions
@@ -73,11 +75,8 @@ def get_gvcf_list(wildcards):
         sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
 
     gvcf_list = [
-        "{}/{}_{}.g.vcf".format(gvcf_path, sample, t)
-        for sample in get_samples(samples)
-        for t in get_unit_types(units, sample)
+        "{}/{}_{}.g.vcf".format(gvcf_path, sample, t) for sample in get_samples(samples) for t in get_unit_types(units, sample)
     ]
-    
 
     return gvcf_list
 
@@ -138,9 +137,8 @@ def get_vcf_input(wildcards):
 
 def get_glnexus_input(wildcards, input):
 
-   
-    gvcf_input =  "-i {}".format(" -i ".join(input.gvcfs))
-   
+    gvcf_input = "-i {}".format(" -i ".join(input.gvcfs))
+
     return gvcf_input
 
 
@@ -164,7 +162,6 @@ def get_parent_bams(wildcards):
     father_bam = "{}/{}_{}.bam".format(bam_path, father_sample, list(get_unit_types(units, father_sample))[0])
 
     bam_list = [mother_bam, father_bam]
-
 
     return bam_list
 
@@ -198,7 +195,7 @@ def compile_output_list(wildcards):
             output_files += set(
                 [
                     output.format(sample=sample, type=unit_type)
-                    for sample in samples[samples.trio_member == 'proband'].index
+                    for sample in samples[samples.trio_member == "proband"].index
                     for unit_type in get_unit_types(units, sample)
                     if unit_type in set(output_json[output]["types"]).intersection(types)
                 ]
@@ -213,10 +210,8 @@ def compile_output_list(wildcards):
                     for flowcell in set([u.flowcell for u in units.loc[(sample, unit_type)].dropna().itertuples()])
                     for barcode in set([u.barcode for u in units.loc[(sample, unit_type)].dropna().itertuples()])
                     for lane in set([u.lane for u in units.loc[(sample, unit_type)].dropna().itertuples()])
-                    
                 ]
             )
-
 
     return list(set(output_files))
 
@@ -239,7 +234,7 @@ def generate_copy_code(workflow, output_json):
             code += f'@workflow.input("{input_file}")\n'
             code += f'@workflow.output("{output_file}")\n'
             code += f'@workflow.log("logs/{rule_name}_{result_file}.log")\n'
-            code += f'@workflow.container("{copy_container}")\n' 
+            code += f'@workflow.container("{copy_container}")\n'
             code += f'@workflow.resources(time = "{time}", threads = {threads}, mem_mb = {mem_mb}, mem_per_cpu = {mem_per_cpu}, partition = "{partition}")\n'
             code += '@workflow.shellcmd("cp {input} {output}")\n\n'
             code += "@workflow.run\n"
@@ -250,7 +245,7 @@ def generate_copy_code(workflow, output_json):
                 "__is_snakemake_rule_func=True):\n"
                 '\tshell ( "(cp {input[0]} {output[0]}) &> {log}" , bench_record=bench_record, bench_iteration=bench_iteration)\n\n'
             )
-        
+
     exec(compile(code, "result_to_copy", "exec"), workflow.globals)
 
 
