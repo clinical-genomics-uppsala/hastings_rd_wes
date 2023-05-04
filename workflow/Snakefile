@@ -115,11 +115,6 @@ use rule samtools_view from compression as compression_samtools_view with:
         ref=config.get("reference", {}).get("fasta", ""),
 
 
-use rule spring from compression as compression_spring with:
-    output:
-        spring=temp("compression/spring/{sample}_{flowcell}_{lane}_{barcode}_{type}.spring"),
-
-
 module misc:
     snakefile:
         github("hydra-genetics/misc", path="workflow/Snakefile", tag=config["modules"]["misc"])
@@ -143,12 +138,6 @@ use rule samtools_index from misc as misc_samtools_index with:
         )
     message:
         "{rule}: Index {wildcards.file}.crumble.cram file"
-
-
-# use rule bgzip from misc as misc_bgzip
-
-
-# use rule tabix from misc as misc_tabix
 
 
 module parabricks:
@@ -320,7 +309,14 @@ use rule deepvariant_make_examples from snv_indels as snv_indels_deepvariant_mak
         bai=lambda wildcards: get_bam_input(wildcards)[1],
         ref=config.get("reference", {}).get("fasta", ""),
     output:
-        examples=temp(f"snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 10):05}.gz"),
+        examples=temp(
+            f"snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 10):05}.gz"
+        ),
+        gvcf_records=temp(
+            f"snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples', {}).get('n_shards', 2):05}.gz"
+        )
+        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+        else [],
     log:
         "snv_indels/deepvariant/{sample}_{type}/make_examples_{shard}.output.log",
     benchmark:
@@ -332,9 +328,11 @@ use rule deepvariant_make_examples from snv_indels as snv_indels_deepvariant_mak
 
 use rule deepvariant_call_variants from snv_indels as snv_indels_deepvariant_call_variants with:
     input:
-        examples=expand("snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard = [f"{x:05}" for x in range(config.get('deepvariant_make_examples').get('n_shards', 10))],
-            nshards=config.get('deepvariant_make_examples').get('n_shards', 10)),       
+        examples=expand(
+            "snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{shard}-of-{nshards:05}.gz",
+            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 10))],
+            nshards=config.get("deepvariant_make_examples").get("n_shards", 10),
+        ),
     output:
         outfile=temp("snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz"),
     log:
@@ -349,6 +347,13 @@ use rule deepvariant_call_variants from snv_indels as snv_indels_deepvariant_cal
 use rule deepvariant_postprocess_variants from snv_indels as snv_indels_deepvariant_postprocess_variants with:
     input:
         call_variants_record="snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz",
+        gvcf_records=expand(
+            "snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
+            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
+            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+        )
+        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+        else [],
         ref=config.get("reference", {}).get("fasta", ""),
     output:
         vcf=temp("snv_indels/deepvariant/{sample}_{type}.vcf"),
@@ -386,6 +391,7 @@ use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
         vcf="snv_indels/glnexus/{sample}_{type}.vcf.gz",
     output:
         vcf=temp("snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz"),
+
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:
