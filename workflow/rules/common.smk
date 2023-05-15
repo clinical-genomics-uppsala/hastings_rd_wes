@@ -163,6 +163,10 @@ def get_parent_bams(wildcards):
 
     bam_list = [mother_bam, father_bam]
 
+    bam_list += [f"{bam}.bai" for bam in bam_list]
+
+    print(bam_list)
+
     return bam_list
 
 
