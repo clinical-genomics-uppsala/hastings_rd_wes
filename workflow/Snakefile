@@ -404,13 +404,13 @@ use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:
-        vcf="parabricks/pbrun_deepvariant/{sample}_{type}.vcf",
+        vcf=lambda wildcards: get_vcf_input(wildcards),
     output:
-        vcf=temp("parabricks/pbrun_deepvariant/{sample}_{type}.fix_af.vcf"),
+        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
     log:
-        "parabricks/pbrun_deepvariant/{sample}_{type}.fix_af.vcf.log",
+        "vcf_final/{sample}_{type}.fix_af.vcf.log",
     benchmark:
         repeat(
-            "parabricks/pbrun_deepvariant/{sample}_{type}.fix_af.vcf.benchmark.tsv",
+            "vcf_final/{sample}_{type}.fix_af.vcf.benchmark.tsv",
             config.get("fix_af", {}).get("benchmark_repeats", 1),
         )

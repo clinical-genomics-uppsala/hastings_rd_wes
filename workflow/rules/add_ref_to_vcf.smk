@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule vcf_addRef:
     input:
-        vcf=lambda wildcards: get_vcf_input(wildcards),
+        vcf="vcf_final/{sample}_{type}.fix_af.vcf",
         ref=config["reference"]["fasta"],
     output:
         vcf=temp("vcf_final/{sample}_{type}.vcf"),
@@ -14,7 +14,7 @@ rule vcf_addRef:
         "vcf_final/{sample}_{type}_add_ref.log",
     benchmark:
         repeat(
-            "vcf_final/{sample}_{type}_ref.vcf.benchmark.tsv",
+            "vcf_final/{sample}_{type}.vcf.benchmark.tsv",
             config.get("vcf_addRef", {}).get("benchmark_repeats", 1),
         )
     resources:
