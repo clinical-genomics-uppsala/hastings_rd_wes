@@ -15,10 +15,10 @@ modules:
   compression: "3f79698"
   misc: "v0.2.0"
   cnv_sv: "v0.4.1"
-  parabricks: "v1.0.0"
+  parabricks: "9b94028"
   prealignment: "v1.1.0"
   qc: "v0.4.1"
-  snv_indels: "d223c9d"
+  snv_indels: "v0.5.0"
 
 
 reference:
