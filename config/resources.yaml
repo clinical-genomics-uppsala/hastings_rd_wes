@@ -13,7 +13,7 @@ bwa_mem:
   threads: 20
 
 deeptrio_call_variants:
-  gres: "--gres=gpu:1"
+  gres: "--gres=gres:gpu:1"
   partition: "GPU"
   threads: 10
 
@@ -52,14 +52,14 @@ mosdepth_bed:
   threads: 4
 
 pbrun_fq2bam:
-  gres: "--gres=gpu:2"
+  gres: "--gres=gres:gpu:2"
   mem_mb: 327680
   mem_per_cpu: 16384
   partition: "GPU"
   threads: 20
 
 pbrun_deepvariant:
-  gres: "--gres=gpu:4"
+  gres: "--gres=gres:gpu:4"
   mem_mb: 655360
   mem_per_cpu: 16384
   partition: "GPU"
