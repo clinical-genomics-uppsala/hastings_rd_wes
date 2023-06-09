@@ -16,9 +16,9 @@ rule exomedepth_export:
         "cnv_sv/exomedepth_call/{sample}_{type}_SV.txt.log",
     benchmark:
         repeat(
-            "cnv_sv/exomedepth_call/{sample}_{type}_SV.txt.benchmark.tsv", 
-            config.get("exomedepth_export", {}).get("benchmark_repeats", 1)
-        ),
+            "cnv_sv/exomedepth_call/{sample}_{type}_SV.txt.benchmark.tsv",
+            config.get("exomedepth_export", {}).get("benchmark_repeats", 1),
+        )
     threads: config.get("exomedepth_export", {}).get("threads", config["default_resources"]["threads"])
     resources:
         mem_mb=config.get("exomedepth_export", {}).get("mem_mb", config["default_resources"]["mem_mb"]),

@@ -31,5 +31,3 @@ rule vcf_addRef:
         "{rule}: Add reference to the header of the deepvariant vcf: {input.vcf}"
     script:
         "../scripts/ref_vcf.py"
-
-
