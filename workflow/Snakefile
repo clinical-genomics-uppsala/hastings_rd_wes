@@ -20,7 +20,7 @@ rule all:
 
 
 ruleorder: parabricks_fq2bam > alignment_samtools_index
-ruleorder: _copy_samtools_crai > compression_samtools_index 
+ruleorder: _copy_samtools_crai > compression_samtools_index
 ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
 
@@ -358,10 +358,10 @@ use rule deepvariant_postprocess_variants from snv_indels as snv_indels_deepvari
         call_variants_record="snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz",
         gvcf_records=expand(
             "snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
-        )
-        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
+                shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
+                nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
+            )
+            if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
         else [],
         ref=config.get("reference", {}).get("fasta", ""),
     output:
