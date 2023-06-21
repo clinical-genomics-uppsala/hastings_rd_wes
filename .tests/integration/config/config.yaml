@@ -23,7 +23,7 @@ modules:
 
 reference:
   coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
-  design_bed: "reference//Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+  design_bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
   design_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
   fasta: "reference/homo_sapiens.fasta"
   fai: "reference/homo_sapiens.fasta.fai"
@@ -43,7 +43,7 @@ automap:
   outdir: "cnv_sv/automap"
 
 bcftools_view_deepvariant:
-  regions: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  regions: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
