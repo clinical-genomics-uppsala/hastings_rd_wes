@@ -20,7 +20,7 @@ rule all:
 
 
 ruleorder: parabricks_fq2bam > alignment_samtools_index
-ruleorder: _copy_crumble_crai > misc_samtools_index
+ruleorder: _copy_samtools_crai > compression_samtools_index 
 ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
 
@@ -117,6 +117,31 @@ use rule samtools_view from compression as compression_samtools_view with:
         bam=lambda wildcards: get_bam_input(wildcards, use_sample_wildcard=False)[0],
         bai=lambda wildcards: get_bam_input(wildcards, use_sample_wildcard=False)[1],
         ref=config.get("reference", {}).get("fasta", ""),
+
+
+module filtering:
+    snakefile:
+        github("hydra-genetics/filtering", path="workflow/Snakefile", tag=config["modules"]["filtering"])
+    config:
+        config
+
+
+use rule bcftools_view from filtering as filtering_bcftools_view with:
+    input:
+        vcf="snv_indels/{sample}_{type}.fix_af.vcf.gz",
+        tbi="snv_indels/{sample}_{type}.fix_af.vcf.gz.tbi",
+        regions=config.get("bcftools_view_deepvariant", {}).get("regions", ""),
+    output:
+        vcf=temp("bcftools_view/{sample}_{type}.vcf"),
+    log:
+        "bcftools_view/{sample}_{type}.vcf.log",
+    params:
+        extra=config.get("bcftools_view_deepvariant", {}).get("extra", ""),
+    benchmark:
+        repeat(
+            "bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
 
 
 module misc:
@@ -406,7 +431,7 @@ use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:
         vcf=lambda wildcards: get_vcf_input(wildcards),
     output:
-        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
+        vcf=temp("snv_indels/{sample}_{type}.fix_af.vcf"),
     log:
         "vcf_final/{sample}_{type}.fix_af.vcf.log",
     benchmark:
