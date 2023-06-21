@@ -12,13 +12,13 @@ default_container: "docker://hydragenetics/common:0.3.0"
 modules:
   alignment: "v0.4.0"
   annotation: "v0.3.0"
-  compression: "3f79698"
-  misc: "v0.1.0"
-  cnv_sv: "feeb98e"
-  parabricks: "v1.0.0"
+  compression: "e778cd0"
+  filtering: "v0.2.0"
+  cnv_sv: "v0.4.1"
+  parabricks: "v1.1.0"
   prealignment: "v1.1.0"
-  qc: "v0.4.0"
-  snv_indels: "v0.4.0"
+  qc: "v0.4.1"
+  snv_indels: "v0.5.0"
 
 
 reference:
@@ -31,7 +31,6 @@ reference:
   genome_dir: "reference/homo_sapiens_star"
   sites: "reference/homo_sapiens.known_indels.vcf.gz"
 
-
 trimmer_software: "fastp_pe"
 
 aligner: "bwa_gpu" # or "bwa_cpu"
@@ -43,6 +42,9 @@ automap:
   extra: "--DP 10 --minsize 3 --chrX"
   outdir: "cnv_sv/automap"
 
+bcftools_view_deepvariant:
+  regions: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
   amb: "reference/homo_sapiens.fasta.amb"
@@ -53,10 +55,6 @@ bwa_mem:
 
 create_cov_excel:
   covLimits: "10 20 30"
-
-crumble:
-  container: "docker://hydragenetics/crumble:0.8.3"
-  extra: "-O CRAM"
 
 deeptrio_call_variants:
   container: "docker://google/deepvariant:deeptrio-1.4.0-gpu"
@@ -141,9 +139,8 @@ multiqc:
 
 pbrun_deepvariant:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
-  extra: "--pb-model-file reference/deepvariant_wes.eng \
-   --interval-file /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed \
-   --disable-use-window-selector-model --gvcf " ## disable window selector model consistency with deepvariant cpu. Also increases accuracy.
+  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng \
+   --disable-use-window-selector-model --gvcf " ## disable window selector model for consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
   container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
