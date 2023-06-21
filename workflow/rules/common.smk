@@ -5,6 +5,7 @@ __license__ = "GPL-3"
 
 import pandas
 import yaml
+import json
 
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *

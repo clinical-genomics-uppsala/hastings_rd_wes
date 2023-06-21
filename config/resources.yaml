@@ -5,7 +5,7 @@ default_resources:
   time: "12:00:00"
   mem_mb: 6144
   mem_per_cpu: 6144
-  partition: "low"
+  partition: "core"
 
 bwa_mem:
   mem_mb: 122880
@@ -14,7 +14,7 @@ bwa_mem:
 
 deeptrio_call_variants:
   gres: "--gres=gres:gpu:1"
-  partition: "GPU"
+  partition: "GPU_hi"
   threads: 10
 
 deeptrio_make_examples:
@@ -55,14 +55,14 @@ pbrun_fq2bam:
   gres: "--gres=gres:gpu:2"
   mem_mb: 327680
   mem_per_cpu: 16384
-  partition: "GPU"
+  partition: "GPU_hi"
   threads: 20
 
 pbrun_deepvariant:
   gres: "--gres=gres:gpu:4"
   mem_mb: 655360
   mem_per_cpu: 16384
-  partition: "GPU"
+  partition: "GPU_hi"
   threads: 40
 
 peddy:
