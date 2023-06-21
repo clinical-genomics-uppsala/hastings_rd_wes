@@ -5,6 +5,7 @@ __license__ = "GPL-3"
 
 import pandas
 import yaml
+import json
 
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
@@ -133,25 +134,6 @@ def get_vcf_input(wildcards):
         sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
 
     return vcf_input
-
-
-
-def get_vcf_input_compressed(wildcards):
-
-    caller = config.get("snp_caller", None)
-    if caller is None:
-        sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
-    elif caller == "deepvariant_gpu":
-        vcf_input = "parabricks/pbrun_deepvariant/{}_{}.vcf.gz".format(wildcards.sample, wildcards.type)
-    elif caller == "deepvariant_cpu":
-        vcf_input = "snv_indels/deepvariant/{}_{}.vcf.gz".format(wildcards.sample, wildcards.type)
-    else:
-        sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
-    
-    vcf_tbi = f"{vcf_input}.tbi"
-
-    return (vcf_input, vcf_tbi)
-
 
 
 def get_glnexus_input(wildcards, input):
