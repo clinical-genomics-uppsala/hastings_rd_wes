@@ -15,7 +15,7 @@ modules:
   compression: "e778cd0"
   filtering: "v0.2.0"
   cnv_sv: "v0.4.1"
-  parabricks: "9b94028"
+  parabricks: "v1.1.0"
   prealignment: "v1.1.0"
   qc: "v0.4.1"
   snv_indels: "v0.5.0"
