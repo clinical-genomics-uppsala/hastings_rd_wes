@@ -6,11 +6,11 @@ on:
   push:
     branches:
      - develop
-     - master
+     - main
   pull_request:
     branches:
      - develop
-     - master
+     - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,4 +41,4 @@ jobs:
         working-directory: .tests/integration
         run: |
           mamba install -c conda-forge -c bioconda snakemake singularity
-          snakemake -n -s ../../workflow/Snakefile --configfiles config.yaml
+          snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml
