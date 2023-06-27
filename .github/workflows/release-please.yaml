@@ -12,5 +12,5 @@ jobs:
         id: release
         with:
           release-type: python
-          package-name: hydra-genetics
-          default-branch: master
+          package-name: hastings_rd_wes
+          default-branch: main
