@@ -1,4 +1,4 @@
-{ 
+{
   "results/{sample}/{sample}_snv_indels.vcf.gz": {"name": "_copy_snv_indels_vcf", "file": "vcf_final/{sample}_N.vcf.gz", "types": ["N"]},
   "results/{sample}/{sample}_snv_indels.vcf.gz.tbi": {"name": "_copy_snv_indels_tbi", "file": "vcf_final/{sample}_N.vcf.gz.tbi", "types": ["N"]},
   "results/{sample}/{sample}_exomedepth.aed": {"name": "_copy_exomedepth_aed", "file": "cnv_sv/exomedepth_call/{sample}_N.aed", "types": ["N"]},

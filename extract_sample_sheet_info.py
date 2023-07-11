@@ -17,7 +17,7 @@ def translate_sex(sex_code):
     return sex
 
 
-def extract_trio_info(samples, trio_col):  
+def extract_trio_info(samples, trio_col):
     trio_member_list = []
     trio_id_list = []
     sex_list = []
@@ -25,7 +25,7 @@ def extract_trio_info(samples, trio_col):
         col_list = i.split('_')
         sex = translate_sex(col_list[1])
         sex_list.append(sex)
-        trio_info = col_list[4]
+        trio_info = col_list[2]
         if trio_info == "NA":
             trio_member_list.append("NA")
             trio_id_list.append("NA")
@@ -42,7 +42,7 @@ def extract_trio_info(samples, trio_col):
             trio_member_list.append(trio_member)
 
     trio_df = pd.DataFrame(data={"sample": samples, "sex": sex_list,
-                                 "trioid": trio_id_list,        
+                                 "trioid": trio_id_list,
                                  "trio_member": trio_member_list})
 
     return trio_df
@@ -87,7 +87,7 @@ def main():
         path_or_buf="config/sample_order.tsv", sep="\t", index=False)
 
     # add trio info and sex to samples.tsv
-    trio_df = extract_trio_info(sample_sheet_df.Sample_ID, 
+    trio_df = extract_trio_info(sample_sheet_df.Sample_ID,
                                 sample_sheet_df.Description)
 
     merged_df = samples.merge(trio_df, on="sample", validate="one_to_one")

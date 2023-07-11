@@ -1,4 +1,4 @@
-__author__ = "Padraic Corcoran"
+__author__ = "Padraic Corcoran, Jessika Nordin"
 __copyright__ = "Copyright 2023, Padraic Corcoran"
 __email__ = "padraic.corcoran@scilifelab.uu.se"
 __license__ = "GPL-3"
@@ -82,7 +82,8 @@ use rule * from cnv_sv as cnv_sv_*
 
 use rule exomedepth_call from cnv_sv as cnv_sv_exomedepth_call with:
     input:
-        bam=lambda wildcards: get_bam_input(wildcards, use_type_wildcard=False)[0],
+        bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
         bedfile=config.get("exomedepth_call", {}).get("bedfile", ""),
         genes=config.get("exomedepth_call", {}).get("genesfile", ""),
         exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
@@ -244,23 +245,27 @@ use rule peddy from qc as qc_peddy
 use rule picard_collect_alignment_summary_metrics from qc as qc_pic_align_sum_met with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
         ref=config["reference"]["fasta"],
 
 
 use rule picard_collect_duplication_metrics from qc as qc_pic_dup_met with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
 
 
 use rule picard_collect_gc_bias_metrics from qc as qc_pic_gc_met with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
         ref=config["reference"]["fasta"],
 
 
 use rule picard_collect_hs_metrics from qc as qc_pic_hs_met with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
         bait_intervals=config["reference"]["design_intervals"],
         target_intervals=config["reference"]["design_intervals"],
         reference=config["reference"]["fasta"],
@@ -274,6 +279,7 @@ use rule picard_collect_insert_size_metrics from qc as qc_pic_ins_size with:
 use rule picard_collect_multiple_metrics from qc as qc_pic_multi_met with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
         ref=config["reference"]["fasta"],
 
 
