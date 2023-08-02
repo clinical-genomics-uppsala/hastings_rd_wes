@@ -1,0 +1,86 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+description: snakemake rule input and output files description file
+type: object
+properties:
+  exomedepth_export:
+    type: object
+    description: input and output files for exomedepth export
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          exon:
+            type: string
+            description: Rdata from exomedepth call
+            #value: set to override value in table, else remove
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          aed:
+            type: string
+            description: Calls from exomedepth in aed format
+            #value: set to override value in table, else remove
+          nexus_sv:
+            type: string
+            description: Nexus SV txt file with exomedepth calls
+
+  export_qc_xlsx_report:
+    type: object
+    description: Input and output files for export_qc_xlsx_report
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          mosdepth_summary:
+            type: string
+            description: Mosdepth bed summary file
+          mosdepth_thresholds:
+            type: string
+            description: Mosdepth bed thresholds file
+          mosdepth_regions:
+            type: string
+            description: Mosdepth bed coverage per region file
+          mosdepth_perbase: 
+            type: string
+            description: Mosdepth bed per-base result file
+          picard_dup:
+            type: string
+            description: Picard collect duplication metrics results file
+          design_bed:
+            type: string
+            description: Design bed defined in config-file 
+          pgrs_bed:
+            type: string
+            description: Bedfile with PGRS score SNPs
+      output:
+        type: object
+        description: List of output files
+        properties:
+          results:
+            type: string
+            description: .xlsx file with summarized QC-values per sample
+
+  sample_order_multiqc:
+    type: object
+    description: list of input and output files for sample_order_multiqc
+    properties:
+      input:
+        type: object
+        description: list of inputfiles
+        properties:
+          sample_sheet:
+            type: string
+            description: SampleSheet from demultiplexing on Illumina machine. *Double check header, it changes often*
+      output: 
+        type: object
+        description: list of output files
+        properties:
+          replacement:
+            type: string
+            description: list of sample name replacement, `sampleXXX` based on order in SampleSheet
+          order:
+            type: string
+            description: list of back-translated name from `sampleXXX` to original names

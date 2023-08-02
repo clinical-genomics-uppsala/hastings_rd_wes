@@ -1,6 +1,6 @@
 # :snake: hydra-genetics/hastings_rd_wes
 
-#### Whole exomes sequencing pipeline for rare diseases
+#### Whole exomes sequencing hg38 hydra pipeline for rare diseases
 
 ![Lint](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/lint.yaml/badge.svg?branch=develop)
 ![Snakefmt](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
