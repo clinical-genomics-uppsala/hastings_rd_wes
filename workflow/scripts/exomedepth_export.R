@@ -8,12 +8,16 @@ cnv_call_df <- data.frame(
   all.exons@CNV.calls[order(all.exons@CNV.calls$BF, decreasing = TRUE), ]
   )
 
+
 if (length(all.exons@CNV.calls) > 0) {
+
+  # for compatability with alissa remove rows where there is no-change (reads.ratio == 1)
+  cnv_call_df <- cnv_call_df[cnv_call_df$reads.ratio != 1, ] 
 
   # Create Nexus SV format text file
   nexus <- c("id", "reads.ratio")
   nexus_df <- cnv_call_df[nexus]
-
+  
   nexus_df$type[nexus_df$reads.ratio > 1] <- "CN Gain"
   nexus_df$type[nexus_df$reads.ratio < 1] <- "CN Loss"
   nexus_df$type[nexus_df$reads.ratio < 0.05] <- "Homozygous Copy Loss"
