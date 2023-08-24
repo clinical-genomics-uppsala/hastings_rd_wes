@@ -275,6 +275,7 @@ use rule picard_collect_insert_size_metrics from qc as qc_pic_ins_size with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
 
+
 use rule samtools_stats from qc as qc_samtools_stats with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
