@@ -71,7 +71,7 @@ def main():
         barcode_list.append(barcode)
 
     units_df.barcode = barcode_list
-    units_df.to_csv('config/units.tsv', sep='\t')
+    units_df.to_csv('config/units.tsv', sep='\t', index=False)
 
     # create sample order and replacement files for multiqc
     sample_sheet_df["Sample Order"] = [
