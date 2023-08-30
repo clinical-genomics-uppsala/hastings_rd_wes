@@ -11,6 +11,8 @@ def translate_sex(sex_code):
         sex = "male"
     elif sex_code == "K":
         sex = "female"
+    elif sex_code == "O":
+        sex = "unknown"
     else:
         print('Sex is not specified correctly in the Sample Sheet')
         sys.exit(1)
@@ -69,7 +71,7 @@ def main():
         barcode_list.append(barcode)
 
     units_df.barcode = barcode_list
-    units_df.to_csv('config/units.tsv', sep='\t')
+    units_df.to_csv('config/units.tsv', sep='\t', index=False)
 
     # create sample order and replacement files for multiqc
     sample_sheet_df["Sample Order"] = [
