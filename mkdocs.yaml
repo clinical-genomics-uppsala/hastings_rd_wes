@@ -1,0 +1,53 @@
+site_name: Hastings
+nav:
+  - Overview:
+    - Introduction: index.md
+    - Result files: result_files.md
+    - Running the pipeline: running.md
+    - Step by step: steps.md
+  - Pipeline specific rules:
+    - Rule list: softwares.md
+  - References workflow:
+    - Running and output: running_ref.md
+  - Project Info:
+    - Changelog: changelog.md
+    - Credits: credits.md
+    - Frequently Asked Questions: faq.md
+    - License: license.md
+
+theme: readthedocs
+extra_css: [extra.css]
+markdown_extensions:
+  - abbr
+  - attr_list
+  - pymdownx.details
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
+      base_path: ["docs/", "workflow/rules/"]
+      url_download: "True"
+  - mdx_spanner
+  - admonition
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.blocks.details
+
+
+plugins:
+  - search
+  - include-markdown
+  - yaml-schema:
+      yaml_files:
+        - file: "workflow/schemas/config.schema.yaml"
+          tag: "CONFIGSCHEMA"
+        - file: "workflow/schemas/resources.schema.yaml"
+          tag: "RESOURCESSCHEMA"
+  - snakemake-rule:
+      rule_folders:
+        - 'workflow/rules'
+      schemas:
+        - 'workflow/schemas/rules.schema.yaml'
+  - mkdocs-simple-hooks:
+      hooks:
+        on_pre_build: "docs.hooks:copy_changelog_and_license"

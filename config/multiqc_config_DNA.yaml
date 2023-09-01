@@ -12,6 +12,7 @@ decimalPoint_format: ','
 
 extra_fn_clean_exts: ##from this until end
     - '.dup'
+    - '_N'
     - type: regex
       pattern: '_fastq[12]'
 #    - '_S'
@@ -22,12 +23,7 @@ extra_fn_clean_exts: ##from this until end
 
 top_modules:
   - "general_stats"
-  - "fastqc"
-  - "mosdepth"
   - "custom_content"
-  - "peddy"
-  - "Samtools"
-  - "picard"
 
 table_columns_visible:
   FastQC:
