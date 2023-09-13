@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.2.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.1.0...v0.2.0) (2023-09-13)
+
+
+### Features
+
+* add logging to coverage script ([f95c778](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/f95c778c8df9a30da9501fb0042232b70381637e))
+* handle cases in the sample sheet where the sex is unknown ([190d0e6](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/190d0e637ce2cda48d4d84377829572c77c039ac))
+* remove records with read.ratio = 1 for alissa compatability ([8835595](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/8835595c1ca7513146bb546a1d7a7d78ea25c946))
+* Update coverage bed in config.yaml ([3d081d3](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/3d081d3b23ff2c5ef2d8d2e543e46305dd9f41c1))
+
+
+### Bug Fixes
+
+* add bai, get right column for trio, multiqc order ([49f0b07](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/49f0b0753371e3a2f15d013d9ed90a8917488436))
+* don't print index in the units.tsv file ([d38006e](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/d38006e28046b2d7642fb9f4d3b9f7c7c665b282))
+* handle overlapping genes in create_excel.py ([9d34581](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/9d34581b7b7b68d238ed4f7ed08e5408e0c6b46f))
+* **multiqc:** add all mosdepth files to allow running with --notemp ([a6a6f0c](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/a6a6f0cde314e4d4025396920bd914dfc589d8d7))
+* **multiqc:** specify all peddy files as input for notemp runs ([eb23a63](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/eb23a6333f683bee896dae1eecd9690d6c3ec051))
+* revert coverage script to e81aa1d ([770cbd4](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/770cbd4fe0e97bddbeb0dcd1f60bf495afb121d5))
+* Update multiqc_config_DNA.yaml ([20ad40e](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/20ad40e2db8ca7b45b216b09abebec490fe1a96e))
+
+
+### Documentation
+
+* Create requirements.txt ([641c5b8](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/641c5b828c69484ef18af5196a163bda3e720fb6))
+
 ## 0.1.0 (2023-06-27)
 
 
