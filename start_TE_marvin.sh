@@ -12,8 +12,6 @@ python3.9 -m venv ${hastingsFolder}/hydra_env
 source ${hastingsFolder}/hydra_env/bin/activate
 pip install -r ${hastingsFolder}/requirements.txt
 
-source /beegfs-storage/projects/wp3/nobackup/TWIST/Bin/Hastings/hydra_env/bin/activate;
-
 fastqFolder=$1
 sequencerun=$2    #Sequence ID
 startDir=$(pwd)
