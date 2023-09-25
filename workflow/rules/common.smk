@@ -64,7 +64,6 @@ def get_flowcell(units, wildcards):
 
 
 def get_gvcf_list(wildcards):
-
     caller = config.get("snp_caller", None)
     if caller is None:
         sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
@@ -95,7 +94,6 @@ def get_spring_extra(wildcards: snakemake.io.Wildcards):
 
 
 def get_bam_input(wildcards, use_sample_wildcard=True, use_type_wildcard=True, by_chr=False):
-
     if use_sample_wildcard and use_type_wildcard is True:
         sample_str = "{}_{}".format(wildcards.sample, wildcards.type)
     elif use_sample_wildcard and use_type_wildcard is not True:
@@ -122,7 +120,6 @@ def get_bam_input(wildcards, use_sample_wildcard=True, use_type_wildcard=True, b
 
 
 def get_vcf_input(wildcards):
-
     caller = config.get("snp_caller", None)
     if caller is None:
         sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
@@ -137,7 +134,6 @@ def get_vcf_input(wildcards):
 
 
 def get_glnexus_input(wildcards, input):
-
     gvcf_input = "-i {}".format(" -i ".join(input.gvcfs))
 
     return gvcf_input
@@ -179,7 +175,6 @@ def get_peddy_sex(wildcards, peddy_sex_check):
 
 
 def get_exomedepth_ref(wildcards):
-
     sex = get_peddy_sex(wildcards, checkpoints.cnv_sv_exomedepth_sex.get().output[0])
 
     if sex == "male":
@@ -195,14 +190,13 @@ def compile_output_list(wildcards):
     types = set([unit.type for unit in units.itertuples()])
     for output in output_json:
         if output == "results/{sample}/{sample}.upd_regions.bed":
-            output_files += set(
-                [
-                    output.format(sample=sample, type=unit_type)
-                    for sample in samples[samples.trio_member == "proband"].index
-                    for unit_type in get_unit_types(units, sample)
-                    if unit_type in set(output_json[output]["types"]).intersection(types)
-                ]
-            )
+            for sample in samples[samples.trio_member == "proband"].index:
+                proband_trio_id = samples[samples.index == sample].trioid.iloc[0]
+                trio_num = samples[samples.trioid == proband_trio_id].shape[0]
+                if trio_num != 3:
+                    continue
+                else:
+                    output_files.append(output.format(sample=sample))
         else:
             output_files += set(
                 [
