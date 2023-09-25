@@ -1,5 +1,14 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.2.0...v0.2.1) (2023-09-25)
+
+
+### Bug Fixes
+
+* add all the peddy files needed for full pedddy multiqc report ([edfc961](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/edfc961f9a7430c49e33b6952c4beb123146fdda))
+* remove extra source to hydra-env ([95013f1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/95013f10d4ef4deabc92118667026f0fd7c7a4e1))
+* skip upd analysis for trios that don't have all three members ([398bf00](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/398bf0093a3b73ca335a91cbeb2627b4f865acc9))
+
 ## [0.2.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.1.0...v0.2.0) (2023-09-13)
 
 
