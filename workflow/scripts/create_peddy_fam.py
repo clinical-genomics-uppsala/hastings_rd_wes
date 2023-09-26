@@ -17,7 +17,7 @@ def get_ped_sex(sex):
 
 
 samples = pd.read_table(
-    'samples.tsv', dtype=str).set_index("sample", drop=False)
+    snakemake.input[0], dtype=str).set_index("sample", drop=False)
 
 fam_df = samples[['sample', 'sex', 'trioid', 'trio_member']]
 
@@ -25,7 +25,7 @@ child_df = fam_df[samples.trio_member == 'proband']
 father_df = fam_df[samples.trio_member == 'father']
 mother_df = fam_df[samples.trio_member == 'mother']
 
-with open('test.ped', 'w') as pedfile:
+with open(snakemake.output[0], 'w') as pedfile:
     phenotype = '-9'
 
     for sample in fam_df.itertuples():
