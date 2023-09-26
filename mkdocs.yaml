@@ -2,13 +2,17 @@ site_name: Hastings
 nav:
   - Overview:
     - Introduction: index.md
+    - Pipeline overview: overview.md
     - Result files: result_files.md
     - Running the pipeline: running.md
-    - Step by step: steps.md
+  - Pipeline Steps:
+    - Prealignment: prealignment.md
+    - Alignment: alignment.md
+    - SNV and INDELs: snv_indels.md
+    - CNVs: cnvs.md
+    - QC: qc.md
   - Pipeline specific rules:
     - Rule list: softwares.md
-  - References workflow:
-    - Running and output: running_ref.md
   - Project Info:
     - Changelog: changelog.md
     - Credits: credits.md
