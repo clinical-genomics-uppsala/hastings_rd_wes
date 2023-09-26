@@ -131,6 +131,8 @@ multiqc:
         - "qc/mosdepth_bed/{sample}_{type}.regions.bed.gz"
         - "qc/mosdepth_bed/{sample}_{type}.mosdepth.region.dist.txt"
         - "qc/mosdepth_bed/{sample}_{type}.mosdepth.global.dist.txt"
+        - "qc/peddy/peddy.peddy.ped"
+        - "qc/peddy/peddy.background_pca.json"
         - "qc/peddy/peddy.ped_check.csv"
         - "qc/peddy/peddy.sex_check.csv"
         - "qc/peddy/peddy.het_check.csv"

@@ -2,18 +2,20 @@
 # To run script:
 # bash /projects/wp3/nobackup/TWIST/Bin/Hastings/start_TE_marvin.sh fastq/ TE170
 
-set -e
+set -euo pipefail
 
 module load slurm-drmaa/1.1.3
-module load snakemake/7.22.0
 module load singularity/3.7.1
-source /beegfs-storage/projects/wp3/nobackup/TWIST/Bin/Hastings/hydra-env/bin/activate;
+
+hastingsFolder=/beegfs-storage/projects/wp3/nobackup/TWIST/Bin/Hastings
+python3.9 -m venv ${hastingsFolder}/hydra_env
+source ${hastingsFolder}/hydra_env/bin/activate
+pip install -r ${hastingsFolder}/requirements.txt
 
 fastqFolder=$1
 sequencerun=$2    #Sequence ID
 startDir=$(pwd)
 
-hastingsFolder=/beegfs-storage/projects/wp3/nobackup/TWIST/Bin/Hastings
 outbox=$(echo $(echo ${hastingsFolder} | rev | cut -d/ -f3- | rev)/OUTBOX)
 
 # Create outbox and scratch folders
