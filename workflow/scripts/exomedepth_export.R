@@ -25,7 +25,7 @@ if (length(all.exons@CNV.calls) > 0) {
 
   # Add empty columns
   nexus_df <- cbind(nexus_df, empty_column1 = NA,
-                    empty_column2 = NA, empty_column2 = NA)
+                    empty_column2 = NA, empty_column3 = NA)
   new_names <- c("Chromosome Region", "Probe Median",
                  "Event", "Cytoband", "Min Region")
   names(nexus_df) <- new_names
