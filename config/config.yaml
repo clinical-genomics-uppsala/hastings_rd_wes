@@ -10,16 +10,16 @@ output: "config/output_list.json"
 default_container: "docker://hydragenetics/common:0.3.0"
 
 modules:
-  alignment: "v0.4.0"
+  alignment: "v0.6.0"
   annotation: "v0.3.0"
-  compression: "v2.0.0"
-  filtering: "v0.2.0"
+  compression: "v2.0.0" 
   cnv_sv: "v0.4.1"
+  filtering: "v0.2.0"
+  misc: "v0.2.0"
   parabricks: "v1.1.0"
   prealignment: "v1.1.0"
   qc: "v0.4.1"
-  snv_indels: "v0.5.0"
-
+  snv_indels: "v1.0.0"
 
 reference:
   coverage_bed: "/beegfs-storage/data/ref_data/refseq/refseq_select_mane_20230828.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
@@ -29,12 +29,12 @@ reference:
   fai: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
   genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
   sites: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.known_indels.vcf.gz"
-
-
+  skip_chrs:
+    - chrM
 trimmer_software: "fastp_pe"
 
-aligner: "bwa_gpu" # or "bwa_cpu"
-snp_caller: "deepvariant_gpu" # or "deepvariant_cpu"
+aligner: "bwa_cpu" # or "bwa_cpu"
+snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
 
 automap:
   container: "docker://hydragenetics/automap:1.2"
@@ -56,33 +56,12 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
-deeptrio_call_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0-gpu"
-  model:
-    child: "/opt/models/deeptrio/wes/child/model.ckpt" # path to model in the deepvariant container
-    parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
-
-deeptrio_make_examples:
-  container: "docker://google/deepvariant:deeptrio-1.4.0" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
-  extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
-  n_shards: 80
-
-deeptrio_postprocess_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0"
-
-deepvariant_call_variants:
-  container: "docker://hydragenetics/deepvariant:1.4.0" #"docker://hydragenetics/deepvariant:1.4.0"
-  model: "/opt/models/wes/model.ckpt" # path to wes model in the deepvariant container
-
-deepvariant_make_examples:
+deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  extra: "--channels insert_size --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
-  n_shards: 80
-
-deepvariant_postprocess_variants:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  vcf_type: "gvcf"
-
+  bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  model_type: "WES"
+  output_gvcf: True
+  
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
   bedfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
@@ -103,12 +82,11 @@ fastp_pe:
 fastqc:
   container: "docker://hydragenetics/fastqc:0.11.9"
 
-glnexus:
+glnexus_peddy:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
-  extra: "--bed /beegfs-storage/projects/wp3/nobackup/Workspace/padraic_testing/exomedepth/exomedepth_hg38_ref_generation/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
 
-glnexus_peddy:
+glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
 

@@ -21,9 +21,11 @@ rule all:
 
 ruleorder: parabricks_fq2bam > alignment_samtools_index
 ruleorder: _copy_samtools_crai > compression_samtools_index
+ruleorder: _copy_snv_indels_tbi > misc_tabix 
 ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
-
+ruleorder: snv_indels_tabix > misc_tabix
+ruleorder: snv_indels_bgzip > misc_bgzip
 
 module alignment:
     snakefile:
@@ -143,6 +145,17 @@ use rule bcftools_view from filtering as filtering_bcftools_view with:
             "bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
+
+
+module misc:
+    snakefile:
+        get_module_snakefile(config, "hydra-genetics/misc", path="workflow/Snakefile", tag=config["modules"]["misc"])
+    config:
+        config
+
+use rule bgzip from misc as misc_bgzip
+
+use rule tabix from misc as misc_tabix
 
 
 module parabricks:
@@ -291,88 +304,53 @@ use rule samtools_idxstats from qc as qc_samtools_idxstats with:
 
 module snv_indels:
     snakefile:
-        github(
-            "hydra-genetics/snv_indels",
-            path="workflow/Snakefile",
-            tag=config["modules"]["snv_indels"],
-        )
+        get_module_snakefile(config, "hydra-genetics/snv_indels", path="workflow/Snakefile", tag=config["modules"]["snv_indels"])
     config:
         config
 
 
 use rule * from snv_indels as snv_indels_*
 
-
-use rule deeptrio_make_examples from snv_indels as snv_indels_deeptrio_make_examples with:
+use rule bed_split from snv_indels as snv_indels_bed_split with:
     input:
-        child_bam=lambda wildcards: get_bam_input(wildcards)[0],
-        child_bai=lambda wildcards: get_bam_input(wildcards)[1],
-        parent_bams=lambda wildcards: get_parent_bams(wildcards),
-        ref=config.get("reference", {}).get("fasta", ""),
+        bed=config.get("deepvariant", {}).get("bed", ""),
 
-
-use rule deepvariant_make_examples from snv_indels as snv_indels_deepvariant_make_examples with:
+use rule deepvariant from snv_indels as snv_indels_deepvariant with:
     input:
-        bam=lambda wildcards: get_bam_input(wildcards)[0],
-        bai=lambda wildcards: get_bam_input(wildcards)[1],
+        bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
+        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
+    params:
+        model_type=config.get("deepvariant", {}).get("model_type", ""),
+        output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),
+        int_res=lambda wildcards: f"snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}",
+        regions=lambda wildcards, input: f" --regions {input.bed} ",
+        extra=config.get("deepvariant", {}).get("extra", ""),
+
+
+use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
+    input:
+        bcf="qc/peddy/all.bcf",
     output:
-        examples=temp(
-            f"snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 10):05}.gz"
-        ),
-        gvcf_records=temp(
-            f"snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples', {}).get('n_shards', 2):05}.gz"
-        )
-        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
-        else [],
+        vcf=temp("qc/peddy/all.vcf.gz"),
     log:
-        "snv_indels/deepvariant/{sample}_{type}/make_examples_{shard}.output.log",
+        "qc/peddy/all.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}/make_examples_{shard}.output.benchmark.tsv",
-            config.get("deepvariant_make_examples", {}).get("benchmark_repeats", 1),
+            "qc/peddy/all.vcf.gz.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
 
-use rule deepvariant_call_variants from snv_indels as snv_indels_deepvariant_call_variants with:
-    input:
-        examples=expand(
-            "snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 10))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 10),
-        ),
-    output:
-        outfile=temp("snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz"),
-    log:
-        "snv_indels/deepvariant/{sample}_{type}/call_variants.output.log",
-    benchmark:
-        repeat(
-            "snv_indels/deepvariant/{sample}_{type}/call_variants.output.benchmark.tsv",
-            config.get("deepvariant_call_variants", {}).get("benchmark_repeats", 1),
-        )
-
-
-use rule deepvariant_postprocess_variants from snv_indels as snv_indels_deepvariant_postprocess_variants with:
-    input:
-        call_variants_record="snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz",
-        gvcf_records=expand(
-            "snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
-        )
-        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
-        else [],
-        ref=config.get("reference", {}).get("fasta", ""),
-    output:
-        vcf=temp("snv_indels/deepvariant/{sample}_{type}.vcf"),
-        gvcf=temp("snv_indels/deepvariant/{sample}_{type}.g.vcf"),
-    log:
-        "snv_indels/deepvariant/{sample}_{type}_postprocess_variants.output.log",
-    benchmark:
-        repeat(
-            "snv_indels/deepvariant/{sample}_{type}_postprocess_variants.output.benchmark.tsv",
-            config.get("deepvariant_postprocess_variants", {}).get("benchmark_repeats", 1),
-        )
+# use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat_deepvariant with:
+#     input:
+#         calls=expand(
+#             "{{file}}_{chr}.{{vcf}}.gz", chr=extract_chr("%s.fai" % (config["reference"]["fasta"]), filter_out=skip_contigs)
+#         ),
+#         index=expand(
+#             "{{file}}_{chr}.{{vcf}}.gz.tbi", chr=extract_chr("%s.fai" % (config["reference"]["fasta"]), filter_out=skip_contigs)
+#         ),
 
 
 use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
@@ -392,6 +370,30 @@ use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
             "qc/peddy/all.bcf.benchmark.tsv",
             config.get("glnexus_peddy", {}).get("benchmark_repeats", 1),
         )
+    container:
+        config.get("glnexus_peddy", {}).get("container", config["default_container"])
+
+
+use rule glnexus from snv_indels as snv_indels_glnexus_trio with:
+    input:
+        gvcfs=lambda wildcards: get_gvcf_trio(wildcards),
+    output:
+        bcf=temp("snv_indels/glnexus/{sample}_{type}.bcf"),
+        dir=temp(directory("snv_indels/glnexus/{sample}_{type}/GLnexus.DB")),
+    params:
+        extra=config.get("glnexus_trio", {}).get("extra", ""),
+        glnexus_config=config.get("glnexus_trio", {}).get("configfile", ""),
+        in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
+    log:
+        "snv_indels/glnexus/{sample}_{type}.bcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/glnexus/{sample}_{type}.bcf.benchmark.tsv",
+            config.get("glnexus_trio", {}).get("benchmark_repeats", 1),
+        )
+    container:
+        config.get("glnexus_trio", {}).get("container", config["default_container"])
+
 
 
 use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:

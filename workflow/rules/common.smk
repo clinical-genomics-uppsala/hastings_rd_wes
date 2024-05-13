@@ -7,13 +7,15 @@ import pandas
 import yaml
 import json
 
+from hydra_genetics.utils.misc import get_module_snakefile
 from hydra_genetics.utils.resources import load_resources
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
+from hydra_genetics.utils.misc import extract_chr
 from snakemake.utils import min_version
 from snakemake.utils import validate
 
-min_version("6.10")
+min_version("7.8.0")
 
 
 ### Set and validate config file
@@ -43,6 +45,9 @@ validate(units, schema="../schemas/units.schema.yaml")
 with open(config["output"]) as output:
     output_json = json.load(output)
 
+## contigs in hg38
+# contigs = extract_chr("%s.fai" % (config.get("reference", {}).get("fasta", "")), filter_out=[])
+# skip_contigs = [c for c in contigs if "_" in c or c == "chrEBV"]
 
 ### Set wildcard constraints
 wildcard_constraints:
@@ -53,6 +58,7 @@ wildcard_constraints:
     read="fastq[1|2]",
     sample="|".join(get_samples(samples)),
     type="N|T|R",
+    vcf="vcf|g.vcf|unfiltered.vcf",
 
 
 ### Functions
@@ -63,22 +69,61 @@ def get_flowcell(units, wildcards):
     return flowcells.pop()
 
 
+def get_gvcf_output(wildcards, name):
+    if config.get(name, {}).get("output_gvcf", False):
+        return f" --output_gvcf snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.g.vcf.gz "
+    else:
+        return ""
+
 def get_gvcf_list(wildcards):
     caller = config.get("snp_caller", None)
     if caller is None:
         sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
     elif caller == "deepvariant_gpu":
         gvcf_path = "parabricks/pbrun_deepvariant"
+        gvcf_list = [
+            "{}/{}_{}.g.vcf".format(gvcf_path, sample, t)
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+        ]
     elif caller == "deepvariant_cpu":
         gvcf_path = "snv_indels/deepvariant"
+        gvcf_list = [
+            "{}/{}_{}.merged.g.vcf".format(gvcf_path, sample, t)
+            for sample in get_samples(samples)
+            for t in get_unit_types(units, sample)
+        ]
     else:
         sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
 
-    gvcf_list = [
-        "{}/{}_{}.g.vcf".format(gvcf_path, sample, t) for sample in get_samples(samples) for t in get_unit_types(units, sample)
-    ]
+    return gvcf_list
+
+
+def get_gvcf_trio(wildcards):
+    caller = config.get("snp_caller", None)
+
+    proband_sample = samples[samples.index == wildcards.sample]
+    trio_id = proband_sample.at[wildcards.sample, "trioid"]
+    mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
+    father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
+
+    if caller is None:
+        sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
+    elif caller == "deepvariant_gpu":
+        child_gvcf = "parabricks/pbrun_deepvariant/{}_{}.g.vcf".format(wildcards.sample, wildcards.type)
+        mother_gvcf = "parabricks/pbrun_deepvariant/{}_{}.g.vcf".format(mother_sample, wildcards.type)
+        father_gvcf = "parabricks/pbrun_deepvariant/{}_{}.g.vcf".format(father_sample, wildcards.type)
+    elif caller == "deepvariant_cpu":
+        child_gvcf = "snv_indels/deepvariant/{}_{}.merged.g.vcf".format(wildcards.sample, wildcards.type)
+        mother_gvcf = "snv_indels/deepvariant/{}_{}.merged.g.vcf".format(mother_sample, wildcards.type)
+        father_gvcf = "snv_indels/deepvariant/{}_{}.merged.g.vcf".format(father_sample, wildcards.type)
+    else:
+        sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
+
+    gvcf_list = [child_gvcf, mother_gvcf, father_gvcf]
 
     return gvcf_list
+
 
 
 def get_in_gvcf(wildcards):
@@ -124,9 +169,9 @@ def get_vcf_input(wildcards):
     if caller is None:
         sys.exit("snp_caller missing from config, valid options: deepvariant_gpu or deepvariant_cpu")
     elif caller == "deepvariant_gpu":
-        vcf_input = "parabricks/pbrun_deepvariant/{}_{}.vcf".format(wildcards.sample, wildcards.type)
+        vcf_input = f"parabricks/pbrun_deepvariant/{wildcards.sample}_{wildcards.type}.vcf"
     elif caller == "deepvariant_cpu":
-        vcf_input = "snv_indels/deepvariant/{}_{}.vcf".format(wildcards.sample, wildcards.type)
+        vcf_input = f"snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}.merged.vcf"
     else:
         sys.exit("Invalid options for snp_caller, valid options are: deepvariant_gpu or deepvariant_cpu")
 
