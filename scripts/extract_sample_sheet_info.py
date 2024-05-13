@@ -54,8 +54,19 @@ def main():
 
     # Read in SampleSheet.csv (illumina sample sheet file)
     # sys.argv[1] is path to SampleSheet.csv file
-    sample_sheet_df = pd.read_csv(
-        sys.argv[1], header=13, dtype=str).set_index("Sample_ID", drop=False)
+    line_count = 0
+    infile = sys.argv[1]
+    # find where the Sample info row header is
+    with open(infile, 'r') as input: 
+        for line in input:
+            if line.startswith('Sample_ID'):
+                break
+            else:
+                if line != '\n':
+                    line_count += 1
+
+    sample_sheet_df = pd.read_csv(infile, header=line_count, dtype=str).set_index("Sample_ID", drop=False)
+    
 
     # read in files create by hydra-genetics create-input-files
     samples = pd.read_table("samples.tsv", dtype=str)
