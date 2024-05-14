@@ -239,8 +239,6 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed_coverage with:
         thresholds="10,20,30",
 
 
-
-
 use rule multiqc from qc as qc_multiqc with:
     input:
         files=lambda wildcards: set(
@@ -355,16 +353,6 @@ use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
             "qc/peddy/all.vcf.gz.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
-
-
-# use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat_deepvariant with:
-#     input:
-#         calls=expand(
-#             "{{file}}_{chr}.{{vcf}}.gz", chr=extract_chr("%s.fai" % (config["reference"]["fasta"]), filter_out=skip_contigs)
-#         ),
-#         index=expand(
-#             "{{file}}_{chr}.{{vcf}}.gz.tbi", chr=extract_chr("%s.fai" % (config["reference"]["fasta"]), filter_out=skip_contigs)
-#         ),
 
 
 use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
