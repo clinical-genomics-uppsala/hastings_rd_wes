@@ -172,8 +172,6 @@ sample_order_for_multiqc:
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
 
-tabix:
-  container: "docker://hydragenetics/common:0.1.0"
 
 upd:
   container: "docker://hydragenetics/upd:0.1.1"
