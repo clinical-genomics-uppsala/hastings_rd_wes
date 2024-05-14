@@ -207,8 +207,22 @@ module qc:
 
 use rule fastqc from qc as qc_fastqc
 
+use rule mosdepth_bed from qc as qc_mosdepth_bed_design with:
+    input:
+        bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
+        bed=config.get("reference", {}).get("design_bed", ""),
+    output:
+        bed=temp("qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz"),
+        bed_csi=temp("qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz.csi"),
+        glob=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.global.dist.txt"),
+        pairbase=temp("qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz"),
+        region=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.region.dist.txt"),
+        summary=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt"),
+        thresholds=temp("qc/mosdepth_bed_design/{sample}_{type}.thresholds.bed.gz"),
 
-use rule mosdepth_bed from qc as qc_mosdepth_bed with:
+
+use rule mosdepth_bed from qc as qc_mosdepth_bed_coverage with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
         bai=lambda wildcards: get_bam_input(wildcards)[1],
@@ -223,6 +237,8 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed with:
         thresholds=temp("qc/mosdepth_bed/{sample}_{type}.thresholds.bed.gz"),
     params:
         thresholds="10,20,30",
+
+
 
 
 use rule multiqc from qc as qc_multiqc with:
