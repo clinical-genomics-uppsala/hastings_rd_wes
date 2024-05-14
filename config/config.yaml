@@ -57,7 +57,7 @@ create_cov_excel:
   covLimits: "10 20 30"
 
 deepvariant:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
+  container: "docker://google/deepvariant:1.4.0" 
   bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
