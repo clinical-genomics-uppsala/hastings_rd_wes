@@ -113,9 +113,6 @@ module compression:
 use rule * from compression as compression_*
 
 
-use rule crumble from compression as compression_crumble
-
-
 use rule samtools_view from compression as compression_samtools_view with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards, use_sample_wildcard=False)[0],
