@@ -45,10 +45,6 @@ validate(units, schema="../schemas/units.schema.yaml")
 with open(config["output"]) as output:
     output_json = json.load(output)
 
-## contigs in hg38
-# contigs = extract_chr("%s.fai" % (config.get("reference", {}).get("fasta", "")), filter_out=[])
-# skip_contigs = [c for c in contigs if "_" in c or c == "chrEBV"]
-
 ### Set wildcard constraints
 wildcard_constraints:
     barcode="[A-Z+]+",
