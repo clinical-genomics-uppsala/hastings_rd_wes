@@ -24,6 +24,7 @@ ruleorder: _copy_samtools_crai > compression_samtools_index
 ruleorder: _copy_snv_indels_tbi > misc_tabix 
 ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
+ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
 ruleorder: snv_indels_tabix > misc_tabix
 ruleorder: snv_indels_bgzip > misc_bgzip
 
@@ -131,18 +132,18 @@ module filtering:
 
 use rule bcftools_view from filtering as filtering_bcftools_view with:
     input:
-        vcf="snv_indels/{sample}_{type}.fix_af.vcf.gz",
-        tbi="snv_indels/{sample}_{type}.fix_af.vcf.gz.tbi",
+        vcf="vcf_final/{sample}_{type}.fix_af.vcf.gz",
+        tbi="vcf_final/{sample}_{type}.fix_af.vcf.gz.tbi",
         regions=config.get("bcftools_view_deepvariant", {}).get("regions", ""),
     output:
-        vcf=temp("bcftools_view/{sample}_{type}.vcf"),
+        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.vcf"),
     log:
-        "bcftools_view/{sample}_{type}.vcf.log",
+        "snv_indels/bcftools_view/{sample}_{type}.vcf.log",
     params:
         extra=config.get("bcftools_view_deepvariant", {}).get("extra", ""),
     benchmark:
         repeat(
-            "bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
+            "snv_indels/bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
@@ -400,14 +401,21 @@ use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
     input:
         vcf="snv_indels/glnexus/{sample}_{type}.vcf.gz",
     output:
-        vcf=temp("snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz"),
+        vcf=temp("snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz"),
+    log:
+        "snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz.benchmark.tsv",
+            config.get("vt_decompose", {}).get("benchmark_repeats", 1),
+        )
 
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:
         vcf=lambda wildcards: get_vcf_input(wildcards),
     output:
-        vcf=temp("snv_indels/{sample}_{type}.fix_af.vcf"),
+        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
     log:
         "vcf_final/{sample}_{type}.fix_af.vcf.log",
     benchmark:
