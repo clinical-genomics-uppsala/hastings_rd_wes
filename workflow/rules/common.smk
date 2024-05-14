@@ -236,12 +236,15 @@ def compile_output_list(wildcards):
     for output in output_json:
         if output == "results/{sample}/{sample}.upd_regions.bed":
             for sample in samples[samples.trio_member == "proband"].index:
-                proband_trio_id = samples[samples.index == sample].trioid.iloc[0]
-                trio_num = samples[samples.trioid == proband_trio_id].shape[0]
-                if trio_num != 3:
-                    continue
-                else:
+                proband_sample = samples[samples.index == sample]
+                trio_id = proband_sample.at[sample, "trioid"]
+                try: # check for mother and father in samples df
+                    mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
+                    father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
                     output_files.append(output.format(sample=sample))
+                except IndexError:
+                    continue
+                    
         else:
             output_files += set(
                 [
