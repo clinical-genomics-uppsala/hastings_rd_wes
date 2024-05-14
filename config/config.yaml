@@ -7,7 +7,7 @@ units: "config/units.tsv"
 
 output: "config/output_list.json"
 
-default_container: "docker://hydragenetics/common:0.3.0"
+default_container: "docker://hydragenetics/common:1.11.1"
 
 modules:
   alignment: "v0.6.0"
