@@ -180,7 +180,7 @@ upd:
 
 vep:
   container: "docker://ensemblorg/ensembl-vep:release_109.3"
-  vep_cache: "refereence/VEP/"
+  vep_cache: "reference/VEP/"
   extra: "--assembly GRCh38 --max_af"
 
 vt_decompose:
