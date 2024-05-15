@@ -13,11 +13,11 @@ modules:
   alignment: "v0.6.0"
   annotation: "v0.3.0"
   compression: "v2.0.0" 
-  cnv_sv: "v0.4.1"
+  cnv_sv: "v0.5.0"
   filtering: "v0.2.0"
   misc: "v0.2.0"
   parabricks: "v1.1.0"
-  prealignment: "v1.1.0"
+  prealignment: "v1.2.0"
   qc: "v0.4.1"
   snv_indels: "v1.0.0"
 
@@ -31,6 +31,7 @@ reference:
   sites: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.known_indels.vcf.gz"
   skip_chrs:
     - chrM
+
 trimmer_software: "fastp_pe"
 
 aligner: "bwa_cpu" # or "bwa_cpu"
