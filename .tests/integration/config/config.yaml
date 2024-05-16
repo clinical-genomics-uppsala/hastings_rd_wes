@@ -109,7 +109,6 @@ multiqc:
         - "qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"
         - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt"
         - "qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz"
-        - "qc/mosdepth_bed_design/{sample}_{type}.thresholds.bed.gz"
         - "qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz"
         - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.region.dist.txt"
         - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.global.dist.txt"

@@ -217,9 +217,18 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed_design with:
         bed_csi=temp("qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz.csi"),
         glob=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.global.dist.txt"),
         pairbase=temp("qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz"),
+        pairbase_csi=temp("qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz.csi"),
         region=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.region.dist.txt"),
         summary=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt"),
-        thresholds=temp("qc/mosdepth_bed_design/{sample}_{type}.thresholds.bed.gz"),
+    params:
+        extra=config.get("mosdepth_bed_design", {}).get("extra", ""),
+    log:
+        "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt.log",
+    benchmark:
+        repeat(
+            "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt.benchmark.tsv",
+            config.get("mosdepth_bed_design", {}).get("benchmark_repeats", 1),
+        )
 
 
 use rule mosdepth_bed from qc as qc_mosdepth_bed_coverage with:
@@ -232,6 +241,7 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed_coverage with:
         bed_csi=temp("qc/mosdepth_bed/{sample}_{type}.regions.bed.gz.csi"),
         glob=temp("qc/mosdepth_bed/{sample}_{type}.mosdepth.global.dist.txt"),
         pairbase=temp("qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz"),
+        pairbase_csi=temp("qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz.csi"),
         region=temp("qc/mosdepth_bed/{sample}_{type}.mosdepth.region.dist.txt"),
         summary=temp("qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"),
         thresholds=temp("qc/mosdepth_bed/{sample}_{type}.thresholds.bed.gz"),
