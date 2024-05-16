@@ -70,16 +70,11 @@ def get_sample_sheet_order(fastq_path):
 
     fq1_name = os.path.basename(fastq_path)
     # get the 's#' part of the illumina fastq file name
-    sample_order = fq1_name.split('_')[1:]
-    sample_order = [i for i in sample_order if i.startswith('S')][0]
+    fq_filename = fq1_name.split('_')[1:] # fq filename without sample id
+    sample_order = [i for i in fq_filename if i.startswith('S')][0]
     numeric_order = int(sample_order[1:])
 
     return numeric_order
-
-
-def format_sample_order(numeric_order):
-
-    return f"sample_{numeric_order:03}"
 
 
 def main(samples_file, units_file, order_file, replacement_file):
