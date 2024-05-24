@@ -39,8 +39,8 @@ rule create_cov_excel:
         duplication_file="qc/picard_collect_duplication_metrics/{sample}_{type}.duplication_metrics.txt",
         low_cov="qc/mosdepth_bed/{sample}_{type}.mosdepth.lowCov.regions.txt",
         summary="qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt",
-        bedfile = config["reference"]["coverage_bed"],
-        genepanels = config["reference"]["genepanels"],
+        bedfile=config["reference"]["coverage_bed"],
+        genepanels=config["reference"]["genepanels"],
     output:
         out=temp("qc/create_cov_excel/{sample}_{type}.coverage.xlsx"),
     log:

@@ -45,6 +45,7 @@ validate(units, schema="../schemas/units.schema.yaml")
 with open(config["output"]) as output:
     output_json = json.load(output)
 
+
 ### Set wildcard constraints
 wildcard_constraints:
     barcode="[A-Z+]+",
@@ -70,6 +71,7 @@ def get_gvcf_output(wildcards, name):
         return f" --output_gvcf snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}.g.vcf.gz "
     else:
         return ""
+
 
 def get_gvcf_list(wildcards):
     caller = config.get("snp_caller", None)
@@ -119,7 +121,6 @@ def get_gvcf_trio(wildcards):
     gvcf_list = [child_gvcf, mother_gvcf, father_gvcf]
 
     return gvcf_list
-
 
 
 def get_in_gvcf(wildcards):
@@ -234,13 +235,13 @@ def compile_output_list(wildcards):
             for sample in samples[samples.trio_member == "proband"].index:
                 proband_sample = samples[samples.index == sample]
                 trio_id = proband_sample.at[sample, "trioid"]
-                try: # check for mother and father in samples df
+                try:  # check for mother and father in samples df
                     mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
                     father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
                     output_files.append(output.format(sample=sample))
                 except IndexError:
                     continue
-                    
+
         else:
             output_files += set(
                 [

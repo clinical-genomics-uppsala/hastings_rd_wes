@@ -21,12 +21,13 @@ rule all:
 
 ruleorder: parabricks_fq2bam > alignment_samtools_index
 ruleorder: _copy_samtools_crai > compression_samtools_index
-ruleorder: _copy_snv_indels_tbi > misc_tabix 
+ruleorder: _copy_snv_indels_tbi > misc_tabix
 ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
 ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
 ruleorder: snv_indels_tabix > misc_tabix
 ruleorder: snv_indels_bgzip > misc_bgzip
+
 
 module alignment:
     snakefile:
@@ -151,7 +152,9 @@ module misc:
     config:
         config
 
+
 use rule bgzip from misc as misc_bgzip
+
 
 use rule tabix from misc as misc_tabix
 
@@ -206,6 +209,7 @@ module qc:
 
 
 use rule fastqc from qc as qc_fastqc
+
 
 use rule mosdepth_bed from qc as qc_mosdepth_bed_design with:
     input:
@@ -333,9 +337,11 @@ module snv_indels:
 
 use rule * from snv_indels as snv_indels_*
 
+
 use rule bed_split from snv_indels as snv_indels_bed_split with:
     input:
         bed=config.get("deepvariant", {}).get("bed", ""),
+
 
 use rule deepvariant from snv_indels as snv_indels_deepvariant with:
     input:
@@ -405,7 +411,6 @@ use rule glnexus from snv_indels as snv_indels_glnexus_trio with:
         )
     container:
         config.get("glnexus_trio", {}).get("container", config["default_container"])
-
 
 
 use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
