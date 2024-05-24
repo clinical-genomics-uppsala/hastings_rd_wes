@@ -47,7 +47,7 @@ maxCov = int(snakemake.config["create_cov_excel"]["covLimits"].split(' ')[2])
 
 worksheetOver = workbook.add_worksheet('Overview')
 worksheetOver.write(0, 0, sample, headingFormat)
-worksheetOver.write(1, 0, "Bed-file from UCSC: "+ bedfile_path)
+worksheetOver.write(1, 0, "Bed-file from UCSC: " + bedfile_path)
 
 emptyList = ['', '', '', '', '', '']
 row = 8
