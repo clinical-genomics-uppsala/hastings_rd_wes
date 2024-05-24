@@ -177,7 +177,7 @@ upd:
   extra: "--vep "
 
 vep_trio:
-  container: "docker://ensemblorg/ensembl-vep:release_110.1"
+  container: "docker://ensemblorg/ensembl-vep:release_109.3"
   vep_cache: "reference/VEP/"
   extra: "--assembly GRCh38 --check_existing --pick --max_af --buffer_size 50000"
 
