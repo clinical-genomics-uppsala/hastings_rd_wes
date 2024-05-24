@@ -7,19 +7,19 @@ units: "config/units.tsv"
 
 output: "config/output_list.json"
 
-default_container: "docker://hydragenetics/common:0.3.0"
+default_container: "docker://hydragenetics/common:1.11.1"
 
 modules:
-  alignment: "v0.4.0"
+  alignment: "v0.6.0"
   annotation: "v0.3.0"
   compression: "v2.0.0"
-  filtering: "v0.2.0"
   cnv_sv: "v0.4.1"
+  filtering: "v0.2.0"
+  misc: "v0.2.0"
   parabricks: "v1.1.0"
   prealignment: "v1.1.0"
   qc: "v0.4.1"
-  snv_indels: "v0.5.0"
-
+  snv_indels: "v1.0.0"
 
 reference:
   coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
@@ -28,13 +28,16 @@ reference:
   fasta: "reference/homo_sapiens.fasta"
   fai: "reference/homo_sapiens.fasta.fai"
   genepanels: "reference/genepanels.list"
-  genome_dir: "reference/homo_sapiens_star"
   sites: "reference/homo_sapiens.known_indels.vcf.gz"
+  skip_chrs:
+    - chrM
+  skip_contigs:
+    - chrM
 
 trimmer_software: "fastp_pe"
 
-aligner: "bwa_gpu" # or "bwa_cpu"
-snp_caller: "deepvariant_gpu" # or "deepvariant_cpu"
+aligner: "bwa_cpu" # or "bwa_cpu"
+snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
 
 automap:
   container: "docker://hydragenetics/automap:1.2"
@@ -56,32 +59,11 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
-deeptrio_call_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0-gpu"
-  model:
-    child: "/opt/models/deeptrio/wes/child/model.ckpt" # path to model in the deepvariant container
-    parent: "/opt/models/deeptrio/wes/parent/model.ckpt"
-
-deeptrio_make_examples:
-  container: "docker://google/deepvariant:deeptrio-1.4.0" #"docker://google/deepvariant:deeptrio-1.4.0-gpu"
-  extra: "--channels insert_size --pileup_image_height_child 100 --pileup_image_height_parent 100 --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
-  n_shards: 80
-
-deeptrio_postprocess_variants:
-  container: "docker://google/deepvariant:deeptrio-1.4.0"
-
-deepvariant_call_variants:
-  container: "docker://hydragenetics/deepvariant:1.4.0" #"docker://hydragenetics/deepvariant:1.4.0"
-  model: "/opt/models/wes/model.ckpt" # path to wes model in the deepvariant container
-
-deepvariant_make_examples:
+deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
-  extra: "--channels insert_size --regions /beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
-  n_shards: 80
-
-deepvariant_postprocess_variants:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  vcf_type: "gvcf"
+  bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  model_type: "WES"
+  output_gvcf: True
 
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
@@ -103,12 +85,11 @@ fastp_pe:
 fastqc:
   container: "docker://hydragenetics/fastqc:0.11.9"
 
-glnexus:
+glnexus_peddy:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
-  extra: "--bed reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
 
-glnexus_peddy:
+glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
 
@@ -126,7 +107,16 @@ multiqc:
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq1_fastqc.zip"
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq2_fastqc.zip"
         - "qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"
-        - "qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz"
+        - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt"
+        - "qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz"
+        - "qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz"
+        - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.region.dist.txt"
+        - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.global.dist.txt"
+        - "qc/peddy/peddy.peddy.ped"
+        - "qc/peddy/peddy.background_pca.json"
+        - "qc/peddy/peddy.ped_check.csv"
+        - "qc/peddy/peddy.sex_check.csv"
+        - "qc/peddy/peddy.het_check.csv"
         - "qc/peddy/peddy_sex_check_mqc.tsv"
         - "qc/peddy/peddy_rel_check_mqc.tsv"
         - "qc/picard_collect_alignment_summary_metrics/{sample}_{type}.alignment_summary_metrics.txt"
@@ -179,19 +169,17 @@ sample_order_for_multiqc:
   sample_sheet: "config/SampleSheet.csv"
 
 spring:
-  container: "docker://hydragenetics/spring:1.0.1"
+  container: "docker://hydragenetics/spring:1.1.1"
 
-tabix:
-  container: "docker://hydragenetics/common:0.1.0"
 
 upd:
   container: "docker://hydragenetics/upd:0.1.1"
   extra: "--vep "
 
-vep:
+vep_trio:
   container: "docker://ensemblorg/ensembl-vep:release_109.3"
-  vep_cache: "refereence/VEP/"
-  extra: "--assembly GRCh38 --max_af"
+  vep_cache: "reference/VEP/"
+  extra: "--assembly GRCh38 --check_existing --pick --max_af --buffer_size 50000"
 
 vt_decompose:
   container: "docker://hydragenetics/vt:2015.11.10"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # To run script:
-# bash /projects/wp3/nobackup/TWIST/Bin/Hastings/start_TE_marvin.sh fastq/ TE170
+# bash /projects/wp3/nobackup/TWIST/Bin/Hastings/scripts/start_TE_marvin.sh fastq/ TE170
 
 set -euo pipefail
 
@@ -44,7 +44,7 @@ rsync -ru ${hastingsFolder}/config /scratch/wp3/TWIST/${sequencerun}/  && \
 cd /scratch/wp3/TWIST/${sequencerun}/  && \
 
 hydra-genetics create-input-files -d /scratch/wp3/TWIST/${sequencerun} -t N --tc 0  -b 'NNNNNNNNN+NNNNNNNNN' -f && \
-python ${hastingsFolder}/extract_sample_sheet_info.py SampleSheet.csv && \
+python ${hastingsFolder}/scripts/extract_sample_sheet_info.py SampleSheet.csv && \
 
 # Start pipeline
 snakemake --profile ${hastingsFolder}/profiles/slurm/ -s ${hastingsFolder}/workflow/Snakefile \
