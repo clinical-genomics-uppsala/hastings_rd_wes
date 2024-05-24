@@ -21,8 +21,12 @@ rule all:
 
 ruleorder: parabricks_fq2bam > alignment_samtools_index
 ruleorder: _copy_samtools_crai > compression_samtools_index
+ruleorder: _copy_snv_indels_tbi > misc_tabix
 ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
 ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
+ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
+ruleorder: snv_indels_tabix > misc_tabix
+ruleorder: snv_indels_bgzip > misc_bgzip
 
 
 module alignment:
@@ -52,11 +56,14 @@ module annotation:
 
 use rule vep from annotation as annotation_vep_trio with:
     input:
-        cache=config.get("vep", {}).get("vep_cache", ""),
+        cache=config.get("vep_trio", {}).get("vep_cache", ""),
         fasta=config["reference"]["fasta"],
         vcf="snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz",
     output:
         vcf=temp("snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf"),
+    params:
+        extra=config.get("vep_trio", {}).get("extra", "--pick"),
+        mode=config.get("vep_trio", {}).get("mode", "--offline --cache"),
     log:
         "snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf.log",
     benchmark:
@@ -110,9 +117,6 @@ module compression:
 use rule * from compression as compression_*
 
 
-use rule crumble from compression as compression_crumble
-
-
 use rule samtools_view from compression as compression_samtools_view with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards, use_sample_wildcard=False)[0],
@@ -129,20 +133,33 @@ module filtering:
 
 use rule bcftools_view from filtering as filtering_bcftools_view with:
     input:
-        vcf="snv_indels/{sample}_{type}.fix_af.vcf.gz",
-        tbi="snv_indels/{sample}_{type}.fix_af.vcf.gz.tbi",
+        vcf="vcf_final/{sample}_{type}.fix_af.vcf.gz",
+        tbi="vcf_final/{sample}_{type}.fix_af.vcf.gz.tbi",
         regions=config.get("bcftools_view_deepvariant", {}).get("regions", ""),
     output:
-        vcf=temp("bcftools_view/{sample}_{type}.vcf"),
+        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.vcf"),
     log:
-        "bcftools_view/{sample}_{type}.vcf.log",
+        "snv_indels/bcftools_view/{sample}_{type}.vcf.log",
     params:
         extra=config.get("bcftools_view_deepvariant", {}).get("extra", ""),
     benchmark:
         repeat(
-            "bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
+            "snv_indels/bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
+
+
+module misc:
+    snakefile:
+        get_module_snakefile(config, "hydra-genetics/misc", path="workflow/Snakefile", tag=config["modules"]["misc"])
+    config:
+        config
+
+
+use rule bgzip from misc as misc_bgzip
+
+
+use rule tabix from misc as misc_tabix
 
 
 module parabricks:
@@ -197,7 +214,31 @@ module qc:
 use rule fastqc from qc as qc_fastqc
 
 
-use rule mosdepth_bed from qc as qc_mosdepth_bed with:
+use rule mosdepth_bed from qc as qc_mosdepth_bed_design with:
+    input:
+        bam=lambda wildcards: get_bam_input(wildcards)[0],
+        bai=lambda wildcards: get_bam_input(wildcards)[1],
+        bed=config.get("reference", {}).get("design_bed", ""),
+    output:
+        bed=temp("qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz"),
+        bed_csi=temp("qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz.csi"),
+        glob=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.global.dist.txt"),
+        pairbase=temp("qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz"),
+        pairbase_csi=temp("qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz.csi"),
+        region=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.region.dist.txt"),
+        summary=temp("qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt"),
+    params:
+        extra=config.get("mosdepth_bed_design", {}).get("extra", ""),
+    log:
+        "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt.log",
+    benchmark:
+        repeat(
+            "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt.benchmark.tsv",
+            config.get("mosdepth_bed_design", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule mosdepth_bed from qc as qc_mosdepth_bed_coverage with:
     input:
         bam=lambda wildcards: get_bam_input(wildcards)[0],
         bai=lambda wildcards: get_bam_input(wildcards)[1],
@@ -207,6 +248,7 @@ use rule mosdepth_bed from qc as qc_mosdepth_bed with:
         bed_csi=temp("qc/mosdepth_bed/{sample}_{type}.regions.bed.gz.csi"),
         glob=temp("qc/mosdepth_bed/{sample}_{type}.mosdepth.global.dist.txt"),
         pairbase=temp("qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz"),
+        pairbase_csi=temp("qc/mosdepth_bed/{sample}_{type}.per-base.bed.gz.csi"),
         region=temp("qc/mosdepth_bed/{sample}_{type}.mosdepth.region.dist.txt"),
         summary=temp("qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"),
         thresholds=temp("qc/mosdepth_bed/{sample}_{type}.thresholds.bed.gz"),
@@ -291,11 +333,7 @@ use rule samtools_idxstats from qc as qc_samtools_idxstats with:
 
 module snv_indels:
     snakefile:
-        github(
-            "hydra-genetics/snv_indels",
-            path="workflow/Snakefile",
-            tag=config["modules"]["snv_indels"],
-        )
+        get_module_snakefile(config, "hydra-genetics/snv_indels", path="workflow/Snakefile", tag=config["modules"]["snv_indels"])
     config:
         config
 
@@ -303,75 +341,36 @@ module snv_indels:
 use rule * from snv_indels as snv_indels_*
 
 
-use rule deeptrio_make_examples from snv_indels as snv_indels_deeptrio_make_examples with:
+use rule bed_split from snv_indels as snv_indels_bed_split with:
     input:
-        child_bam=lambda wildcards: get_bam_input(wildcards)[0],
-        child_bai=lambda wildcards: get_bam_input(wildcards)[1],
-        parent_bams=lambda wildcards: get_parent_bams(wildcards),
-        ref=config.get("reference", {}).get("fasta", ""),
+        bed=config.get("deepvariant", {}).get("bed", ""),
 
 
-use rule deepvariant_make_examples from snv_indels as snv_indels_deepvariant_make_examples with:
+use rule deepvariant from snv_indels as snv_indels_deepvariant with:
     input:
-        bam=lambda wildcards: get_bam_input(wildcards)[0],
-        bai=lambda wildcards: get_bam_input(wildcards)[1],
+        bam="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
+        bai="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam.bai",
         ref=config.get("reference", {}).get("fasta", ""),
+        bed="snv_indels/bed_split/design_bedfile_{chr}.bed",
+    params:
+        model_type=config.get("deepvariant", {}).get("model_type", ""),
+        output_gvcf=lambda wildcards: get_gvcf_output(wildcards, "deepvariant"),
+        int_res=lambda wildcards: f"snv_indels/deepvariant/{wildcards.sample}_{wildcards.type}_{wildcards.chr}",
+        regions=lambda wildcards, input: f" --regions {input.bed} ",
+        extra=config.get("deepvariant", {}).get("extra", ""),
+
+
+use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
+    input:
+        bcf="qc/peddy/all.bcf",
     output:
-        examples=temp(
-            f"snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples').get('n_shards', 10):05}.gz"
-        ),
-        gvcf_records=temp(
-            f"snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{{shard}}-of-{config.get('deepvariant_make_examples', {}).get('n_shards', 2):05}.gz"
-        )
-        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
-        else [],
+        vcf=temp("qc/peddy/all.vcf.gz"),
     log:
-        "snv_indels/deepvariant/{sample}_{type}/make_examples_{shard}.output.log",
+        "qc/peddy/all.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/deepvariant/{sample}_{type}/make_examples_{shard}.output.benchmark.tsv",
-            config.get("deepvariant_make_examples", {}).get("benchmark_repeats", 1),
-        )
-
-
-use rule deepvariant_call_variants from snv_indels as snv_indels_deepvariant_call_variants with:
-    input:
-        examples=expand(
-            "snv_indels/deepvariant/{{sample}}_{{type}}/make_examples.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples").get("n_shards", 10))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 10),
-        ),
-    output:
-        outfile=temp("snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz"),
-    log:
-        "snv_indels/deepvariant/{sample}_{type}/call_variants.output.log",
-    benchmark:
-        repeat(
-            "snv_indels/deepvariant/{sample}_{type}/call_variants.output.benchmark.tsv",
-            config.get("deepvariant_call_variants", {}).get("benchmark_repeats", 1),
-        )
-
-
-use rule deepvariant_postprocess_variants from snv_indels as snv_indels_deepvariant_postprocess_variants with:
-    input:
-        call_variants_record="snv_indels/deepvariant/{sample}_{type}/call_variants_output.tfrecord.gz",
-        gvcf_records=expand(
-            "snv_indels/deepvariant/{{sample}}_{{type}}/gvcf.tfrecord-{shard}-of-{nshards:05}.gz",
-            shard=[f"{x:05}" for x in range(config.get("deepvariant_make_examples", {}).get("n_shards", 2))],
-            nshards=config.get("deepvariant_make_examples").get("n_shards", 2),
-        )
-        if config.get("deepvariant_postprocess_variants", {}).get("vcf_type", "vcf") == "gvcf"
-        else [],
-        ref=config.get("reference", {}).get("fasta", ""),
-    output:
-        vcf=temp("snv_indels/deepvariant/{sample}_{type}.vcf"),
-        gvcf=temp("snv_indels/deepvariant/{sample}_{type}.g.vcf"),
-    log:
-        "snv_indels/deepvariant/{sample}_{type}_postprocess_variants.output.log",
-    benchmark:
-        repeat(
-            "snv_indels/deepvariant/{sample}_{type}_postprocess_variants.output.benchmark.tsv",
-            config.get("deepvariant_postprocess_variants", {}).get("benchmark_repeats", 1),
+            "qc/peddy/all.vcf.gz.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
 
@@ -392,20 +391,50 @@ use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
             "qc/peddy/all.bcf.benchmark.tsv",
             config.get("glnexus_peddy", {}).get("benchmark_repeats", 1),
         )
+    container:
+        config.get("glnexus_peddy", {}).get("container", config["default_container"])
+
+
+use rule glnexus from snv_indels as snv_indels_glnexus_trio with:
+    input:
+        gvcfs=lambda wildcards: get_gvcf_trio(wildcards),
+    output:
+        bcf=temp("snv_indels/glnexus/{sample}_{type}.bcf"),
+        dir=temp(directory("snv_indels/glnexus/{sample}_{type}/GLnexus.DB")),
+    params:
+        extra=config.get("glnexus_trio", {}).get("extra", ""),
+        glnexus_config=config.get("glnexus_trio", {}).get("configfile", ""),
+        in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
+    log:
+        "snv_indels/glnexus/{sample}_{type}.bcf.log",
+    benchmark:
+        repeat(
+            "snv_indels/glnexus/{sample}_{type}.bcf.benchmark.tsv",
+            config.get("glnexus_trio", {}).get("benchmark_repeats", 1),
+        )
+    container:
+        config.get("glnexus_trio", {}).get("container", config["default_container"])
 
 
 use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
     input:
         vcf="snv_indels/glnexus/{sample}_{type}.vcf.gz",
     output:
-        vcf=temp("snv_indels/{caller}/{sample}_{type}.decomposed.vcf.gz"),
+        vcf=temp("snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz"),
+    log:
+        "snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz.benchmark.tsv",
+            config.get("vt_decompose", {}).get("benchmark_repeats", 1),
+        )
 
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:
         vcf=lambda wildcards: get_vcf_input(wildcards),
     output:
-        vcf=temp("snv_indels/{sample}_{type}.fix_af.vcf"),
+        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
     log:
         "vcf_final/{sample}_{type}.fix_af.vcf.log",
     benchmark:

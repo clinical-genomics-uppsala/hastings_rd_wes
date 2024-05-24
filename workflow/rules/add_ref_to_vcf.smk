@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule vcf_addRef:
     input:
-        vcf="bcftools_view/{sample}_{type}.vcf",
+        vcf="snv_indels/bcftools_view/{sample}_{type}.vcf",
         ref=config["reference"]["fasta"],
     output:
         vcf=temp("vcf_final/{sample}_{type}.vcf"),
