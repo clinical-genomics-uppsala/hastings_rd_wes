@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.2.1...v0.3.0) (2024-05-24)
+
+
+### Features
+
+* add peddy results to results folder ([4ad2ee1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/4ad2ee1c83ec133d98c8b31a0d3e5d84a20da197))
+* handles cases with more than one trio with the same parents ([c3888d0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/c3888d0cec0c7b3cebaaa2f0f2d7f2bed7684a52))
+* remove crumble rule import ([042ab47](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/042ab47a6b267829ae2eab89b5cb7f63bbaf287d))
+* update cnv_sv and prealigment modules ([fe41960](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/fe419601459c82cc048e226b10d775c430ba1a1c))
+* update common container ([6a62955](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6a62955f8c00fd56483b9a2b9f66fee690840abd))
+* update hydra version ([9c1a7a5](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/9c1a7a51cf3bdf15dad9a0d33d76bdcfe8c53a84))
+* update module versions and remove deeptrio ([5417b07](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/5417b072299661b3b3a4fa45767a2dd73e926550))
+* update spring version ([6d4d6d5](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6d4d6d5904b2699b20a8274e2663692ed3e4ecee))
+
+
+### Bug Fixes
+
+* correctly creat the sample order file from the fastq path ([ade24a1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/ade24a1d0adf8e0187bdf90b2123d6d629a9df6d))
+* don't use the same column names ([a1a184b](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/a1a184bc23e316a8b5962692222544151ef1b58d))
+* report depth from design bed file in multiqc ([218fc91](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/218fc915d48caa6d4a06f95f4fa6924b9d9bd2e2))
+
 ### [0.2.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.2.0...v0.2.1) (2023-09-25)
 
 
