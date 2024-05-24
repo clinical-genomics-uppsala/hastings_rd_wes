@@ -176,10 +176,10 @@ upd:
   container: "docker://hydragenetics/upd:0.1.1"
   extra: "--vep "
 
-vep:
-  container: "docker://ensemblorg/ensembl-vep:release_109.3"
+vep_trio:
+  container: "docker://ensemblorg/ensembl-vep:release_110.1"
   vep_cache: "reference/VEP/"
-  extra: "--assembly GRCh38 --max_af"
+  extra: "--assembly GRCh38 --check_existing --pick --max_af --buffer_size 50000"
 
 vt_decompose:
   container: "docker://hydragenetics/vt:2015.11.10"

@@ -56,11 +56,14 @@ module annotation:
 
 use rule vep from annotation as annotation_vep_trio with:
     input:
-        cache=config.get("vep", {}).get("vep_cache", ""),
+        cache=config.get("vep_trio", {}).get("vep_cache", ""),
         fasta=config["reference"]["fasta"],
         vcf="snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz",
     output:
         vcf=temp("snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf"),
+    params:
+        extra=config.get("vep_trio", {}).get("extra", "--pick"),
+        mode=config.get("vep_trio", {}).get("mode", "--offline --cache"),
     log:
         "snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf.log",
     benchmark:
