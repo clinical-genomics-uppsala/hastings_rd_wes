@@ -71,6 +71,8 @@ use rule vep from annotation as annotation_vep_trio with:
             "snv_indels/glnexus/{sample}_{type}.vep_annotated.vcf.benchmark.tsv",
             config.get("vep", {}).get("benchmark_repeats", 1),
         )
+    container:
+        config.get("vep_trio", {}).get("container", config["default_container"])
 
 
 module cnv_sv:
