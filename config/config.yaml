@@ -23,8 +23,8 @@ modules:
 
 reference:
   coverage_bed: "/beegfs-storage/data/ref_data/refseq/refseq_select_mane_20230828.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
-  design_bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
-  design_intervals: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+  design_bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST_2.0/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.bed"
+  design_intervals: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST_2.0/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.interval_list"
   fasta: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
   fai: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
   genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
@@ -44,7 +44,7 @@ automap:
   outdir: "cnv_sv/automap"
 
 bcftools_view_deepvariant:
-  regions: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  regions: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST_2.0/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated_20bp_pad.bed"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
@@ -58,14 +58,14 @@ create_cov_excel:
   covLimits: "10 20 30"
 
 deepvariant:
-  container: "docker://google/deepvariant:1.4.0" 
-  bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  container: "docker://google/deepvariant:1.6.1" 
+  bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST_2.0/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
   
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
-  bedfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
+  bedfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed # will change this later when updating the reference files
   exonsfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/exons_GRCh38_ensembl109.txt
   genesfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/genes_GRCh38_ensembl109.txt
   genome_version: "hg38"
@@ -123,12 +123,12 @@ multiqc:
         - "qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"
 
 pbrun_deepvariant:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
-  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng \
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
+  extra: "--use-wes-model --mode shortread \
    --disable-use-window-selector-model --gvcf " ## disable window selector model for consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
   extra: ""
 
 peddy:
@@ -165,7 +165,6 @@ sample_order_for_multiqc:
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
-
 
 upd:
   container: "docker://hydragenetics/upd:0.1.1"
