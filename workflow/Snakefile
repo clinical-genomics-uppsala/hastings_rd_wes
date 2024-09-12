@@ -18,15 +18,15 @@ rule all:
     input:
         unpack(compile_output_list),
 
-
-ruleorder: parabricks_fq2bam > alignment_samtools_index
-ruleorder: _copy_samtools_crai > compression_samtools_index
-ruleorder: _copy_snv_indels_tbi > misc_tabix
-ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
-ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
-ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
-ruleorder: snv_indels_tabix > misc_tabix
-ruleorder: snv_indels_bgzip > misc_bgzip
+if config["output"] == "config/output_list.json":
+    ruleorder: parabricks_fq2bam > alignment_samtools_index
+    ruleorder: _copy_samtools_crai > compression_samtools_index
+    ruleorder: _copy_snv_indels_tbi > misc_tabix
+    ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
+    ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
+    ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
+    ruleorder: snv_indels_tabix > misc_tabix
+    ruleorder: snv_indels_bgzip > misc_bgzip
 
 
 module alignment:
@@ -332,6 +332,26 @@ use rule samtools_idxstats from qc as qc_samtools_idxstats with:
     output:
         temp("qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"),
 
+
+module references:
+    snakefile:
+        github(
+            "hydra-genetics/references",
+            path="workflow/Snakefile",
+            tag=config["modules"]["references"],
+        )
+    config:
+        config
+
+use rule * from references as references_*
+
+use rule exomedepth_bam_list from references as references_exomedepth_bam_list with:
+    input:
+        bam_list=get_bam_list,
+
+# use rule exomedepth_reference from references as references_exomedepth_reference with:
+#     output:
+#         reference=config["exomedepth_call"]["reference"],
 
 module snv_indels:
     snakefile:

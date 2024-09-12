@@ -60,23 +60,30 @@ $ snakemake -s ../../Snakefile -j1 --use-singularity
 
 ## :rocket: Usage
 
-To use this module in your workflow, follow the description in the
-[snakemake docs](https://snakemake.readthedocs.io/en/stable/snakefiles/modularization.html#modules).
-Add the module to your `Snakefile` like so:
+Running the pipeline on CPU:
 
 ```bash
-module prealignment:
-    snakefile:
-        github(
-            "hastings_rd_wes",
-            path="workflow/Snakefile",
-            tag="1.0.0",
-        )
-    config:
-        config
 
+module load slurm-drmaa
+module load singularity/3.11.0
 
-use rule * from hastings_rd_wes as hastings_rd_wes_*
+python3.9 -m venv venv
+source venv/bin/acfivate
+pip install -r requirements.txt
+
+pipeline_path=/path/to/pipeline
+
+snakemake  --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile --prioritize prealignment_fastp_pe \
+ -p  --configfile config/config.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu
+
+```
+
+To create a reference for exomedepth based on the samples in the samples_ref.tsv and units_ref.tsv a config_reference.yaml must be specified in the command:
+
+```bash
+
+snakemake  --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile --prioritize prealignment_fastp_pe \
+ -p  --configfiles config/config.yaml config/config_reference.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu --notemp -n
 ```
 
 ### Output files
