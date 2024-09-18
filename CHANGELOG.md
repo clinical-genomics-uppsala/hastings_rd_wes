@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.3.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.3.0...v0.3.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* handle incomplete trios in samples.tsv ([05df9cd](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/05df9cd6f0cf3e51090d0069bc511efbf41a229a))
+* point to vep container ([63b8917](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/63b89172f09c5c52124c7fc0b3c24896bf998a8e))
+
 ## [0.3.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.2.1...v0.3.0) (2024-05-24)
 
 
