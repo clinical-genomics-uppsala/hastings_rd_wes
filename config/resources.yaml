@@ -10,7 +10,7 @@ default_resources:
 bwa_mem:
   mem_mb: 122880
   mem_per_cpu: 6144
-  threads: 20
+  threads: 8
 
 deepvariant:
   mem_mb: 61440
@@ -19,8 +19,8 @@ deepvariant:
   time: "12:00:00"
 
 fastp_pe:
-  threads: 5
-  mem_mb: 30720
+  threads: 1
+  mem_mb: 6144
   mem_per_cpu: 6144
 
 fastqc:

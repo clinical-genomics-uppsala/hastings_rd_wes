@@ -1,0 +1,7 @@
+{
+  "results/exomedepth_reference/Twist2.0_hg38_RefCount.Rdata": {"name": "_copy_exomedepth_ref", "file": "references/exomedepth_reference/Twist2.0_hg38_RefCount.Rdata", "types": ["N"]},
+  "results/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata": {"name": "_copy_exomedepth_male_ref", "file": "references/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata", "types": ["N"]},
+  "results/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata": {"name": "_copy_exomedepth_female_ref", "file": "references/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata", "types": ["N"]}
+
+
+}

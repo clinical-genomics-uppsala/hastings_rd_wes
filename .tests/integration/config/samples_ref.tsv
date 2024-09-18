@@ -1,0 +1,6 @@
+sample	tumor_content	sex	trioid	trio_member
+ref1	0.0	female	NA	NA
+ref2	0.0	male	NA	NA
+ref3	0.0	male	Trio1	proband
+ref4	0.0	male	Trio1	father
+ref5	0.0	male	Trio1	mother
