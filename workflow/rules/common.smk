@@ -161,18 +161,23 @@ def get_bam_input(wildcards, use_sample_wildcard=True, use_type_wildcard=True, b
     return (bam_input, bai_input)
 
 
-def get_bam_list(wildcards):
+def get_bam_list(wildcards, sex=None, bai=False):
 
     bam_list = []
     aligner = config.get("aligner", None)
     for sample in get_samples(samples):
-        for unit_type in get_unit_types(units, sample):
-            if aligner is None:
-                sys.exit("aligner missing from config, valid options: bwa_gpu or bwa_cpu")
-            elif aligner == "bwa_gpu":
-                bam_list.append("parabricks/pbrun_fq2bam/{}_{}.bam".format(sample, unit_type))
-            else:
-                bam_list.append("alignment/samtools_merge_bam/{}_{}.bam".format(sample, unit_type))
+        if samples.loc[sample].sex == sex or sex is None:
+            for unit_type in get_unit_types(units, sample):
+                if aligner is None:
+                    sys.exit("aligner missing from config, valid options: bwa_gpu or bwa_cpu")
+                elif aligner == "bwa_gpu":
+                    bam_list.append("parabricks/pbrun_fq2bam/{}_{}.bam".format(sample, unit_type))
+                else:
+                    bam_list.append("alignment/samtools_merge_bam/{}_{}.bam".format(sample, unit_type))
+    
+    if bai:
+        bai_list = [f"{bam}.bai" for bam in bam_list]
+        bam_list += bai_list
     
     return bam_list
 

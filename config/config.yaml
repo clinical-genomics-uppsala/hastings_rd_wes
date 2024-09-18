@@ -45,7 +45,7 @@ automap:
   outdir: "cnv_sv/automap"
 
 bcftools_view_deepvariant:
-  regions: /data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated_20bp_pad.bed"
+  regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
@@ -61,7 +61,7 @@ create_cov_excel:
 
 deepvariant:
   container: "docker://google/deepvariant:1.4.0" 
-  bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated_20bp_pad.sorted.bed"
+  bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
   
@@ -71,9 +71,9 @@ exomedepth_call:
   exonsfile: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
   genesfile: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
   genome_version: "hg38"
-  # male_reference: "/data/ref_data/wp3/hastings/RefCount_twist_2.0_male.Rdata" 
-  # female_reference: "/data/ref_data/wp3/hastings/RefCount_twist_2.0_female.Rdata"
-  reference: "/data/ref_data/wp3/hastings/RefCount_twist_2.0.Rdata"
+  # male_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata" 
+  # female_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata"
+  reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount.Rdata"
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"

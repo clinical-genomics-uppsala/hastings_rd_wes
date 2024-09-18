@@ -6,4 +6,5 @@ units: "config/units_ref.tsv"
 output: "config/output_list_ref.json"
 
 
-  
+exomedepth_reference:
+  container: "docker://hydragenetics/exomedepth:1.1.15"
