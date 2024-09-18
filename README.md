@@ -2,19 +2,20 @@
 
 #### Whole exomes sequencing hg38 hydra pipeline for rare diseases
 
-![Lint](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/lint.yaml/badge.svg?branch=develop)
-![Snakefmt](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
-![snakemake dry run](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/snakemake-dry-run.yaml/badge.svg?branch=develop)
-![integration test](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/integration1.yaml/badge.svg?branch=develop)
+![Lint](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/lint.yaml/badge.svg?branch=develop)
+![Snakefmt](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
+![snakemake dry run](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/snakemake-dry-run.yaml/badge.svg?branch=develop)
+![integration test](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/integration1.yaml/badge.svg?branch=develop)
 
-![pycodestyle](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/pycodestyl.yaml/badge.svg?branch=develop)
-![pytest](https://github.com/hydra-genetics/hastings_rd_wes/actions/workflows/pytest.yaml/badge.svg?branch=develop)
+![pycodestyle](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/pycodestyl.yaml/badge.svg?branch=develop)
+![pytest](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/pytest.yaml/badge.svg?branch=develop)
 
 [![License: GPL-3](https://img.shields.io/badge/License-GPL3-yellow.svg)](https://opensource.org/licenses/gpl-3.0.html)
 
+
 ## :speech_balloon: Introduction
 
-The module consists of alignment  ....
+
 
 ## :heavy_exclamation_mark: Dependencies
 
@@ -60,6 +61,8 @@ $ snakemake -s ../../Snakefile -j1 --use-singularity
 
 ## :rocket: Usage
 
+To use this run this pipeline the requirements in `requirements.txt` must be installed. It is most straightforward to install the requirements inside a python virtual environment created with the python [venv module](https://docs.python.org/3/library/venv.html). The `sample.tsv`, `units.tsv`, `resources.yaml`, and `config.yaml` files need to be available in the config directory (or otherwise specified in `config.yaml`). You always need to specify the `config`-file either in the profile yaml file or in the snakemake command. To run the pipeline:
+
 Running the pipeline on CPU:
 
 ```bash
@@ -86,12 +89,18 @@ snakemake  --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workfl
  -p  --configfiles config/config.yaml config/config_reference.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu --notemp -n
 ```
 
-### Output files
+## :speech_balloon: Introduction
+This pipeline is created to run on Illumina whole genome sequence data to call germline variants.
 
-The following output files should be targeted via another rule:
+## :white_check_mark: Testing
 
-| File | Description |
-|---|---|
-| `hastings_rd_wes/PATH/FILE` | DESCRIPTION |
+The workflow repository contains a dry run test of the pipeline in  `.tests/integration` which can be run like so:
 
-## :judge: Rule Graph
+```bash
+$ cd .tests/integration
+$ snakemake -n -s ../../workflow/Snakefile --configfile config/config.yaml 
+```
+
+
+
+
