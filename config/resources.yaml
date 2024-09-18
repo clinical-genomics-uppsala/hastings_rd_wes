@@ -65,6 +65,7 @@ samtools_view:
 spring:
   mem_mb: 368640
   threads: 8
+  partition: "core_bkup"
 
 vep:
   threads: 4
