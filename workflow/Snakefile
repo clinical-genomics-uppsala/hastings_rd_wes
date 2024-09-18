@@ -18,7 +18,9 @@ rule all:
     input:
         unpack(compile_output_list),
 
+
 if config["output"] == "config/output_list.json":
+
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: _copy_samtools_crai > compression_samtools_index
     ruleorder: _copy_snv_indels_tbi > misc_tabix
@@ -97,7 +99,7 @@ use rule exomedepth_call from cnv_sv as cnv_sv_exomedepth_call with:
         genes=config.get("exomedepth_call", {}).get("genesfile", ""),
         exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
         #sex="qc/peddy/peddy.sex_check-checkpoint.csv",
-        ref_count=config["exomedepth_call"]["reference"]
+        ref_count=config["exomedepth_call"]["reference"],
         #ref_count=get_exomedepth_ref,
 
 
@@ -351,17 +353,20 @@ use rule exomedepth_bam_list from references as references_exomedepth_bam_list w
     output:
         bam_list_file="references/exomedepth_bam_list/bam_files.list",
 
+
 use rule exomedepth_bam_list from references as references_exomedepth_bam_list_male with:
     input:
-        bam_list=lambda wildcards: get_bam_list(wildcards, sex='male'),
+        bam_list=lambda wildcards: get_bam_list(wildcards, sex="male"),
     output:
         bam_list_file="references/exomedepth_bam_list/male_bam_files.list",
 
+
 use rule exomedepth_bam_list from references as references_exomedepth_bam_list_female with:
     input:
-        bam_list=lambda wildcards: get_bam_list(wildcards, sex='female'),
+        bam_list=lambda wildcards: get_bam_list(wildcards, sex="female"),
     output:
         bam_list_file="references/exomedepth_bam_list/female_bam_files.list",
+
 
 use rule exomedepth_reference from references as references_exomedepth_reference with:
     input:
@@ -370,19 +375,22 @@ use rule exomedepth_reference from references as references_exomedepth_reference
     output:
         reference="references/exomedepth_reference/Twist2.0_hg38_RefCount.Rdata",
 
+
 use rule exomedepth_reference from references as references_exomedepth_reference_male with:
     input:
         bam_list_file="references/exomedepth_bam_list/male_bam_files.list",
-        bam_bai_list=lambda wildcards: get_bam_list(wildcards, sex='male', bai=True),
+        bam_bai_list=lambda wildcards: get_bam_list(wildcards, sex="male", bai=True),
     output:
         reference="references/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata",
+
 
 use rule exomedepth_reference from references as references_exomedepth_reference_female with:
     input:
         bam_list_file="references/exomedepth_bam_list/female_bam_files.list",
-        bam_bai_list=lambda wildcards: get_bam_list(wildcards, sex='female', bai=True),
+        bam_bai_list=lambda wildcards: get_bam_list(wildcards, sex="female", bai=True),
     output:
         reference="references/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata",
+
 
 module snv_indels:
     snakefile:

@@ -17,11 +17,6 @@ from snakemake.utils import validate
 
 min_version("7.8.0")
 
-
-### Set and validate config file
-configfile: "config/config.yaml"
-
-
 validate(config, schema="../schemas/config.schema.yaml")
 
 config = load_resources(config, config["resources"])
@@ -174,11 +169,11 @@ def get_bam_list(wildcards, sex=None, bai=False):
                     bam_list.append("parabricks/pbrun_fq2bam/{}_{}.bam".format(sample, unit_type))
                 else:
                     bam_list.append("alignment/samtools_merge_bam/{}_{}.bam".format(sample, unit_type))
-    
+
     if bai:
         bai_list = [f"{bam}.bai" for bam in bam_list]
         bam_list += bai_list
-    
+
     return bam_list
 
 
