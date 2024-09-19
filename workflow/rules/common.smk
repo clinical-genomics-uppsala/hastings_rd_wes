@@ -75,6 +75,7 @@ onstart:
     date_string = datetime.now().strftime("%Y%m%d")
     export_config_as_file(update_config, date_string=date_string, directory="results/versions")
 
+
 ### Set wildcard constraints
 wildcard_constraints:
     barcode="[A-Z+]+",
