@@ -99,7 +99,7 @@ mosdepth_bed:
   extra: ""
 
 multiqc:
-  container: "docker://hydragenetics/multiqc:1.11"
+  container: "docker://hydragenetics/multiqc:1.21"
   reports:
     DNA:
       config: "config/multiqc_config_DNA.yaml"
