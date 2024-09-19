@@ -166,3 +166,5 @@ picard_config:
     - PCT_EXC_OFF_TARGET
     - TARGET_TERRITORY
     - TOTAL_READS
+    - PCT_OFF_BAIT
+    - PCT_TARGET_BASES_30X
