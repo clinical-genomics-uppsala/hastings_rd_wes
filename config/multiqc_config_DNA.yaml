@@ -3,7 +3,7 @@ subtitle: "Reference used: GRCh38"
 intro_text: "The MultiQC report summarise analysis results from WES data that been analysed by the pipeline hastings_rd_wes (https://github.com/clinical-genomics-uppsala/hastings_rd_wes)."
 
 report_header_info:
-  - Contact E-mail: "padraic.corcoran@scilifelab.uu.se"
+  - Contact E-mail: "igp-klinsek-bioinfo@lists.uu.se"
   - Application Type: "Bioinformatic analysis of WES for rare diseases"
 
 show_analysis_paths: True
@@ -15,15 +15,16 @@ extra_fn_clean_exts: ##from this until end
     - '_N'
     - type: regex
       pattern: '_fastq[12]'
-#    - '_S'
-# extra_fn_clean_trim:
-#   - 'Sample_VE-3297_'
-#fn_ignore_dirs:
-#fn_ignore_files:
 
-top_modules:
-  - "general_stats"
-  - "custom_content"
+
+module_order:
+  - fastqc
+  - fastp
+  - verifybamid
+  - mosdepth
+  - peddy
+  - samtools
+  - picard
 
 table_columns_visible:
   FastQC:
@@ -56,18 +57,19 @@ table_columns_visible:
     sex_het_ratio: False
     error_sex_check: True
     predicted_sex_sex_check: True
-  Picard:
+  "Picard: HSMetrics":
     PCT_PF_READS_ALIGNED: False
     summed_median: False
     summed_mean: True
-    PERCENT_DUPLICATION: True
-    MEDIAN_COVERAGE: False
-    MEAN_COVERAGE: False
-    SD_COVERAGE: False
-    PCT_30X: False
+    MEDIAN_TARGET_COVERAGE: False
     PCT_TARGET_BASES_30X: False
     FOLD_ENRICHMENT: False
-  Samtools:
+  "Picard: InsertSizeMetrics":
+    summed_median: False
+    summed_mean: True
+  "Picard: Mark Duplicates":
+    PERCENT_DUPLICATION: True
+  "Samtools: stats":
     error_rate: False
     non-primary_alignments: False
     reads_mapped: True
@@ -78,7 +80,7 @@ table_columns_visible:
 
 # Patriks plug in, addera egna columner till general stats
 multiqc_cgs:
-  Picard:
+  "Picard: HsMetrics":
     FOLD_80_BASE_PENALTY:
       title: "Fold80"
       description: "Fold80 penalty from picard hs metrics"
@@ -97,21 +99,13 @@ multiqc_cgs:
       max: 100
       scale: "RdYlGn-rev"
       format: "{:.2%}"
-  Samtools:
+  "Samtools: stats":
     average_quality:
       title: "Average Quality"
       description: "Ratio between the sum of base qualities and total length from Samtools stats"
       min: 0
       max: 60
       scale: "RdYlGn"
-  mosdepth:
-     20_x_pc: #Cant get it to work
-        title: "20x percent"
-        description: "Fraction of genome with at least 20X coverage"
-        max: 100
-        min: 0
-        suffix: "%"
-        scale: "RdYlGn"
 
 # Galler alla kolumner oberoende pa module!
 table_columns_placement:
@@ -123,7 +117,7 @@ table_columns_placement:
     20_x_pc: 603
     30_x_pc: 604
     50_x_pc: 605
-  Samtools:
+  "Samtools: stats":
     raw_total_sequences: 500
     reads_mapped: 501
     reads_mapped_percent: 502
@@ -139,13 +133,10 @@ table_columns_placement:
     error_sex_check: 701
     predicted_sex_sex_check: 702
     family_id: 703
-  Picard:
+  "Picard: HsMetrics":
     PCT_SELECTED_BASES: 801
     FOLD_80_BASE_PENALTY: 802
     PCT_PF_READS_ALIGNED: 888
-    summed_median: 888
-    PERCENT_DUPLICATION: 803
-    summed_mean: 804
     STANDARD_DEVIATION: 805
     ZERO_CVG_TARGETS_PCT: 888
     MEDIAN_COVERAGE: 888
@@ -154,3 +145,24 @@ table_columns_placement:
     PCT_30X: 888
     PCT_TARGET_BASES_30X: 888
     FOLD_ENRICHMENT: 888
+  "Picard: InsertSizeMetrics":
+    summed_median: 888
+    summed_mean: 804
+  "Picard: Mark Duplicates":
+    PERCENT_DUPLICATION: 803
+
+
+picard_config:
+  HsMetrics_table_cols_hidden:
+    - AT_DROPOUT
+    - BAIT_TERRITORY
+    - GC_DROPOUT
+    - ZERO_CVG_TARGETS_PCT    
+    - PCT_EXC_DUPE    
+    - PCT_EXC_ADAPTER 
+    - PCT_EXC_MAPQ    
+    - PCT_EXC_BASEQ   
+    - PCT_EXC_OVERLAP 
+    - PCT_EXC_OFF_TARGET
+    - TARGET_TERRITORY
+    - TOTAL_READS
