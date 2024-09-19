@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.3.1...v0.4.0) (2024-09-19)
+
+
+### Features
+
+* update HS metrics in multiqc report ([3a12cf8](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/3a12cf865c8e1dbd9f10fa10f9c3ea3057f0c51c))
+* update multiqc and add software versions ([2d3f36e](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/2d3f36e06f697b1fe49ccf55b1b458a514b21979))
+
 ### [0.3.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.3.0...v0.3.1) (2024-09-18)
 
 
