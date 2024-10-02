@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.4.0...v0.5.0) (2024-10-02)
+
+
+### Features
+
+* add config for the old twist panel ([5d01cef](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/5d01cef7f79c08ad0f70de98bbc8852940744bd1))
+* re-instate male and female exomdepth references ([cef44ae](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/cef44ae9a4024747ec93c5c64ad464f74d9ac4b8))
+* remove extra symbols from figures in general stats table ([51ade63](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/51ade63a8c42afd5b6c86869df265b34165d98e0))
+
 ## [0.4.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.3.1...v0.4.0) (2024-09-19)
 
 
