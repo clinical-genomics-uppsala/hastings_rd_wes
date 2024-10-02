@@ -19,17 +19,16 @@ modules:
   parabricks: "v1.1.0"
   prealignment: "v1.2.0"
   qc: "v0.4.1"
-  references: "e71ee62"
   snv_indels: "v1.0.0"
 
 reference:
   coverage_bed: "/beegfs-storage/data/ref_data/refseq/refseq_select_mane_20230828.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
-  design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
-  design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
-  fasta: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
-  fai: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
+  design_bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+  design_intervals: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+  fasta: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
+  fai: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
   genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
-  sites: "/data/ref_data/wp3/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz"
+  sites: "/beegfs-storage/data/ref_genomes/GRCh38/reference_grasnatter/homo_sapiens.known_indels.vcf.gz"
   skip_chrs:
     - chrM
 
@@ -45,34 +44,33 @@ automap:
   outdir: "cnv_sv/automap"
 
 bcftools_view_deepvariant:
-  regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+  regions: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
-  amb: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"
-  ann: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann"
-  bwt: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt"
-  pac: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac"
-  sa: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa"
-  extra: "-K 100000000"
+  amb: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"
+  ann: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann"
+  bwt: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt"
+  pac: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac"
+  sa: "/beegfs-storage/data/ref_genomes/GRCh38/GCA_000001405.15/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa"
 
 create_cov_excel:
   covLimits: "10 20 30"
 
 deepvariant:
   container: "docker://google/deepvariant:1.4.0" 
-  bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+  bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
   
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
-  bedfile: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed" 
-  exonsfile: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
-  genesfile: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
+  bedfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
+  exonsfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/exons_GRCh38_ensembl109.txt
+  genesfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/genes_GRCh38_ensembl109.txt
   genome_version: "hg38"
-  male_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata" 
-  female_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata"
+  male_reference: /beegfs-storage/data/ref_data/wp3/RefCount_male.Rdata 
+  female_reference: /beegfs-storage/data/ref_data/wp3/RefCount_female.Rdata
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"
@@ -98,7 +96,7 @@ mosdepth_bed:
   extra: ""
 
 multiqc:
-  container: "docker://hydragenetics/multiqc:1.21"
+  container: "docker://hydragenetics/multiqc:1.11"
   reports:
     DNA:
       config: "config/multiqc_config_DNA.yaml"
@@ -125,12 +123,12 @@ multiqc:
         - "qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"
 
 pbrun_deepvariant:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
-  extra: "--use-wes-model --mode shortread \
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
+  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng \
    --disable-use-window-selector-model --gvcf " ## disable window selector model for consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
   extra: ""
 
 peddy:
@@ -167,6 +165,7 @@ sample_order_for_multiqc:
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
+
 
 upd:
   container: "docker://hydragenetics/upd:0.1.1"
