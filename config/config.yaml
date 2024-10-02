@@ -71,9 +71,8 @@ exomedepth_call:
   exonsfile: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
   genesfile: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
   genome_version: "hg38"
-  # male_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata" 
-  # female_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata"
-  reference: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount.Rdata"
+  male_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata" 
+  female_reference: "results/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata"
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"
