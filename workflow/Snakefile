@@ -98,9 +98,8 @@ use rule exomedepth_call from cnv_sv as cnv_sv_exomedepth_call with:
         bedfile=config.get("exomedepth_call", {}).get("bedfile", ""),
         genes=config.get("exomedepth_call", {}).get("genesfile", ""),
         exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
-        #sex="qc/peddy/peddy.sex_check-checkpoint.csv",
-        ref_count=config["exomedepth_call"]["reference"],
-        #ref_count=get_exomedepth_ref,
+        sex="qc/peddy/peddy.sex_check-checkpoint.csv",
+        ref_count=get_exomedepth_ref,
 
 
 use rule automap from cnv_sv as cnv_sv_automap with:
