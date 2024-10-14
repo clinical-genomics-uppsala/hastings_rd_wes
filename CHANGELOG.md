@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.5.0...v0.5.1) (2024-10-14)
+
+
+### Bug Fixes
+
+* fix paths to exomedepth refs ([096845d](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/096845db4cde3c7d0baf350ba5463197a5fc055b))
+
 ## [0.5.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.4.0...v0.5.0) (2024-10-02)
 
 
