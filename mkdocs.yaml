@@ -33,10 +33,3 @@ markdown_extensions:
   - toc:
       permalink: True
 
-plugins:
-  - include-markdown
-  - search
-  - yaml-schema:
-      yaml_files:
-        - file: "workflow/schemas/config.schema.yaml"
-          tag: "CONFIGSCHEMA"
