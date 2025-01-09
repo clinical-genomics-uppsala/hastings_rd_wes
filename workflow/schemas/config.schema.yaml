@@ -17,3 +17,76 @@ required:
   - units
   - resources
   - default_container
+
+  vcf_addRef:
+    type: object
+    description: parameters for vcf_addRef
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  create_cov_excel:
+      type: object
+    description: parameters for create_cov_excel
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+      covLimits:
+        type: string
+        description: for which coverage depth should the percentage of bases with that coverage or above be calculated, default value "10 20 30"
+
+  create_ped:
+      type: object
+    description: parameters for create_ped
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  create_peddy_mqc_tsv:
+      type: object
+    description: parameters for create_peddy_mqc_tsv
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
+
+  exomedepth_export:
+      type: object
+    description: parameters for exomedepth_export
+    properties:
+      benchmark_repeats:
+        type: integer
+        description: set number of times benchmark should be repeated
+      container:
+        type: string
+        description: name or path to docker/singularity container
+      extra:
+        type: string
+        description: parameters that should be forwarded
