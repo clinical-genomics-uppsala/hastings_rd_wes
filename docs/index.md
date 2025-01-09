@@ -1,11 +1,11 @@
 # Welcome to Hastings 
 a whole exome pipeline for rare diseases
-
+<br />
 
 You can find the github repository at <a href="https://github.com/clinical-genomics-uppsala/hastings_rd_wes/">https://github.com/clinical-genomics-uppsala/poirot_rd_wgs/</a>
 
 
-
+<br />
 This pipeline is run at [Clinical Genomics Uppsala](https://www.uu.se/en/research/clinical-genomics-uppsala) and is used to call variants from short-read illumina WES data ([TWIST whole exome v.2](https://www.twistbioscience.com/blog/science/WES-Exome-2.0)) from rare disease patients. 
 
 This [snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline is built using module system from [Hydra Genetics](https://github.com/hydra-genetics/) to process paired-end `.fastq.gz` files from Illumina whole exome sequencing. 
