@@ -83,8 +83,8 @@ The `samples.tsv` and `units.tsv` are input files that must be generated before 
 ### Example samples.tsv
 
 | sample | tumor_content | sex | trioid | trio_member |
-| NA12878 | 0.0	female | NA | NA |
-| NA12911 | 0.0	male | NA | NA |
+| NA12878 | 0.0	| female | NA | NA |
+| NA12911 | 0.0	| male | NA | NA |
 
 ### Example units.tsv
 

@@ -4,7 +4,6 @@ nav:
     - Introduction: index.md
     - Pipeline overview: overview.md
     - Result files: results_files.md
-    - Pipeline setup and configuration: setup.md
   - Setting up and Running the pipeline:
     - Setup: setup.md
     - Running: running.md
@@ -34,3 +33,10 @@ markdown_extensions:
   - toc:
       permalink: True
 
+plugins:
+  - include-markdown
+  - search
+  - yaml-schema:
+      yaml_files:
+        - file: "workflow/schemas/config.schema.yaml"
+          tag: "CONFIGSCHEMA"
