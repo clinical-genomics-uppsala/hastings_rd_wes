@@ -2,6 +2,7 @@ $schema: "http://json-schema.org/draft-04/schema#"
 description: snakemake rule input and output files description file
 type: object
 properties:
+
   exomedepth_export:
     type: object
     description: input and output files for exomedepth export
@@ -28,11 +29,10 @@ properties:
 
   create_cov_excel:
     type: object
-    description: list of input and output files for sample_order_multiqc
     properties:
       input:
         type: object
-        description: list of inputfiles
+        description: list of inputs
         properties:
           bedfile:
             type: string
@@ -57,7 +57,7 @@ properties:
             description: text file with the summary from mosdepth_bed
       output: 
         type: object
-        description: list of output files
+        description: list of outputs
         properties:
           coverage:
             type: string

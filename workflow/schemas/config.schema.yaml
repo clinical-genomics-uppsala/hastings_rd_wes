@@ -28,10 +28,9 @@ properties:
     required:
       - fasta
       - sites
-      
+
   vcf_addRef:
     type: object
-    description: parameters for vcf_addRef
     properties:
       benchmark_repeats:
         type: integer
@@ -44,8 +43,7 @@ properties:
         description: parameters that should be forwarded
 
   create_cov_excel:
-      type: object
-    description: parameters for create_cov_excel
+    type: object
     properties:
       benchmark_repeats:
         type: integer
@@ -61,8 +59,7 @@ properties:
         description: for which coverage depth should the percentage of bases with that coverage or above be calculated, default value "10 20 30"
 
   create_ped:
-      type: object
-    description: parameters for create_ped
+    type: object
     properties:
       benchmark_repeats:
         type: integer
@@ -75,8 +72,7 @@ properties:
         description: parameters that should be forwarded
 
   create_peddy_mqc_tsv:
-      type: object
-    description: parameters for create_peddy_mqc_tsv
+    type: object
     properties:
       benchmark_repeats:
         type: integer
@@ -89,8 +85,7 @@ properties:
         description: parameters that should be forwarded
 
   exomedepth_export:
-      type: object
-    description: parameters for exomedepth_export
+    type: object
     properties:
       benchmark_repeats:
         type: integer

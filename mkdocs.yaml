@@ -33,3 +33,20 @@ markdown_extensions:
   - toc:
       permalink: True
 
+plugins:
+  - include-markdown
+  - search
+  - yaml-schema:
+      yaml_files:
+        - file: "workflow/schemas/config.schema.yaml"
+          tag: "CONFIGSCHEMA"
+        - file: "workflow/schemas/resources.schema.yaml"
+          tag: "RESOURCESSCHEMA"
+  - snakemake-rule:
+      rule_folders:
+        - 'workflow/rules'
+      schemas:
+        - 'workflow/schemas/rules.schema.yaml'
+  - mkdocs-simple-hooks:
+      hooks:
+        on_pre_build: "docs.hooks:copy_changelog_and_license"

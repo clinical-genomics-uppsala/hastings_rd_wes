@@ -2,6 +2,7 @@ $schema: "http://json-schema.org/draft-04/schema#"
 description: snakemake configuration file
 type: object
 properties:
+
   default_resources:
     type: object
     properties:
@@ -23,7 +24,6 @@ properties:
 
   vcf_addRef:
     type: object
-    description: resource definitions for vcf_addRef
     properties:
       mem_mb:
         type: integer
@@ -43,7 +43,6 @@ properties:
 
   create_cov_excel:
     type: object
-    description: resource definitions for create_cov_excel
     properties:
       mem_mb:
         type: integer
@@ -63,7 +62,6 @@ properties:
 
   create_ped:
     type: object
-    description: resource definitions for create_ped
     properties:
       mem_mb:
         type: integer
@@ -83,7 +81,6 @@ properties:
 
   create_peddy_mqc_tsv:
     type: object
-    description: resource definitions for create_peddy_mqc_tsv
     properties:
       mem_mb:
         type: integer
@@ -103,7 +100,6 @@ properties:
 
   exomedepth_export:
     type: object
-    description: resource definitions for exomedepth_export
     properties:
       mem_mb:
         type: integer
