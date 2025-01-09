@@ -1,15 +1,14 @@
 # Welcome to Hastings 
 a whole exome pipeline for rare diseases
 <br />
-
+<br />
 You can find the github repository at <a href="https://github.com/clinical-genomics-uppsala/hastings_rd_wes/">https://github.com/clinical-genomics-uppsala/poirot_rd_wgs/</a>
-
-
+<br />
 <br />
 This pipeline is run at [Clinical Genomics Uppsala](https://www.uu.se/en/research/clinical-genomics-uppsala) and is used to call variants from short-read illumina WES data ([TWIST whole exome v.2](https://www.twistbioscience.com/blog/science/WES-Exome-2.0)) from rare disease patients. 
-
+<br />
 This [snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline is built using module system from [Hydra Genetics](https://github.com/hydra-genetics/) to process paired-end `.fastq.gz` files from Illumina whole exome sequencing. 
-
+<br />
 It is called Hastings, named after Agatha Christie's creation Arthur Hastings who is the side-kick of the famous detective Poirot, which felt appropriate with the pipeline being the side-kick to the whole genome pipeline named [Poirot](https://poirot-rd-wgs.readthedocs.io/en/latest/).
 
 
