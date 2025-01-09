@@ -4,6 +4,7 @@ nav:
     - Introduction: index.md
     - Pipeline overview: overview.md
     - Result files: results_files.md
+    - Pipeline setup and configuration: setup.md
     - Reference files: references.md
   - Setting up and Running the pipeline:
     - Setup: setup.md
@@ -16,20 +17,40 @@ nav:
     - License: license.md
   
 
-theme: readthedocs
+theme:
+    name: readthedocs
 extra_css: [extra.css]
 markdown_extensions:
   - abbr
+  - admonition
   - attr_list
-  - pymdownx.details
+  - mdx_spanner
+  - pymdownx.blocks.details
   - pymdownx.snippets:
       auto_append:
         - includes/abbreviations.md
-      base_path: ["docs/"]
+      base_path: "docs/"
       url_download: "True"
-  - mdx_spanner
-  - admonition
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      permalink: True
 
+plugins:
+  - include-markdown
+  - search
+  - yaml-schema:
+      yaml_files:
+        - file: "workflow/schemas/config.schema.yaml"
+          tag: "CONFIGSCHEMA"
+        - file: "workflow/schemas/resources.schema.yaml"
+          tag: "RESOURCESSCHEMA"
+  - snakemake-rule:
+      rule_folders:
+        - 'workflow/rules'
+      schemas:
+        - 'workflow/schemas/rules.schema.yaml'
+  - mkdocs-simple-hooks:
+      hooks:
+        on_pre_build: "docs.hooks:copy_changelog_and_license"
