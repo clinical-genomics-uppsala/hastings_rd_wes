@@ -59,7 +59,7 @@ properties:
         type: object
         description: list of outputs
         properties:
-          coverage:
+          out:
             type: string
             description: excel file with tabs for each genepanel with coverage analysis for each gene
 

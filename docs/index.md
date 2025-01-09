@@ -8,7 +8,6 @@ You can find the github repository at <a href="https://github.com/clinical-genom
 This [snakemake](https://snakemake.readthedocs.io/en/stable/) pipeline is built using module system from [Hydra Genetics](https://github.com/hydra-genetics/) to process paired-end `.fastq.gz` files from Illumina whole exome sequencing. 
 
 It is called Hastings, named after Agatha Christie's creation Arthur Hastings who is the side-kick of the famous detective Poirot, which felt appropriate with the pipeline being the side-kick to the whole genome pipeline named [Poirot](https://poirot-rd-wgs.readthedocs.io/en/latest/).
-
 <br />
 <br />
 **Hastings uses the following hydra genetics modules:**
