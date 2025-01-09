@@ -5,15 +5,12 @@ nav:
     - Pipeline overview: overview.md
     - Result files: results_files.md
     - Pipeline setup and configuration: setup.md
-    - Reference files: references.md
   - Setting up and Running the pipeline:
     - Setup: setup.md
     - Running: running.md
   - Pipeline specific rules:
     - Rule list: softwares.md
-  - Output- Project Info:
-    - Changelog: changelog.md
-    - Credits: credits.md
+  - Project Info:
     - License: license.md
   
 

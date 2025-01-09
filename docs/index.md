@@ -11,7 +11,6 @@ It is called Hastings, named after Agatha Christie's creation Arthur Hastings wh
 
 <br />
 <br />
-
 **Hastings uses the following hydra genetics modules:**
 
 - [alignment](https://github.com/hydra-genetics/alignment/tree/v0.6.0)
