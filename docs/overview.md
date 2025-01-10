@@ -1,5 +1,6 @@
 
 # Mapping reads and BAM file processing
+See the [alignment hydra-genetics module](https://hydra-genetics-alignment.readthedocs.io/en/latest/) or [parabricks hydra-genetics module](https://github.com/hydra-genetics/parabricks) documentation for more details on the softwares. Default hydra-genetics settings/resources are used if no configuration is specified.
 
 When GPUs are available Hastings can be configured to use [Nvidia's Parabricks](https://www.nvidia.com/en-gb/clara/parabricks/) for read mapping using [fq2bam](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_fq2bam.html#man-fq2bam) tool. This tool performs read mapping with a GPU-accelerated version of BWA-mem, sorting and marking of duplicates.
 
@@ -10,6 +11,7 @@ When only CPUs are available Hastings can be configured perform the read mapping
 - marking duplicates with [Picard MarkDuplicates](https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates)
 
 # Variant Calling
+See the [snv_indels hydra-genetics module](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/) or [parabricks hydra-genetics module](https://github.com/hydra-genetics/parabricks) documentation for more details on the softwares for variant calling, [annotation hydra-genetics module](https://hydra-genetics-annotation.readthedocs.io/en/latest/) for annotation, [filtering hydra-genetics module](https://hydra-genetics-filtering.readthedocs.io/en/latest/) for filtering and  [cnv hydra-genetics module](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/) for more details on the softwares for cnv calling. Default hydra-genetics settings/resources are used if no configuration is specified.
 
 ## SNV and INDELs
 
@@ -34,6 +36,7 @@ When only CPUs are available Hastings can be configured perform the read mapping
 - [upd](https://github.com/bjhall/upd)
 
 # QC
+See the [qc hydra-genetics module](https://hydra-genetics-qc.readthedocs.io/en/latest/) documentation for more details on the softwares for the quality control. Default hydra-genetics settings/resources are used if no configuration is specified.
 
 Hastings produces a MultiQC-report for the entire sequencing run to enable easier QC tracking. The report starts with a general statistics table showing the most important QC-values followed by additional QC data and diagrams. The entire MultiQC html-file is interactive and you can filter, highlight, hide or export data using the ToolBox at the right edge of the report.
 
