@@ -37,8 +37,6 @@ The report is configured based on a MultiQC config file.
 
 The report contain qc information derived from the following programs:
 
-
-
 ### General Statistics
 The general statistics table are ordered based on the sample order in Illumina `SampleSheet.csv` file used during sequencing, this is done by renaming the samples in two steps using the script `extract_samples_info.py`. To toggle between "Sample Order" and "Sample Name" use the buttons just above General Stats header.
 
@@ -59,3 +57,73 @@ The general statistics table are ordered based on the sample order in Illumina `
 | % Dups | [Picard](https://broadinstitute.github.io/picard/) DuplicationMetrics |  |
 | Mean Insert Size | [Picard](https://broadinstitute.github.io/picard/) InsertSizeMetrics |  |
 | Target Bases with zero coverage [%] | [Picard](https://broadinstitute.github.io/picard/) HSMetrics | Percent target (`config[reference][design_intervals]`) bases with 0 coverage |
+
+
+
+## Coverage analysis
+ It is important to know that the information is actually there when trying to draw clinically relevant conclusions from the data. This is done by a gene coverage analysis which results in an excel file with a tab for each gene panel that is of interest, 
+
+### Example of some data from tabs in {sample_id}.coverage_analysis.xlsx
+#### Overview
+{sample_id}					
+Bed-file from UCSC: efseq_select_mane_20230828.bed					
+                    
+Processing date: January 05, 2025					
+                    
+Created by: 				Valid from: 	
+Signed by: 				Document nr: 	
+                    
+DNAnr	Avg. coverage (x)	Duplicationlevel ()%)	10x (%)	20x (%)	30x (%)
+{sample_id}	60.07	3.6	99.6	98.8	94.8
+                    
+Number of regions not covered by at least 10x: 					
+1177					
+                    
+Sheets:					
+Positions with coverage lower than 10x					
+Average coverage of all regions in bed					
+BRCA
+CADASIL
+EBS
+EDS					
+
+#### Positions with coverage lower than 10x
+Mosdepth coverage analysis				
+                
+Sample: {sample_id}				
+                
+Gene regions with coverage lower than 10x.				
+Region Name	Chr	Start	Stop	Mean Coverage
+OR4F5_NM_001005484.2_[3]	chr1	69438	69439	10
+OR4F5_NM_001005484.2_[3]	chr1	69439	69441	9
+OR4F5_NM_001005484.2_[3]	chr1	69441	69442	8
+OR4F5_NM_001005484.2_[3]	chr1	69442	69444	7
+
+#### Average coverage of all regions in bed
+Average coverage and coverage breadth per gene					
+                    
+Sample: {sample_id}					
+                    
+Averge coverage and coverage breadth of each gene in exon-bedfile					
+Gene	Transcript	Avg coverage	10x	20x	30x
+A1BG	NM_130786.4	40,6	100	96,6	80,7
+A1CF	NM_014576.4	59,28	100	100	97,6
+A2M	NM_000014.6	62,82	100	100	99,7
+A2ML1	NM_144670.6	50,66	100	100	98,8
+A3GALT2	NM_001080438.1	35,55	100	100	78,4
+
+#### EBS
+Coverage analysis per gene for EBS gene panel					
+                    
+Sample: {sample_id}					
+                    
+Average coverage and coverage breadth of genes in EBS gene panel.					
+Gene	Transcript	Avg coverage	10x	20x	30x
+CAST	NM_001750.7	63,2	100	100	99,6
+CD151	NM_004357.5	43,89	100	100	98,2
+                    
+Regions of exons that are covered below 10x.					
+Gene name_transcript_exon	Chr	Start	Stop	Coverage (x)	
+COL7A1_NM_000094.4_[109]	chr3	48567605	48567606	10	
+
+
