@@ -129,7 +129,10 @@ BRCA2
 ### 3) Bed-file with gene information
 
 #### Example bed-file
-|-|-|-|-|
+
+| chr1	| 999056	| 999434	| HES4_NM_021170.4_[4]	| HKTG2BGXG	| L001 | ACGGAACA+ACGAGAAC | fastq/NA12878_fastq1.fastq.gz | fastq/NA12878_fastq2.fastq.gz | ACGT,ACGT |
+| chr1	| 999523	| 999434	| HES4_NM_021170.4_[3]	| HKTG2BGXG	| L001 | TCGGAACT+TCGAGAAT | fastq/NA12911_fastq1.fastq.gz | fastq/NA12911_fastq2.fastq.gz | ACGT,ACGT |
+
 | chr1 | 999056   | 999434 	| HES4_NM_021170.4_[4]	|
 
 | chr1 | 999523   | 999615	| HES4_NM_021170.4_[3]	|
