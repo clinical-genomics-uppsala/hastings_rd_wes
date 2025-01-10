@@ -68,23 +68,23 @@ The general statistics table are ordered based on the sample order in Illumina `
 {sample_id}					
 Bed-file from UCSC: efseq_select_mane_20230828.bed					
 
-                    
+<br />
 Processing date: January 05, 2025					
 
-
+<br />
 Created by: 				Valid from: 	
 Signed by: 				Document nr: 	
 
-
+<br />
 DNAnr	Avg. coverage (x)	Duplicationlevel ()%)	10x (%)	20x (%)	30x (%)
 
 {sample_id}	60.07	3.6	99.6	98.8	94.8
                     
-
+<br />
 Number of regions not covered by at least 10x: 					
 1177					
 
-
+<br />
 Sheets:					
 Positions with coverage lower than 10x					
 Average coverage of all regions in bed					
@@ -99,10 +99,10 @@ EDS
 #### Positions with coverage lower than 10x
 Mosdepth coverage analysis				
                 
-
+<br />
 Sample: {sample_id}				
 
-
+<br />
 Gene regions with coverage lower than 10x.				
 Region Name	Chr	Start	Stop	Mean Coverage
 
@@ -117,10 +117,10 @@ OR4F5_NM_001005484.2_[3]	chr1	69442	69444	7
 #### Average coverage of all regions in bed
 Average coverage and coverage breadth per gene					
 
-
+<br />
 Sample: {sample_id}					
 
-
+<br />
 Averge coverage and coverage breadth of each gene in exon-bedfile					
 Gene	Transcript	Avg coverage	10x	20x	30x
 
@@ -137,10 +137,10 @@ A3GALT2	NM_001080438.1	35,55	100	100	78,4
 #### EBS
 Coverage analysis per gene for EBS gene panel					
 
-
+<br />
 Sample: {sample_id}					
 
-
+<br />
 Average coverage and coverage breadth of genes in EBS gene panel.					
 Gene	Transcript	Avg coverage	10x	20x	30x
 
@@ -148,9 +148,9 @@ CAST	NM_001750.7	63,2	100	100	99,6
 
 CD151	NM_004357.5	43,89	100	100	98,2
 
-
+<br />
 Regions of exons that are covered below 10x.					
 Gene name_transcript_exon	Chr	Start	Stop	Coverage (x)	
 COL7A1_NM_000094.4_[109]	chr3	48567605	48567606	10	
 
-
+<br />

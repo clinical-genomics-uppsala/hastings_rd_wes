@@ -52,3 +52,5 @@ Hastings produces a MultiQC-report for the entire sequencing run to enable easie
 
 ## Coverage for genes and gene panels.
 Results written to an excel spreadsheet with a tab for each gene panel.
+
+<br />
