@@ -1,8 +1,6 @@
 
 # Mapping reads and BAM file processing
-See the [alignment hydra-genetics module](https://hydra-genetics-alignment.readthedocs.io/en/latest/) or [parabricks hydra-genetics module](https://github.com/hydra-genetics/parabricks) documentation for more details on the softwares. Default hydra-genetics settings/resources are used if no configuration is specified.
-
-When GPUs are available Hastings can be configured to use [Nvidia's Parabricks](https://www.nvidia.com/en-gb/clara/parabricks/) for read mapping using [fq2bam](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_fq2bam.html#man-fq2bam) tool. This tool performs read mapping with a GPU-accelerated version of BWA-mem, sorting and marking of duplicates.
+When GPUs are available Hastings can be configured to use [Nvidia's Parabricks](https://www.nvidia.com/en-gb/clara/parabricks/) for read mapping using [fq2bam](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_fq2bam.html#man-fq2bam) tool. This tool performs read mapping with a GPU-accelerated version of BWA-mem, sorting and marking of duplicates. See the [alignment hydra-genetics module](https://hydra-genetics-alignment.readthedocs.io/en/latest/) or [parabricks hydra-genetics module](https://github.com/hydra-genetics/parabricks) documentation for more details on the softwares. Default hydra-genetics settings/resources are used if no configuration is specified.
 
 When only CPUs are available Hastings can be configured perform the read mapping, sorting and duplicate marking on CPU.
 
@@ -14,14 +12,12 @@ When only CPUs are available Hastings can be configured perform the read mapping
 See the [snv_indels hydra-genetics module](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/) or [parabricks hydra-genetics module](https://github.com/hydra-genetics/parabricks) documentation for more details on the softwares for variant calling, [annotation hydra-genetics module](https://hydra-genetics-annotation.readthedocs.io/en/latest/) for annotation, [filtering hydra-genetics module](https://hydra-genetics-filtering.readthedocs.io/en/latest/) for filtering and  [cnv hydra-genetics module](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/) for more details on the softwares for cnv calling. Default hydra-genetics settings/resources are used if no configuration is specified.
 
 ## SNV and INDELs
-
 - [Parabricks DeepVariant](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_deepvariant.html#man-deepvariant) when run on GPU or [Google's DeepVariant](https://github.com/google/deepvariant) when run on CPU
 - [Glnexus](https://github.com/dnanexus-rnd/GLnexus)
     - Used to create a multisample VCF file analysed with Peddy.
     - Used for the creation of trio VCF files used for UPD analysis
 
 ## CNVs
-
 - CNV callers
     - [Exome depth](https://github.com/vplagnol/ExomeDepth)
 
