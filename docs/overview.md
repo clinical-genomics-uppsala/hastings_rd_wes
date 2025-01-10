@@ -1,4 +1,5 @@
-## Mapping reads and BAM file processing
+
+# Mapping reads and BAM file processing
 
 When GPUs are available Hastings can be configured to use [Nvidia's Parabricks](https://www.nvidia.com/en-gb/clara/parabricks/) for read mapping using [fq2bam](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_fq2bam.html#man-fq2bam) tool. This tool performs read mapping with a GPU-accelerated version of BWA-mem, sorting and marking of duplicates.
 
@@ -8,16 +9,16 @@ When only CPUs are available Hastings can be configured perform the read mapping
 - read sorting [Samtools sort](https://www.htslib.org/doc/samtools-sort.html)
 - marking duplicates with [Picard MarkDuplicates](https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates)
 
-## Variant Calling
+# Variant Calling
 
-### SNV and INDELs
+## SNV and INDELs
 
 - [Parabricks DeepVariant](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_deepvariant.html#man-deepvariant) when run on GPU or [Google's DeepVariant](https://github.com/google/deepvariant) when run on CPU
 - [Glnexus](https://github.com/dnanexus-rnd/GLnexus)
     - Used to create a multisample VCF file analysed with Peddy.
     - Used for the creation of trio VCF files used for UPD analysis
 
-### CNVs
+## CNVs
 
 - CNV callers
     - [Exome depth](https://github.com/vplagnol/ExomeDepth)
@@ -26,13 +27,13 @@ When only CPUs are available Hastings can be configured perform the read mapping
     - [Manta](https://github.com/Illumina/manta)
     - [Tiddit](https://github.com/SciLifeLab/TIDDIT)
 
-### Regions Of Homozygosity
+## Regions Of Homozygosity
 - [AutoMap](https://github.com/mquinodo/AutoMap)
 
-### UniParental Disomy 
+## UniParental Disomy 
 - [upd](https://github.com/bjhall/upd)
 
-## QC
+# QC
 
 Hastings produces a MultiQC-report for the entire sequencing run to enable easier QC tracking. The report starts with a general statistics table showing the most important QC-values followed by additional QC data and diagrams. The entire MultiQC html-file is interactive and you can filter, highlight, hide or export data using the ToolBox at the right edge of the report.
 
