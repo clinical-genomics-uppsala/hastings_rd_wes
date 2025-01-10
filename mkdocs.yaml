@@ -5,8 +5,8 @@ nav:
     - Pipeline overview: overview.md
     - Result files: results_files.md
   - Setting up and Running the pipeline:
-    - Setup: setup.md
-    - Running: running.md
+    - Setup and configuration: setup.md
+    - Running pipeline: running.md
   - Pipeline specific rules:
     - Rule list: softwares.md
   - Project Info:

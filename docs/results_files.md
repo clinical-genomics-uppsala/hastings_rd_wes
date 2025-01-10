@@ -108,7 +108,7 @@ Averge coverage and coverage breadth of each gene in exon-bedfile
 Gene	Transcript	Avg coverage	10x	20x	30x
 A1BG	NM_130786.4	40,6	100	96,6	80,7
 A1CF	NM_014576.4	59,28	100	100	97,6
-A2M	NM_000014.6	62,82	100	100	99,7
+A2M	    NM_000014.6	62,82	100	100	99,7
 A2ML1	NM_144670.6	50,66	100	100	98,8
 A3GALT2	NM_001080438.1	35,55	100	100	78,4
 
