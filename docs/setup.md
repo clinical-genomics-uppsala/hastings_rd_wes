@@ -96,23 +96,34 @@ The `samples.tsv` and `units.tsv` are input files that must be generated before 
 
 
 ## Coverage analysis
-Too get coverage analysis for gene panels three things are needed 1) a file with a list of gene panels and 2) a list of which genes that is in the panel and 3) a bed file with information about the genes.
+Too get coverage analysis for gene panels three things are needed 
+  1) a file with a list of gene panels and 
+  2) a list of which genes that is in the panel and 
+  3) a bed file with information about the genes.
 
 ### Gene panels
 There are several gene panels available at [Poirot's config git](https://github.com/clinical-genomics-uppsala/poirot_config/tree/main/config/gene_panels).
 
 #### 1) example genepanel.list
 BRCA
+
 CADASIL
+
 EBS
+
 EDS
 
 #### 2) example gene panel list BRCA.list
 APC
+
 ATM
+
 BAP1
+
 BMPR1A
+
 BRCA1
+
 BRCA2
 
 ### 3) Bed-file with gene information
@@ -125,5 +136,11 @@ chr1    999863  999975  HES4_NM_021170.4_[1]
 chr1    1013571 1013578 ISG15_NM_005101.4_[1]
 chr1    1013981 1014480 ISG15_NM_005101.4_[2]
 
+| chr1 | 999056 | 999434 	| HES4_NM_021170.4_[4]	|
+| chr1 | 999523 | 999615	| HES4_NM_021170.4_[3]	|
+| chr1 | 999689 | 999789	| HES4_NM_021170.4_[2]	|
+| chr1 | 999863 | 999975	| HES4_NM_021170.4_[1]	|
+| chr1 | 1013571 | 1013578	| ISG15_NM_005101.4_[1]	|
+| chr1 | 1013981 | 1014480	| ISG15_NM_005101.4_[2]	|
 
 <br />
