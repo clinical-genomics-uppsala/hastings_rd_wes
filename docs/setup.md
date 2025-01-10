@@ -129,6 +129,7 @@ BRCA2
 ### 3) Bed-file with gene information
 
 #### Example bed-file
+|-|-|-|-|
 | chr1 | 999056   | 999434 	| HES4_NM_021170.4_[4]	|
 
 | chr1 | 999523   | 999615	| HES4_NM_021170.4_[3]	|
