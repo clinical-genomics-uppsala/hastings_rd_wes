@@ -20,17 +20,17 @@ See the [snv_indels hydra-genetics module](https://hydra-genetics-snv-indels.rea
 
 ### CNVs
 - CNV callers
-    - [Exome depth](https://github.com/vplagnol/ExomeDepth)
+    - [Exome depth](https://github.com/vplagnol/ExomeDepth) and hydra genetics documentation [ExomeDepth](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#exomedepth)
 
 - Structural variant callers
-    - [Manta](https://github.com/Illumina/manta)
-    - [Tiddit](https://github.com/SciLifeLab/TIDDIT)
+    - [Manta](https://github.com/Illumina/manta) and hydra genetics documentation [Manta](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#manta)
+    - [Tiddit](https://github.com/SciLifeLab/TIDDIT) and hydra genetics documentation [tiddit](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#tiddit)
 
 ### Regions Of Homozygosity
-- [AutoMap](https://github.com/mquinodo/AutoMap)
+- [AutoMap](https://github.com/mquinodo/AutoMap) and hydra genetics documentation [AutoMap](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#automap)
 
 ### UniParental Disomy 
-- [upd](https://github.com/bjhall/upd)
+- [upd](https://github.com/bjhall/upd) and hydra genetics documentation [upd](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#upd)
 
 ## QC
 See the [qc hydra-genetics module](https://hydra-genetics-qc.readthedocs.io/en/latest/) documentation for more details on the softwares for the quality control. Default hydra-genetics settings/resources are used if no configuration is specified.
