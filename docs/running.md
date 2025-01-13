@@ -23,7 +23,7 @@
 ## Installation
 A list of releases of Hastings can be found at: [Releases](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/releases).
 
-### Clone the Hasting git repo
+### Clone the Hastings git repo
 We recommend that the repository is cloned to your working directory. 
 ```bash
 # Set up a working directory path

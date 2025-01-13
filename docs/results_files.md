@@ -66,7 +66,7 @@ The general statistics table are ordered based on the sample order in Illumina `
 ### Example of some data from tabs in {sample_id}.coverage_analysis.xlsx
 #### Overview
 {sample_id}					
-Bed-file from UCSC: efseq_select_mane_20230828.bed					
+Bed-file from UCSC: refseq_select_mane_20230828.bed					
 
 <br />
 Processing date: January 05, 2025					
