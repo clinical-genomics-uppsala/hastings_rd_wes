@@ -3,7 +3,6 @@ nav:
   - Overview:
     - Introduction: index.md
     - Pipeline overview: overview.md
-    - Pipeline step by step: steps.md
     - Result files: results_files.md
   - Setting up and Running the pipeline:
     - Setup and configuration: setup.md
