@@ -19,6 +19,7 @@ modules:
   parabricks: "v1.1.0"
   prealignment: "v1.2.0"
   qc: "v0.4.1"
+  references: "e71ee62"
   snv_indels: "v1.0.0"
 
 reference:
