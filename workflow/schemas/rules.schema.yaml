@@ -62,8 +62,7 @@ properties:
           out:
             type: string
             description: excel file with tabs for each genepanel with coverage analysis for each gene
-
-            
+        
   export_qc_xlsx_report:
     type: object
     description: Input and output files for export_qc_xlsx_report
