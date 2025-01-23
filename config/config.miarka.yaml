@@ -2,7 +2,7 @@
 
 REFERENCE_DATA: ""
 
-resources: "config/resources.yaml"
+resources: "config/resources.miarka.yaml"
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 
