@@ -66,7 +66,7 @@ spring:
   mem_mb: 49152
   mem_per_cpu: 6144
   threads: 8
-  partition: "core_bkup"
+  partition: "core"
 
 vep:
   threads: 4
