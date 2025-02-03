@@ -58,7 +58,7 @@ create_cov_excel:
   covLimits: "10 20 30"
 
 deepvariant:
-  container: "docker://google/deepvariant:1.4.0" 
+  container: "docker://google/deepvariant:1.6.1" 
   bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
@@ -123,12 +123,12 @@ multiqc:
         - "qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"
 
 pbrun_deepvariant:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
-  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng \
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
+  extra: "--use-wes-model --mode shortread \
    --disable-use-window-selector-model --gvcf " ## disable window selector model for consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
   extra: ""
 
 peddy:

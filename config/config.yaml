@@ -60,7 +60,7 @@ create_cov_excel:
   covLimits: "10 20 30"
 
 deepvariant:
-  container: "docker://google/deepvariant:1.4.0" 
+  container: "docker://google/deepvariant:1.6.1" 
   bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
@@ -71,8 +71,6 @@ exomedepth_call:
   exonsfile: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
   genesfile: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
   genome_version: "hg38"
-  male_reference: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male.Rdata" 
-  female_reference: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female.Rdata"
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"

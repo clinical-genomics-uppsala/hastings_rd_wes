@@ -77,7 +77,7 @@ pip install -r requirements.txt
 pipeline_path=/path/to/pipeline
 
 snakemake  --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile --prioritize prealignment_fastp_pe \
- -p  --configfile config/config.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu
+ -p  --configfiles config/config.yaml config/config_exomedepth_nextseq.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu
 
 ```
 
