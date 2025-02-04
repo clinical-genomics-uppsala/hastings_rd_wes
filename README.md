@@ -1,7 +1,15 @@
+
+
+
+
+
 # :snake: hydra-genetics/hastings_rd_wes
 
-#### Whole exomes sequencing hg38 hydra pipeline for rare diseases
+### Whole exomes sequencing hg38 hydra pipeline for rare diseases
 
+### Documentation https://hastings-rd-wes.readthedocs.io
+
+## Gone through different tests
 ![Lint](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/lint.yaml/badge.svg?branch=develop)
 ![Snakefmt](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/snakefmt.yaml/badge.svg?branch=develop)
 ![snakemake dry run](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/actions/workflows/snakemake-dry-run.yaml/badge.svg?branch=develop)
