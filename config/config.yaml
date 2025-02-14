@@ -23,7 +23,7 @@ modules:
   snv_indels: "v1.0.0"
 
 reference:
-  coverage_bed: "/beegfs-storage/data/ref_data/refseq/refseq_select_mane_20230828.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
+  coverage_bed: "/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed"
   design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
   design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
   fasta: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
