@@ -71,8 +71,8 @@ with gzip.open(covRegionsFile, 'rt') as regionsfile:
         line = lline.strip().split('\t')
         length = int(line[2])-int(line[1])
         gene = line[3].split("_")[0]
-        exon = line[3].split("_")[3]
-        transcript = "NM_"+line[3].split("_")[2]
+        transcript = '_'.join(line[3].split('_')[1:-1])
+        exon = line[-1].split("_")[-1]
         covRow = [gene, transcript, exon, line[4], length]
         tableLinesCov_unsorted.append(covRow)
         bedfile.append(line[0:4])

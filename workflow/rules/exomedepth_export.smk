@@ -8,8 +8,8 @@ rule exomedepth_export:
     input:
         exon="cnv_sv/exomedepth_call/{sample}_{type}.RData",
     output:
-        aed="cnv_sv/exomedepth_call/{sample}_{type}.aed",
-        nexus_sv="cnv_sv/exomedepth_call/{sample}_{type}_SV.txt",
+        aed=temp("cnv_sv/exomedepth_call/{sample}_{type}.aed"),
+        nexus_sv=temp("cnv_sv/exomedepth_call/{sample}_{type}_SV.txt"),
     params:
         extra=config.get("exomedepth_export", {}).get("extra", ""),
     log:

@@ -40,7 +40,7 @@ module load slurm-drmaa
 module load singularity/3.11.0
 
 python3.9 -m venv venv
-source venv/bin/acfivate
+source venv/bin/activate
 pip install -r requirements.txt
 
 pipeline_path=/path/to/pipeline
