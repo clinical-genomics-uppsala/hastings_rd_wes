@@ -30,5 +30,5 @@ mv samples_with_info.tsv config/samples.tsv
 cp units.tsv config/units.tsv
 
 snakemake  --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile --prioritize prealignment_fastp_pe \
- -p  --configfile config/config.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu --notemp
+ -p  --configfiles config/config.yaml config_exomedepth_nextseq.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu --notemp
 

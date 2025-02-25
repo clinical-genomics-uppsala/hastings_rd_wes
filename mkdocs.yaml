@@ -1,42 +1,41 @@
-site_name: Hastings
+site_name: hastings_rd_wes
 nav:
   - Overview:
     - Introduction: index.md
-    - Result files: result_files.md
-    - Running the pipeline: running.md
-    - Step by step: steps.md
+    - Pipeline overview: overview.md
+    - Result files: results_files.md
+  - Setting up and Running the pipeline:
+    - Setup and configuration: setup.md
+    - Running pipeline: running.md
   - Pipeline specific rules:
     - Rule list: softwares.md
-  - References workflow:
-    - Running and output: running_ref.md
   - Project Info:
-    - Changelog: changelog.md
-    - Credits: credits.md
-    - Frequently Asked Questions: faq.md
     - License: license.md
+  
 
-theme: readthedocs
+theme:
+    name: readthedocs
 extra_css: [extra.css]
 markdown_extensions:
   - abbr
+  - admonition
   - attr_list
-  - pymdownx.details
+  - mdx_spanner
+  - pymdownx.blocks.details
   - pymdownx.snippets:
       auto_append:
         - includes/abbreviations.md
-      base_path: ["docs/", "workflow/rules/"]
+      base_path: "docs/"
       url_download: "True"
-  - mdx_spanner
-  - admonition
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
-  - pymdownx.blocks.details
-
+  - toc:
+      permalink: True
 
 plugins:
-  - search
   - include-markdown
+  - search
   - yaml-schema:
       yaml_files:
         - file: "workflow/schemas/config.schema.yaml"
