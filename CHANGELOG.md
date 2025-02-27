@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.5.1...v0.6.0) (2025-02-25)
+
+
+### Features
+
+* add exomedepth text file output ([1632012](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/16320127ab5368940b8356182033c8268032c713))
+* handle refseq transcript ids that don't start with NM ([66e85f9](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/66e85f96c5b106db8f7926104d780a59e0102a83))
+* update coverage bed file with RMRP gene ([1be6585](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/1be65850dd1ff4cfb98ccf490e94afed030f21e4))
+* update deepvariant and create exomedepth reference configs ([579a831](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/579a831a104683fda55a4a5786d6566f12915e97))
+
+
+### Bug Fixes
+
+* add reference module to twist comp config ([2d890fa](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/2d890fa9404ee429a783f038685d86bfd69f34ee))
+* update profile ([3db3e60](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/3db3e609be63b04b5597625b01f04e263eca50e9))
+
+
+### Documentation
+
+* fix typo in README ([0662e53](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/0662e53ee766bc499421a633bf0b004391a0fcca))
+* Update README.md ([370f885](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/370f885c4e41d7ec601a7e47c62ae2d8f24134ed))
+
 ### [0.5.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.5.0...v0.5.1) (2024-10-14)
 
 
