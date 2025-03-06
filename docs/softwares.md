@@ -1,7 +1,7 @@
 # Rules specific to Hastings
 
 ## create_cov_excel
-Introduction to create_cov_excel
+Python script that creates a gene coverage summary excel file
 
 ### :snake: Rule
 
@@ -23,4 +23,23 @@ Introduction to create_cov_excel
 
 ---
 
-<br />
+## [csv2vcf]
+Convert exomedepth calls in csv format to compressed VCF
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__csv2vcf__csv2vcf#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__csv2vcf__csv2vcf#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__csv2vcf#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__csv2vcf#

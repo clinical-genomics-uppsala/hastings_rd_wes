@@ -3,6 +3,30 @@ description: snakemake rule input and output files description file
 type: object
 properties:
 
+  csv2vcf:
+    type: object
+    description: input and output parameters for csv2vcf
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          csv:
+            type: string
+            description: Exomdepth calls in csv format
+          ref:
+            type: string
+            description: reference geneome fasta file
+
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: Exomedepth calls in compressed VCF
+
+
   exomedepth_export:
     type: object
     description: input and output files for exomedepth export
