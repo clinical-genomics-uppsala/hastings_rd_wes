@@ -2,11 +2,6 @@
 
 set -euo pipefail
 
-if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 <CSV_FILE> <SAMPLE_ID> <OUTPUT_VCF_FILE> <REFERENCE_GENOME>"
-    exit 1
-fi
-
 exec 2> "${snakemake_log[0]}" 
 
 # Input arguments
@@ -63,4 +58,7 @@ echo "Conversion complete. Data appended to $VCF_FILE"
 
 echo "sorting and compressing vcf file"
 bcftools sort $VCF_FILE -O z -o $SORTED_VCF_FILE
+
+# clean up
+rm $VCF_FILE
 
