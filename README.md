@@ -1,4 +1,4 @@
-# Hastings RD WES
+# Hastings RD WEgitS
 Clinical Genomics Uppsala rare disease pipeline for Twist2.0 whole exome sequence data.
 
 <p align="center">

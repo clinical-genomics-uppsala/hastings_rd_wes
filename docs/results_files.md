@@ -14,7 +14,9 @@ multiqc_DNA.html| html  | Aggregated QC values for entire sequence run, open in 
 {sample}/{sample}_snv_indels.vcf.gz | vcf.gz | Compressed deepvariant VCF file  |
 {sample}/{sample}_snv_indels.vcf.gz.tbi | tbi | Index for the compressed deepvariant VCF file  |
 {sample}/{sample}_exomedepth.aed | aed | Exome depth calls in aed format |
-{sample}/{sample}_exomedepth_SV.txt | txt | Exome depth calls |
+{sample}/{sample}_exomedepth.txt | txt | Exome depth calls in nexus tsv format|
+{sample}/{sample}_exomedepth_SV.txt | txt | Exome depth calls in nexus SV format|
+{sample}/{sample}_exomedepth.vcf.gz | vcf.gz | Exome depth calls in compressed VCF |
 {sample}/{sample}.upd_regions.bed | bed | Bed file of UPD regions called from a Trio VCF. Sample in this case is the sample id of the proband in the trio.  |
 {sample}/{sample}.coverage_analysis.xlsx | excel  | Excel file summarising the depth of covearage in genes in various gene panels |
 {sample}/automap/{sample}.HomRegions.tsv | tsv |  Regions of homozygosity  detected by AutoMap |
