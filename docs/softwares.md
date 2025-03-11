@@ -24,7 +24,7 @@ Python script that creates a gene coverage summary excel file
 ---
 
 ## [tsv2vcf]
-Convert exomedepth calls in csv format to compressed VCF
+Convert exomedepth calls in tsv format to VCF
 
 ### :snake: Rule
 

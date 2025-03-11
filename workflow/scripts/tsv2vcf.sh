@@ -81,7 +81,7 @@ tail -n +2 $TSV_FILE | sed 's/"//g' | awk -F'\t' '
 
 echo "Conversion complete. Data appended to $VCF_FILE"
 
-echo "sorting and compressing vcf file"
+echo "sorting vcf file"
 bcftools sort $VCF_FILE -O z -o $SORTED_VCF_FILE
 
 # clean up
