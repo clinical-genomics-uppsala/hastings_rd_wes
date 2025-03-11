@@ -3,9 +3,9 @@ description: snakemake rule input and output files description file
 type: object
 properties:
 
-  csv2vcf:
+  tsv2vcf:
     type: object
-    description: input and output parameters for csv2vcf
+    description: input and output parameters for tsv2vcf
     properties:
       input:
         type: object

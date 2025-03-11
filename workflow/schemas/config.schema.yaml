@@ -29,9 +29,9 @@ properties:
       - fasta
       - sites
   
-  csv2vcf:
+  tsv2vcf:
     type: object
-    description: parameters for csv2vcf
+    description: parameters for tsv2vcf
     properties:
       benchmark_repeats:
         type: integer

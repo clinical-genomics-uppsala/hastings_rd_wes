@@ -22,9 +22,9 @@ properties:
         type: string
         description: default partition to use on the cluser for a rule
   
-  csv2vcf:
+  tsv2vcf:
     type: object
-    description: resource definitions for csv2vcf
+    description: resource definitions for tsv2vcf
     properties:
       mem_mb:
         type: integer
