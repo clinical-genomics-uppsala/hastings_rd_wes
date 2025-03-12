@@ -67,7 +67,7 @@ tail -n +2 $TSV_FILE | sed 's/"//g' | awk -F'\t' '
     if ($12 > 0.5 && $12 < 1.5) { gt = "0/1" }
     else { gt = "1/1" }
 
-    # Calculate CN = 2^(READSRATIO)
+    # Calculate CN = 2*(READSRATIO)
     cn_value = 2*$12
 
     # Round CN to nearest integer
