@@ -7,7 +7,7 @@ exec 2> "${snakemake_log[0]}"
 # Input arguments
 TSV_FILE="${snakemake_input[csv]}"
 SAMPLE_ID="${snakemake_wildcards[sample]}_${snakemake_wildcards[type]}"
-VCF_FILE="cnv_sv/exomedepth_call/${SAMPLE_ID}.vcf"
+VCF_FILE="cnv_sv/exomedepth_call/${SAMPLE_ID}.unsorted.vcf"
 SORTED_VCF_FILE="${snakemake_output[vcf]}"
 REF_GENOME="${snakemake_input[ref]}"
 
@@ -71,7 +71,7 @@ tail -n +2 $TSV_FILE | sed 's/"//g' | awk -F'\t' '
     cn_value = 2*$12
 
     # Round CN to nearest integer
-    rounded_cn = (cn_value > 0) ? sprintf("%.0f", cn_value) : "."
+    rounded_cn = (cn_value >= 0) ? sprintf("%.0f", cn_value) : "."
 
     info = "END="$6";SVLEN="($6-$5+1)";EXONS="$4";READSEXP="$10";READSOBS="$11";READSRATIO="$12";BF="$9";SVTYPE="svtype
     if ($9 < 0) { $9 = 0 }
@@ -82,7 +82,7 @@ tail -n +2 $TSV_FILE | sed 's/"//g' | awk -F'\t' '
 echo "Conversion complete. Data appended to $VCF_FILE"
 
 echo "sorting vcf file"
-bcftools sort $VCF_FILE -O z -o $SORTED_VCF_FILE
+bcftools sort $VCF_FILE -O v -o $SORTED_VCF_FILE
 
 # clean up
 rm $VCF_FILE
