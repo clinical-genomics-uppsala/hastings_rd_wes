@@ -5,6 +5,7 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/tsv2vcf.smk"
 include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
 include: "rules/exomedepth_export.smk"

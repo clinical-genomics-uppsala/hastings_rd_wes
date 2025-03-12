@@ -25,8 +25,6 @@ rule vcf_addRef:
         time=config.get("vcf_addRef", {}).get("time", config["default_resources"]["time"]),
     container:
         config.get("vcf_addRef", {}).get("container", config["default_container"])
-    conda:
-        "../envs/vcf_addRef.yaml"
     message:
         "{rule}: Add reference to the header of the deepvariant vcf: {input.vcf}"
     script:
