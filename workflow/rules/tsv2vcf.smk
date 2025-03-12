@@ -6,7 +6,7 @@ __license__ = "GPL-3"
 
 rule tsv2vcf:
     input:
-        csv="cnv_sv/exomedepth_call/{sample}_{type}.txt",
+        tsv="cnv_sv/exomedepth_call/{sample}_{type}.txt",
         ref=config["reference"]["fasta"],
     output:
         vcf="cnv_sv/exomedepth_call/{sample}_{type}.vcf",

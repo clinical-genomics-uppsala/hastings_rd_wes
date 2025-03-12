@@ -5,7 +5,7 @@ set -euo pipefail
 exec 2> "${snakemake_log[0]}" 
 
 # Input arguments
-TSV_FILE="${snakemake_input[csv]}"
+TSV_FILE="${snakemake_input[tsv]}"
 SAMPLE_ID="${snakemake_wildcards[sample]}_${snakemake_wildcards[type]}"
 VCF_FILE="cnv_sv/exomedepth_call/${SAMPLE_ID}.unsorted.vcf"
 SORTED_VCF_FILE="${snakemake_output[vcf]}"

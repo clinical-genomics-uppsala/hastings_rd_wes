@@ -11,7 +11,7 @@ properties:
         type: object
         description: list of inputs
         properties:
-          csv:
+          tsv:
             type: string
             description: Exomdepth calls in csv format
           ref:
