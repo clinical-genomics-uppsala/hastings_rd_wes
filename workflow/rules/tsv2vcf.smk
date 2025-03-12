@@ -16,8 +16,7 @@ rule tsv2vcf:
         "cnv_sv/exomedepth_call/{sample}_{type}.vcf.gz.log",
     benchmark:
         repeat(
-            "cnv_sv/exomedepth_call/{sample}_{type}.vcf.gz.benchmark.tsv",
-            config.get("tsv2vcf", {}).get("benchmark_repeats", 1)
+            "cnv_sv/exomedepth_call/{sample}_{type}.vcf.gz.benchmark.tsv", config.get("tsv2vcf", {}).get("benchmark_repeats", 1)
         )
     threads: config.get("tsv2vcf", {}).get("threads", config["default_resources"]["threads"])
     resources:
@@ -29,6 +28,6 @@ rule tsv2vcf:
     container:
         config.get("tsv2vcf", {}).get("container", config["default_container"])
     message:
-        "{rule}: convert {input.csv} to VCF"
+        "{rule}: convert {input.tsv} to VCF"
     script:
         "../scripts/tsv2vcf.sh"
