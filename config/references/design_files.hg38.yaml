@@ -16,6 +16,11 @@
       path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
       type: file
       url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
+    padded_regions:
+      checksum: 1e4a414eac6c0da831afa475d97e9aae
+      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+      type: file
+      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
     gene_panels:
       checksum: 058349ddd08ef53a0179e0ddafa94636
       path: hastings/genepanels.list
@@ -232,9 +237,5 @@
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Tyroideahormonresistens_v1.list
 
-padded_regions:
-  checksum: 1e4a414eac6c0da831afa475d97e9aae
-  path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
-  type: file
-  url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+  
 
