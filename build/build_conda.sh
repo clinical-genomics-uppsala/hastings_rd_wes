@@ -49,7 +49,7 @@ tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRA
 
 # Download containers
 conda activate ${PIPELINE_NAME}_${TAG_OR_BRANCH}
-hydra-genetics prepare-environment create-singularity-files -c config/config.yaml -o apptainer_cache
+hydra-genetics prepare-environment create-singularity-files -c config/config.yaml -o singularity_cache
 
 # Download references
 for reference_config in "$@"
