@@ -22,7 +22,7 @@
       type: file
       url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
     gene_panels:
-      checksum: 058349ddd08ef53a0179e0ddafa94636
+      checksum: 4292efd76a22daeabfcd8fde09245ceb
       path: hastings/genepanels.list
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list
