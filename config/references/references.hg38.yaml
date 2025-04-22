@@ -45,28 +45,6 @@
       type: file
       url: file:/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa
 
-  exomedepth:
-    exonsfile:
-      checksum: f3ed2cb6706065422ef72d307d82452f
-      path: hastings/exons_GRCh38_ensembl109.txt
-      type: file
-      url: file:/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt
-    genesfile:
-      checksum: a72c9c1608e07cd8d3a1bfd1f65106ee
-      path: hastings/genes_GRCh38_ensembl109.txt
-      type: file
-      url: file:/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt
-    male_reference:
-      checksum: d94156c07d1d9691baadadaeaefb5e5c
-      path: hastings/Twist2.0_hg38_RefCount_male.Rdata
-      type: file
-      url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male.Rdata
-    female_reference:
-      checksum: 6e5f76df1a77b895e0b9292930ddc597
-      path: hastings/Twist2.0_hg38_RefCount_female.Rdata
-      type: file
-      url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female.Rdata
-
   vep:
     vep_cache:
       compressed_checksum: a15e82b4ae89fcadee62b9c95c4ccb41

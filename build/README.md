@@ -1,3 +1,5 @@
+#Building version v0.6.0
 
-TAG_OR_BRANCH="develop" bash build/build_conda.sh
-
+```bash
+TAG_OR_BRANCH="v0.6.0" PIPELINE_NAME="hastings_rd_wes" PIPELINE_GITHUB_REPO="https://github.com/clinical-genomics-uppsala/hastings_rd_wes.git" bash build/build_conda.sh config/references/design_files.hg38.yaml config/references/references.hg38.yaml config/references/exomdepth_files.hg38.yaml
+```

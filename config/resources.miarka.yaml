@@ -36,18 +36,18 @@ mosdepth_bed:
   threads: 4
 
 pbrun_fq2bam:
-  gres: "--gres=gres:gpu:2"
-  mem_mb: 240000
+  gres: "--gres=gres:gpu:l40s:3"
+  mem_mb: 160000
   mem_per_cpu: 5000
   partition: "gpu"
-  threads: 48
+  threads: 32
 
 pbrun_deepvariant:
-  gres: "--gres=gres:gpu:4"
-  mem_mb: 480000
+  gres: "--gres=gres:gpu:l40s:3"
+  mem_mb: 160000
   mem_per_cpu: 5000
   partition: "gpu"
-  threads: 96
+  threads: 32
 
 peddy:
   threads: 8
