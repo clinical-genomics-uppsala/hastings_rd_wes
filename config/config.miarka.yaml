@@ -10,7 +10,7 @@ units: config/units.tsv
 
 output: config/output_list.json
 
-default_container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__common_1.11.1.sif
+default_container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__common_1.11.1.sif
 
 modules:
   alignment: v0.6.0
@@ -44,7 +44,7 @@ snp_caller: deepvariant_cpu
 
 automap:
   build: hg38
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__automap_1.2.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__automap_1.2.sif
   extra: --DP 10 --minsize 3 --chrX
   outdir: cnv_sv/automap
 
@@ -55,7 +55,7 @@ bwa_mem:
   amb: '{{REFERENCE_DATA}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb'
   ann: '{{REFERENCE_DATA}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann'
   bwt: '{{REFERENCE_DATA}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt'
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__bwa_0.7.15.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__bwa_0.7.15.sif
   extra: -K 100000000
   pac: '{{REFERENCE_DATA}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac'
   sa: '{{REFERENCE_DATA}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa'
@@ -65,13 +65,13 @@ create_cov_excel:
 
 deepvariant:
   bed: '{{REFERENCE_DATA}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed'
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/google__deepvariant_1.4.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/google__deepvariant_1.4.0.sif
   model_type: WES
   output_gvcf: true
 
 exomedepth_call:
   bedfile: '{{REFERENCE_DATA}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed'
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__exomedepth_1.1.15.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__exomedepth_1.1.15.sif
   exonsfile: '{{REFERENCE_DATA}}/exons_GRCh38_ensembl109.txt'
   female_reference: '{{REFERENCE_DATA}}/Twist2.0_hg38_RefCount_female.Rdata'
   genesfile: '{{REFERENCE_DATA}}/genes_GRCh38_ensembl109.txt'
@@ -79,30 +79,30 @@ exomedepth_call:
   male_reference: '{{REFERENCE_DATA}}/Twist2.0_hg38_RefCount_male.Rdata'
 
 exomedepth_export:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__exomedepth_1.1.15.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__exomedepth_1.1.15.sif
 
 fastp_pe:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__fastp_0.20.1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__fastp_0.20.1.sif
   extra: --trim_poly_g --qualified_quality_phred 15 --unqualified_percent_limit 40
     --n_base_limit 5 --length_required 15
 
 fastqc:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__fastqc_0.11.9.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__fastqc_0.11.9.sif
 
 glnexus_peddy:
   configfile: DeepVariantWES
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif
 
 glnexus_trio:
   configfile: DeepVariantWES
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif
 
 mosdepth_bed:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__mosdepth_0.3.2.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__mosdepth_0.3.2.sif
   extra: ''
 
 multiqc:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__multiqc_1.21.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__multiqc_1.21.sif
   reports:
     DNA:
       config: config/multiqc_config_DNA.yaml
@@ -130,57 +130,57 @@ multiqc:
       - qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt
 
 pbrun_deepvariant:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif
   extra: '--use-wes-model --mode shortread --disable-use-window-selector-model --gvcf '
 
 pbrun_fq2bam:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif
   extra: ''
 
 peddy:
   config: config/peddy_mqc.yaml
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__peddy_0.4.8.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__peddy_0.4.8.sif
   extra: '--sites hg38 '
 
 picard_collect_alignment_summary_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_collect_duplication_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_collect_gc_bias_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_collect_hs_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_collect_insert_size_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_collect_multiple_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_collect_wgs_metrics:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.0.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.0.sif
 
 picard_mark_duplicates:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__picard_2.25.4.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__picard_2.25.4.sif
 
 sample_order_for_multiqc:
   sample_sheet: config/SampleSheet.csv
 
 spring:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__spring_1.1.1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__spring_1.1.1.sif
 
 upd:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__upd_0.1.1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__upd_0.1.1.sif
   extra: '--vep '
 
 vep_trio:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/ensemblorg__ensembl-vep_release_110.1.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/ensemblorg__ensembl-vep_release_110.1.sif
   extra: '--assembly GRCh38 --check_existing --pick --max_af '
   vep_cache: '{{REFERENCE_DATA}}/VEP/'
 
 vt_decompose:
-  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/sinularity_cache/hydragenetics__vt_2015.11.10.sif
+  container: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes/v0.6.0/apptainer_cache/hydragenetics__vt_2015.11.10.sif
 
