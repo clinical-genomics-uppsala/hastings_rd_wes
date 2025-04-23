@@ -44,7 +44,7 @@
       path: hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa
       type: file
       url: file:/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa
-
+ 
   vep:
     vep_cache:
       compressed_checksum: a15e82b4ae89fcadee62b9c95c4ccb41
