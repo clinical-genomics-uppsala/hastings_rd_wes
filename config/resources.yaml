@@ -12,7 +12,13 @@ bwa_mem:
   mem_per_cpu: 6144
   threads: 8
 
-deepmosaic:
+deepmosaic_draw:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
+deepmosaic_predict:
   mem_mb: 61440
   mem_per_cpu: 6144
   threads: 10
@@ -24,7 +30,7 @@ deepvariant:
   threads: 10
   time: "12:00:00"
 
-deepsomatic:
+deepsomatic_t_only:
   mem_mb: 61440
   mem_per_cpu: 6144
   threads: 10
