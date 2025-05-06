@@ -475,7 +475,7 @@ use rule deepvariant from snv_indels as snv_indels_deepvariant with:
         extra=config.get("deepvariant", {}).get("extra", ""),
 
 
-use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic
+use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic_t_only
 
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
