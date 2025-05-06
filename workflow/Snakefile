@@ -172,6 +172,7 @@ use rule bcftools_view from filtering as filtering_bcftools_view_deepsomatic wit
         repeat(
             "snv_indels/bcftools_view/{sample}_{type}.ds.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
 
 
 module misc:
@@ -424,9 +425,6 @@ module snv_indels:
 
 
 use rule * from snv_indels as snv_indels_*
-
-
-snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz
 
 
 use rule bed_split from snv_indels as snv_indels_bed_split with:
