@@ -5,14 +5,26 @@ default_resources:
   time: "12:00:00"
   mem_mb: 6144
   mem_per_cpu: 6144
-  partition: "core"
+  partition: "low_bkup"
 
 bwa_mem:
   mem_mb: 122880
   mem_per_cpu: 6144
   threads: 8
 
+deepmosaic:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
 deepvariant:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
+deepsomatic:
   mem_mb: 61440
   mem_per_cpu: 6144
   threads: 10
@@ -30,6 +42,11 @@ fastqc:
 
 glnexus:
   threads: 20
+
+mosaicforecast:
+  threads: 2
+  mem_mb: 12288
+  mem_per_cpu: 6144
 
 mosdepth_bed:
   mem_mb: 36864
