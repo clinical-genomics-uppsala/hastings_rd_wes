@@ -22,7 +22,7 @@
       type: file
       url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
     gene_panels:
-      checksum: 4292efd76a22daeabfcd8fde09245ceb
+      checksum: 69762e0104f506a8ac5054755af0cefa
       path: hastings/genepanels.list
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list
@@ -101,6 +101,11 @@
       path: hastings/HHT_v1.list
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/HHT_v1.list
+    Hydrops_fetalis:
+      checksum: 76a14865513b5a66cbd747753a18c34c
+      path: hastings/Hydrops_fetalis.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hydrops_fetalis.list
     Hyperaldosteronism_v1:
       checksum: e1a53d4c5659fa766fdd0815b9447fba
       path: hastings/Hyperaldosteronism_v1.list
