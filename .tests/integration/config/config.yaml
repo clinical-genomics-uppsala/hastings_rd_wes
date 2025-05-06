@@ -11,24 +11,26 @@ default_container: "docker://hydragenetics/common:1.11.1"
 
 modules:
   alignment: "v0.6.0"
-  annotation: "v0.3.0"
-  compression: "v2.0.0"
-  cnv_sv: "v0.4.1"
-  filtering: "v0.2.0"
+  annotation: "v1.1.0"
+  compression: "v2.0.0" 
+  cnv_sv: "v0.8.0"
+  filtering: "v1.1.0"
   misc: "v0.2.0"
-  parabricks: "v1.1.0"
-  prealignment: "v1.1.0"
-  qc: "v0.4.1"
+  parabricks: "v1.2.0"
+  prealignment: "v1.2.0"
+  qc: "v0.5.0"
   references: "e71ee62"
-  snv_indels: "v1.0.0"
+  snv_indels: "3260f5b"
 
 reference:
+  annovar: "reference/annovar"
   coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
   design_bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
   design_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
   fasta: "reference/homo_sapiens.fasta"
   fai: "reference/homo_sapiens.fasta.fai"
   genepanels: "reference/genepanels.list"
+  pon: "reference/pon.vcf.gz"
   sites: "reference/homo_sapiens.known_indels.vcf.gz"
   skip_chrs:
     - chrM
@@ -60,6 +62,12 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+  
 deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
   bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
@@ -94,6 +102,9 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
