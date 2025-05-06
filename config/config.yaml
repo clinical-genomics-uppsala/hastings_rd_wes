@@ -20,15 +20,17 @@ modules:
   prealignment: "v1.2.0"
   qc: "v0.4.1"
   references: "e71ee62"
-  snv_indels: "v1.0.0"
+  snv_indels: "mosaicforecast"
 
 reference:
+  annovar: "/opt/ohpc/pub/annotators/annovar/2025Feb18"
   coverage_bed: "/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed"
   design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
   design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
   fasta: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
   fai: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
   genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
+  pon: "/projects/wp3/nobackup/Workspace/mosaic/1000g_pon.hg38.vcf.gz"
   sites: "/data/ref_data/wp3/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz"
   skip_chrs:
     - chrM
@@ -43,6 +45,9 @@ automap:
   build: "hg38"
   extra: "--DP 10 --minsize 3 --chrX"
   outdir: "cnv_sv/automap"
+
+bcftools_view_deepsomatic:
+  extra: "-f PASS --exclude 'FORMAT/DP<10' --exclude 'FORMAT/GQ<30' " # remove gnomad of some AF threshold? -T ^/projects/wp3/nobackup/Workspace/mosaic/hardregNgnomad_hg38.bed
 
 bcftools_view_deepvariant:
   regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
@@ -59,12 +64,23 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
 deepvariant:
   container: "docker://google/deepvariant:1.6.1" 
   bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
-  
+
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
   bedfile: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed" 
@@ -90,6 +106,9 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"

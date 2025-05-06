@@ -60,7 +60,7 @@ Merged bamfile are sorted by **[samtools sort](http://www.htslib.org/doc/samtool
 Bamfile indexing is performed by **[samtools index](http://www.htslib.org/doc/samtools-index.html)** v1.15.
 
 ---
-## SNV indels
+## SNV and indels
 SNV and indels are called using the [SNV_indels module](https://github.com/hydra-genetics/snv_indels/tree/v0.3.0) and is annotated using the [Annotation module](https://github.com/hydra-genetics/annotation/tree/v0.3.0).
 
 ![dag plot](includes/images/snv_indels.png){: style="height:100%;width:100%"}
@@ -71,15 +71,7 @@ SNV and indels are called using the [SNV_indels module](https://github.com/hydra
 * `Results/{sample}_{sequenceid}/{sample}_{sequenceid}.merged.genome.vcf.gz`
 
 ### SNV calling
-Variants are called using [**GATKs Haplotypecaller** v4.2.2.0](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) per chromosome to speed up the analysis. Haplotypecaller runs twice, once for standard `vcf` and once for `genome.vcf` with the extra parameter `-ERC GVCF`. Both files are then merged using **[bcftools concat](https://samtools.github.io/bcftools/bcftools.html#concat)** v1.15, the AF field is also added to the `INFO` column in the vcf:s using the `fix_af.py` from the snv_indel module.
-
-### Normalizing
-The standard vcf files is then decomposed with **[vt decompose**](https://genome.sph.umich.edu/wiki/Vt#Decompose) followed by [**vt decompose_blocksub**](https://genome.sph.umich.edu/wiki/Vt#Decompose_biallelic_block_substitutions) v2015.11.10. The vcf files are then normalized by [**vt normalize**](https://genome.sph.umich.edu/wiki/Vt#Normalization) v2015.11.10.
-
-### Annotation
-Both the normalized standard VCF files and the genome vcf files are then annotated using **[VEP](https://www.ensembl.org/info/docs/tools/vep/index.html)** v109. Vep is run with the extra parameters `--assembly GRCh38 --check_existing --pick --variant_class --everything`.
-
-See the [annotation hydra-genetics module](https://annotation.readthedocs.io/en/latest/) for additional information.
+Variants are called using [Parabricks DeepVariant](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_deepvariant.html#man-deepvariant) per chromosome to speed up the analysis.
 
 ---
 ## CNV

@@ -28,6 +28,13 @@ See the [snv_indels hydra-genetics module](https://hydra-genetics-snv-indels.rea
 ### UniParental Disomy 
 - [upd](https://github.com/bjhall/upd) and hydra genetics documentation [upd](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#upd)
 
+### Mosaic variants
+- Somatic variant caller to give to the mosaic predictors
+    - [DeepSomatic](https://docs.nvidia.com/clara/parabricks/4.5.0/documentation/tooldocs/man_deepsomatic.html) and hydra genetics documentation [DeepSomatic](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#deepsomatic_t_only)
+- Mosaic variant predictors
+    - [DeepMosaic](https://github.com/shishenyxx/DeepMosaic) and hydra genetics documentation [DeepMosaic](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#deepmosaic)
+    - [MosaicForecast](https://github.com/parklab/MosaicForecast) and hydra genetics documentation [MosaicForecast](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#mosaicforecast)
+
 ## QC
 See the [qc hydra-genetics module](https://hydra-genetics-qc.readthedocs.io/en/latest/) documentation for more details on the softwares for the quality control. Default hydra-genetics settings/resources are used if no configuration is specified.
 
