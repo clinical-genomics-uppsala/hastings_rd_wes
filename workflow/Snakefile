@@ -23,6 +23,7 @@ rule all:
 if config["output"] == "config/output_list.json":
 
     ruleorder: parabricks_fq2bam > alignment_samtools_index
+    ruleorder: cnv_sv_bgzip > misc_bgzip
     ruleorder: _copy_samtools_crai > compression_samtools_index
     ruleorder: _copy_snv_indels_tbi > misc_tabix
     ruleorder: _copy_deepsomatic_tbi > misc_tabix
