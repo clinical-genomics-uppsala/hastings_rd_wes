@@ -49,6 +49,11 @@ fastqc:
 glnexus:
   threads: 20
 
+melt:
+  threads: 2
+  mem_mb: 12288
+  mem_per_cpu: 6144
+
 mosaicforecast:
   threads: 2
   mem_mb: 12288

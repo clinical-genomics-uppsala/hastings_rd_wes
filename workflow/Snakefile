@@ -441,6 +441,14 @@ use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
         )
 
 
+use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
+    input:
+        annovar=config.get("reference", {}).get("annovar", ""),
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
+        vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
+
+
 use rule deepmosaic_input from snv_indels as snv_indels_deepmosaic_input with:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
@@ -448,12 +456,7 @@ use rule deepmosaic_input from snv_indels as snv_indels_deepmosaic_input with:
         vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
 
 
-use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
-    input:
-        annovar=config.get("reference", {}).get("annovar", ""),
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
-        vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
+use rule deepmosaic_predict from snv_indels as snv_indels_deepmosaic_predict
 
 
 use rule deepvariant from snv_indels as snv_indels_deepvariant with:
