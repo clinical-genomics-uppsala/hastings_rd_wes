@@ -47,7 +47,7 @@ automap:
   outdir: "cnv_sv/automap"
 
 bcftools_view_deepsomatic:
-  extra: "-f PASS --exclude 'FORMAT/DP<10' --exclude 'FORMAT/GQ<30' " # remove gnomad of some AF threshold? -T ^/projects/wp3/nobackup/Workspace/mosaic/hardregNgnomad_hg38.bed
+  extra: " -f PASS --exclude 'FORMAT/DP<10 | FORMAT/GQ<20 | FORMAT/VAF>0.4 && FORMAT/VAF<0.6 | FORMAT/VAF<0.02 | FORMAT/VAF>0.98' -T ^/projects/wp3/nobackup/Workspace/mosaic/af_ac5-gnomad.hg38.vcf.gz " # remove gnomad of some AF threshold? -T ^/projects/wp3/nobackup/Workspace/mosaic/hardregNgnomad_hg38.bed
 
 bcftools_view_deepvariant:
   regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
