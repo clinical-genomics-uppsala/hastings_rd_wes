@@ -16,6 +16,7 @@
   "results/{sample}/{sample}.ALU.vcf.gz": {"name": "_copy_melt_ALU", "file": "cnv_sv/melt/{sample}_N/ALU.final_comp.vcf.gz", "types": ["N"]},
   "results/{sample}/{sample}.LINE1.vcf.gz": {"name": "_copy_melt_LIN1", "file": "cnv_sv/melt/{sample}_N/LINE1.final_comp.vcf.gz", "types": ["N"]},
   "results/{sample}/{sample}.SVA.vcf.gz.tbi": {"name": "_copy_melt_SVA", "file": "cnv_sv/melt/{sample}_N/SVA.final_comp.vcf.gz", "types": ["N"]},
+  "results/{sample}/{sample}.HERKV.vcf.gz.tbi": {"name": "_copy_melt_HERKV", "file": "cnv_sv/melt/{sample}_N/herkv.final_comp.vcf.gz", "types": ["N"]},
   "results/{sample}/{sample}_N.cram": {"name": "_copy_samtools_cram", "file": "compression/samtools_view/{sample}_N.cram", "types": ["N"]},
   "results/{sample}/{sample}_N.cram.crai": {"name": "_copy_samtools_crai", "file": "compression/samtools_view/{sample}_N.cram.crai", "types": ["N"]},
   "results/peddy.html": {"name": "_copy_peddy_html", "file": "qc/peddy/peddy.html", "types": ["N"]},
