@@ -13,7 +13,7 @@ modules:
   alignment: "v0.6.0"
   annotation: "v1.1.0"
   compression: "v2.0.0" 
-  cnv_sv: "v0.8.0"
+  cnv_sv: "mobile_elements"
   filtering: "v1.1.0"
   misc: "v0.2.0"
   parabricks: "v1.2.0"
@@ -105,6 +105,12 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+melt:
+  container: "docker://vanallenlab/melt:3159ce1"
+  bed: "/MELT/MELTv2.0.5_patch/add_bed_files/Hg38/Hg38.genes.bed"
+  extra: ""
+  mei: "/projects/wp3/Reference_files/mei_list.txt"
 
 mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"

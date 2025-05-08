@@ -113,6 +113,9 @@ use rule automap from cnv_sv as cnv_sv_automap with:
         vcf="vcf_final/{sample}_{type}.vcf",
 
 
+use rule melt from cnv_sv as cnv_sv_melt
+
+
 module compression:
     snakefile:
         get_module_snakefile(
