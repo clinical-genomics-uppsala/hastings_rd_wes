@@ -91,10 +91,10 @@ samtools_view:
   threads: 10
 
 spring:
-  mem_mb: 49152
+  mem_mb: 12288
   mem_per_cpu: 6144
-  threads: 8
   partition: "core_bkup"
+  threads: 2
 
 vep:
   threads: 4
