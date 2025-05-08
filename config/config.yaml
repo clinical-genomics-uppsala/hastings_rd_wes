@@ -108,9 +108,9 @@ glnexus_trio:
 
 melt:
   container: "docker://vanallenlab/melt:3159ce1"
-  bed: "/MELT/MELTv2.0.5_patch/add_bed_files/Hg38/Hg38.genes.bed"
+  bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
   extra: ""
-  mei: "/projects/wp3/Reference_files/mei_list.txt"
+  mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
 
 mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
