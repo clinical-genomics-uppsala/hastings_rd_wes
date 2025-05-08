@@ -30,7 +30,6 @@ reference:
   fasta: "reference/homo_sapiens.fasta"
   fai: "reference/homo_sapiens.fasta.fai"
   genepanels: "reference/genepanels.list"
-  pon: "reference/pon.vcf.gz"
   sites: "reference/homo_sapiens.known_indels.vcf.gz"
   skip_chrs:
     - chrM
