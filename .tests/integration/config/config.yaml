@@ -13,14 +13,14 @@ modules:
   alignment: "v0.6.0"
   annotation: "v1.1.0"
   compression: "v2.0.0" 
-  cnv_sv: "v0.8.0"
+  cnv_sv: "mobile_elements"
   filtering: "v1.1.0"
   misc: "v0.2.0"
   parabricks: "v1.2.0"
   prealignment: "v1.2.0"
   qc: "v0.5.0"
   references: "e71ee62"
-  snv_indels: "3260f5b"
+  snv_indels: "flex_pon_deepsomatic"
 
 reference:
   annovar: "reference/annovar"
@@ -83,7 +83,6 @@ exomedepth_call:
   male_reference: "reference/RefCount_male.Rdata"
   female_reference: "reference/RefCount_female.Rdata"
 
-
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"
 
@@ -102,6 +101,12 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+melt:
+  container: "docker://vanallenlab/melt:3159ce1"
+  bed: "reference/Hg38.genes.bed"
+  extra: ""
+  mei: "reference/mei_list.txt"
 
 mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
