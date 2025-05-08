@@ -77,7 +77,7 @@ deepvariant:
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
-  extra: "--pon_filtering="/projects/wp3/nobackup/Workspace/mosaic/af_ac5-gnomad.hg38.vcf.gz" --process_somatic=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  extra: "--pon_filtering=/projects/wp3/nobackup/Workspace/mosaic/af_ac5-gnomad.hg38.vcf.gz --process_somatic=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
   model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 exomedepth_call:
