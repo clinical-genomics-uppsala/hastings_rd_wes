@@ -477,23 +477,8 @@ use rule deepvariant from snv_indels as snv_indels_deepvariant with:
         extra=config.get("deepvariant", {}).get("extra", ""),
 
 
-use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic_t_only with:
-    shell:
-        """
-        run_deepsomatic \
-        --model_type={params.model} \
-        --ref={input.ref} \
-        --reads_tumor={input.bam} \
-        --output_vcf={output.vcf} \
-        --sample_name_tumor={params.name} \
-        --num_shards={resources.threads} \
-        --logging_dir={log} \
-        --vcf_stats_report=true \
-        --intermediate_results_dir {output.tmpdir} \
-        --use_default_pon_filtering=true \
-        --regions={input.bed} \
-        {params.extra}
-        """
+use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic_t_only
+
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:

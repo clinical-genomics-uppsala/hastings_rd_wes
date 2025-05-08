@@ -78,7 +78,7 @@ deepvariant:
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
-  extra: ""
+  extra: "--use_default_pon_filtering=true "
   model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 exomedepth_call:
