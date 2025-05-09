@@ -8,9 +8,9 @@ default_resources:
   partition: "low_bkup"
 
 bwa_mem:
-  mem_mb: 122880
+  mem_mb: 61440
   mem_per_cpu: 6144
-  threads: 8
+  threads: 10
 
 deepmosaic_draw:
   mem_mb: 61440
