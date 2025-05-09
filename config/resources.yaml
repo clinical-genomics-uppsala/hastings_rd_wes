@@ -54,7 +54,6 @@ melt:
   mem_per_cpu: 6144
   threads: 10
 
-
 mosaicforecast:
   threads: 2
   mem_mb: 12288
