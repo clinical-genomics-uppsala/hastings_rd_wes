@@ -29,7 +29,6 @@ if config["output"] == "config/output_list.json":
     ruleorder: _copy_snv_indels_tbi > misc_tabix
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
     ruleorder: cnv_sv_bgzip > misc_bgzip
-    ruleorder: cnv_sv_melt > cnv_sv_bgzip
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
     ruleorder: snv_indels_bgzip > misc_bgzip
@@ -115,13 +114,7 @@ use rule automap from cnv_sv as cnv_sv_automap with:
         vcf="vcf_final/{sample}_{type}.vcf",
 
 
-use rule melt from cnv_sv as cnv_sv_melt with:
-    output:
-        alu=temp("cnv_sv/melt/{sample}_{type}/ALU.final_comp.vcf.gz"),
-        herkv=temp("cnv_sv/melt/{sample}_{type}/HERVK.final_comp.vcf.gz"), 
-        line1=temp("cnv_sv/melt/{sample}_{type}/LINE1.final_comp.vcf.gz"),
-        sva=temp("cnv_sv/melt/{sample}_{type}/SVA.final_comp.vcf.gz"),
-        tmpdir=temp(directory("cnv_sv/melt/{sample}_{type}")),    
+use rule melt from cnv_sv as cnv_sv_melt 
 
 
 module compression:
