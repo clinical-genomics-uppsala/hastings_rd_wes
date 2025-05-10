@@ -123,7 +123,13 @@ use rule automap from cnv_sv as cnv_sv_automap with:
         vcf="vcf_final/{sample}_{type}.vcf",
 
 
-use rule melt from cnv_sv as cnv_sv_melt 
+use rule melt from cnv_sv as cnv_sv_melt with:
+        output:
+        alu="cnv_sv/melt/{sample}_{type}/ALU.final_comp.vcf",
+        hervk="cnv_sv/melt/{sample}_{type}/HERVK.final_comp.vcf",
+        line1="cnv_sv/melt/{sample}_{type}/LINE1.final_comp.vcf",
+        sva="cnv_sv/melt/{sample}_{type}/SVA.final_comp.vcf",
+        tmpdir=directory("cnv_sv/melt/{sample}_{type}"),
 
 
 module compression:
