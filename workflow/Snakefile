@@ -124,7 +124,7 @@ use rule automap from cnv_sv as cnv_sv_automap with:
 
 
 use rule melt from cnv_sv as cnv_sv_melt with:
-        output:
+    output:
         alu="cnv_sv/melt/{sample}_{type}/ALU.final_comp.vcf",
         hervk="cnv_sv/melt/{sample}_{type}/HERVK.final_comp.vcf",
         line1="cnv_sv/melt/{sample}_{type}/LINE1.final_comp.vcf",
