@@ -5,7 +5,7 @@ default_resources:
   time: "12:00:00"
   mem_mb: 6144
   mem_per_cpu: 6144
-  partition: "low_bkup"
+  partition: "core_bkup"
 
 bwa_mem:
   mem_mb: 61440
