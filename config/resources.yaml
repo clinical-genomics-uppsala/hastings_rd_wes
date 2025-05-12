@@ -7,6 +7,11 @@ default_resources:
   mem_per_cpu: 6144
   partition: "core_bkup"
 
+automap:
+  threads: 1
+  mem_mb: 6144
+  mem_per_cpu: 6144
+
 bwa_mem:
   mem_mb: 61440
   mem_per_cpu: 6144
