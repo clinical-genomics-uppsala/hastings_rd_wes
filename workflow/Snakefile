@@ -28,6 +28,7 @@ if config["output"] == "config/output_list.json":
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
     ruleorder: _copy_snv_indels_tbi > misc_tabix
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
+    ruleorder: prealignment_fastp_pe > misc_bgzip
     ruleorder: cnv_sv_bgzip > cnv_sv_melt
     ruleorder: cnv_sv_bgzip > misc_bgzip
     ruleorder: parabricks_fq2bam > alignment_samtools_index
