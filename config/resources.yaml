@@ -52,7 +52,7 @@ fastqc:
   mem_per_cpu: 6144
 
 glnexus:
-  threads: 20
+  threads: 16
 
 melt:
   mem_mb: 61440
