@@ -465,6 +465,13 @@ use rule bgzip from snv_indels as snv_indels_bgzip_fix_af with:
         vcf="vcf_final/{sample}_{type}.fix_af.vcf",
     output:
         gz=temp("vcf_final/{sample}_{type}.fix_af.vcf.gz"),
+    log:
+        "vcf_final/{sample}_{type}.gz.log",
+    benchmark:
+        repeat(
+            "vcf_final/{sample}_{type}.gz.benchmark.tsv",
+            config.get("tabix", {}).get("benchmark_repeats", 1),
+        )
 
 
 use rule tabix from snv_indels as snv_indels_tabix_fix_af with:
@@ -472,7 +479,13 @@ use rule tabix from snv_indels as snv_indels_tabix_fix_af with:
         gz="vcf_final/{sample}_{type}.fix_af.vcf.gz",
     output:
         tbi=temp("vcf_final/{sample}_{type}.fix_af.vcf.gz.tbi"),
-
+    log:
+        "vcf_final/{sample}_{type}.tbi.log",
+    benchmark:
+        repeat(
+            "vcf_final/{sample}_{type}.tbi.benchmark.tsv",
+            config.get("tabix", {}).get("benchmark_repeats", 1),
+        )
 
 use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
     input:
