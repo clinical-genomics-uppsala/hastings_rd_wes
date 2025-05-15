@@ -23,16 +23,17 @@ rule all:
 if config["output"] == "config/output_list.json":
 
 
+    ruleorder: _copy_deepsomatic_tbi > snv_indels_tabix_fix_af
     ruleorder: _copy_samtools_crai > compression_samtools_index
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
+    ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip_fix_af
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix_fix_af
-    ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip_fix_af
     ruleorder: cnv_sv_bgzip > cnv_sv_melt
+    ruleorder: cnv_sv_bgzip > snv_indels_bgzip_fix_af
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
     ruleorder: snv_indels_tabix > snv_indels_tabix_fix_af
-    ruleorder: cnv_sv_bgzip > snv_indels_bgzip_fix_af
 
 
 module alignment:
