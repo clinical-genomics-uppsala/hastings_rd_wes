@@ -88,6 +88,7 @@ wildcard_constraints:
     sample="|".join(get_samples(samples)),
     type="N|T|R",
     vcf="vcf|g.vcf|unfiltered.vcf",
+    final="^vcf_final/.+",
 
 
 ### Functions

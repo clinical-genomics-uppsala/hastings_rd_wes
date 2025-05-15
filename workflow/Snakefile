@@ -462,30 +462,31 @@ use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
 
 use rule bgzip from snv_indels as snv_indels_bgzip_fix_af with:
     input:
-        vcf="vcf_final/{sample}_{type}.fix_af.vcf",
+        vcf="{final}.vcf",
     output:
-        gz=temp("vcf_final/{sample}_{type}.fix_af.vcf.gz"),
+        gz=temp("{final}.vcf.gz"),
     log:
-        "vcf_final/{sample}_{type}.gz.log",
+        "{final}.gz.log",
     benchmark:
         repeat(
-            "vcf_final/{sample}_{type}.gz.benchmark.tsv",
+            "{final}.gz.benchmark.tsv",
             config.get("tabix", {}).get("benchmark_repeats", 1),
         )
 
 
 use rule tabix from snv_indels as snv_indels_tabix_fix_af with:
     input:
-        gz="vcf_final/{sample}_{type}.fix_af.vcf.gz",
+        gz="{final}.fix_af.vcf.gz",
     output:
-        tbi=temp("vcf_final/{sample}_{type}.fix_af.vcf.gz.tbi"),
+        tbi=temp("{final}.fix_af.vcf.gz.tbi"),
     log:
-        "vcf_final/{sample}_{type}.tbi.log",
+        "{final}.tbi.log",
     benchmark:
         repeat(
-            "vcf_final/{sample}_{type}.tbi.benchmark.tsv",
+            "{final}.tbi.benchmark.tsv",
             config.get("tabix", {}).get("benchmark_repeats", 1),
         )
+
 
 use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
     input:
