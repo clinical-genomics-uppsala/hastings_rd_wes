@@ -476,9 +476,9 @@ use rule bgzip from snv_indels as snv_indels_bgzip_fix_af with:
 
 use rule tabix from snv_indels as snv_indels_tabix_fix_af with:
     input:
-        gz="{final}.fix_af.vcf.gz",
+        gz="{final}.vcf.gz",
     output:
-        tbi=temp("{final}.fix_af.vcf.gz.tbi"),
+        tbi=temp("{final}.vcf.gz.tbi"),
     log:
         "{final}.tbi.log",
     benchmark:
