@@ -90,6 +90,7 @@ wildcard_constraints:
     vcf="vcf|g.vcf|unfiltered.vcf",
     final="^vcf_final/.+|^snv_indels/.+|^qc/peddy/.+",
 
+
 ### Functions
 def get_flowcell(units, wildcards):
     flowcells = set([u.flowcell for u in get_units(units, wildcards)])
