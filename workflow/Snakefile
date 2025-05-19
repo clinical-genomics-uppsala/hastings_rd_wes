@@ -26,7 +26,7 @@ if config["output"] == "config/output_list.json":
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
     ruleorder: parabricks_fq2bam > alignment_samtools_index
-    ruleprder: snv_indels_bcftools_view > filtering_bcftools_view_deepsomatic
+    ruleorder: snv_indels_bcftools_view > filtering_bcftools_view_deepsomatic
     ruleorder: snv_indels_deepsomatic_t_only > snv_indels_bgzip
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
 
@@ -438,6 +438,34 @@ use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
         repeat(
             "qc/peddy/all.vcf.gz.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule bgzip from snv_indels as snv_indels_bgzip with:
+    input:
+        vcf="{final}.vcf",
+    output:
+        gz=temp("{final}.vcf.gz"),
+    log:
+        "{final}.gz.log",
+    benchmark:
+        repeat(
+            "{final}.gz.benchmark.tsv",
+            config.get("tabix", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule tabix from snv_indels as snv_indels_tabix with:
+    input:
+        gz="{final}.vcf.gz",
+    output:
+        tbi=temp("{final}.vcf.gz.tbi"),
+    log:
+        "{final}.tbi.log",
+    benchmark:
+        repeat(
+            "{final}.tbi.benchmark.tsv",
+            config.get("tabix", {}).get("benchmark_repeats", 1),
         )
 
 
