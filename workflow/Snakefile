@@ -445,34 +445,6 @@ use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
         )
 
 
-use rule bgzip from snv_indels as snv_indels_bgzip_fix_af with:
-    input:
-        vcf="{final}.vcf",
-    output:
-        gz=temp("{final}.vcf.gz"),
-    log:
-        "{final}.gz.log",
-    benchmark:
-        repeat(
-            "{final}.gz.benchmark.tsv",
-            config.get("tabix", {}).get("benchmark_repeats", 1),
-        )
-
-
-use rule tabix from snv_indels as snv_indels_tabix_fix_af with:
-    input:
-        gz="{final}.vcf.gz",
-    output:
-        tbi=temp("{final}.vcf.gz.tbi"),
-    log:
-        "{final}.tbi.log",
-    benchmark:
-        repeat(
-            "{final}.tbi.benchmark.tsv",
-            config.get("tabix", {}).get("benchmark_repeats", 1),
-        )
-
-
 use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
     input:
         annovar=config.get("reference", {}).get("annovar", ""),
