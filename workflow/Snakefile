@@ -28,11 +28,7 @@ if config["output"] == "config/output_list.json":
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
     ruleorder: parabricks_fq2bam > alignment_samtools_index
-    ruleorder: snv_indels_deepsomatic_t_only > snv_indels_bgzip
-    ruleorder: snv_indels_glnexus_trio > snv_indels_bgzip
-    ruleorder: snv_indels_glnexus > snv_indels_bgzip
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
-    ruleorder: snv_indels_vt_decompose > snv_indels_bgzip
 
 
 module alignment:
@@ -429,6 +425,20 @@ use rule bed_split from snv_indels as snv_indels_bed_split with:
 
 
 use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat
+
+
+use rule bcftools_view from snv_indels as snv_indels_bcftools_view with:
+    input:
+        bcf="snv_indels/glnexus/{sample}_{type}.bcf",
+    output:
+        vcf=temp("snv_indels/glnexus/{sample}_{type}.vcf.gz"),
+    log:
+        "snv_indels/glnexus/{sample}_{type}.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/glnexus/{sample}_{type}.vcf.gz.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
 
 
 use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
