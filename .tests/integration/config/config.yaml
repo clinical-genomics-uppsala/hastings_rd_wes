@@ -12,7 +12,7 @@ default_container: "docker://hydragenetics/common:1.11.1"
 modules:
   alignment: "v0.6.0"
   annotation: "v1.1.0"
-  compression: "v2.0.0" 
+  compression: "v2.0.0"
   cnv_sv: "6739845"
   filtering: "v1.1.0"
   misc: "v0.2.0"
