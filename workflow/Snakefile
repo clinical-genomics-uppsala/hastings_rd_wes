@@ -27,6 +27,7 @@ if config["output"] == "config/output_list.json":
     ruleorder: _copy_deepsomatic_tbi > snv_indels_tabix
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
+    ruleorder: cnv_sv_bgzip > snv_indels_bgzip
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
 
