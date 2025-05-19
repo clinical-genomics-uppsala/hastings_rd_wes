@@ -423,12 +423,12 @@ module snv_indels:
         config
 
 
-use rule * from snv_indels as snv_indels_*
-
-
 use rule bed_split from snv_indels as snv_indels_bed_split with:
     input:
         bed=config.get("deepvariant", {}).get("bed", ""),
+
+
+use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat
 
 
 use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
@@ -505,7 +505,12 @@ use rule deepvariant from snv_indels as snv_indels_deepvariant with:
         extra=config.get("deepvariant", {}).get("extra", ""),
 
 
-use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic_t_only
+use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic_t_only with:
+    input:
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        ref=config.get("reference", {}).get("fasta", ""),
+        bed=config.get("reference", {}).get("design_bed", ""),
 
 
 use rule fix_af from snv_indels as snv_indels_fix_af with:
@@ -520,6 +525,9 @@ use rule fix_af from snv_indels as snv_indels_fix_af with:
             "vcf_final/{sample}_{type}.fix_af.vcf.benchmark.tsv",
             config.get("fix_af", {}).get("benchmark_repeats", 1),
         )
+
+
+use rule glnexus from snv_indels as snv_indels_glnexus
 
 
 use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
