@@ -20,7 +20,7 @@ modules:
   prealignment: "v1.2.0"
   qc: "v0.5.0"
   references: "e71ee62"
-  snv_indels: "flex_pon_deepsomatic"
+  snv_indels: "a0bdf7a"
 
 reference:
   annovar: "/opt/ohpc/pub/annotators/annovar/2025Feb18"
