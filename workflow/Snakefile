@@ -171,14 +171,14 @@ use rule bcftools_view from filtering as filtering_bcftools_view_deepsomatic wit
         vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
         tbi="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz.tbi",
     output:
-        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz"),
+        vcf=temp("snv_indels/bcftools_view_ds/{sample}_{type}.ds.vcf.gz"),
     log:
-        "snv_indels/bcftools_view/{sample}_{type}.ds.vcf.log",
+        "snv_indels/bcftools_view_ds/{sample}_{type}.ds.vcf.log",
     params:
         extra=config.get("bcftools_view_deepsomatic", {}).get("extra", ""),
     benchmark:
         repeat(
-            "snv_indels/bcftools_view/{sample}_{type}.ds.benchmark.tsv",
+            "snv_indels/bcftools_view_ds/{sample}_{type}.ds.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
