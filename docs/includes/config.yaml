@@ -13,14 +13,14 @@ modules:
   alignment: "v0.6.0"
   annotation: "v1.1.0"
   compression: "v2.0.0" 
-  cnv_sv: "mobile_elements"
+  cnv_sv: "6739845"
   filtering: "v1.1.0"
   misc: "v0.2.0"
-  parabricks: "v1.2.0"
+  parabricks: "v1.2.1"
   prealignment: "v1.2.0"
   qc: "v0.5.0"
   references: "e71ee62"
-  snv_indels: "flex_pon_deepsomatic"
+  snv_indels: "a0bdf7a"
 
 reference:
   annovar: "/opt/ohpc/pub/annotators/annovar/2025Feb18"
@@ -70,7 +70,7 @@ deepmosaic_predict:
   container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
 
 deepvariant:
-  container: "docker://google/deepvariant:1.4.0" 
+  container: "docker://google/deepvariant:1.6.1" 
   bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
@@ -183,7 +183,6 @@ picard_collect_wgs_metrics:
 
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
-
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"

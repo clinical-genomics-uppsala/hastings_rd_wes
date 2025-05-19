@@ -15,8 +15,8 @@ Trimming of fastq files is performed by **[fastp](https://github.com/OpenGene/fa
 
 ---
 ## Alignment
-We use deepvariant for alignment on CPU or with parabricks on GPU. For more information and documentation on the softwares used in the alignment steps see [Parabricks hydra-genetics module]()/[github](https://github.com/hydra-genetics/parabricks/tree/v1.1.0) for GPU 
-or [Alignment hydra-genetics module](https://alignment.readthedocs.io/en/latest/)/[github](https://github.com/hydra-genetics/alignment/tree/v0.4.0) for CPU.
+We use deepvariant for alignment on CPU or with parabricks on GPU. For more information and documentation on the softwares used in the alignment steps see [Parabricks hydra-genetics module]()/[github](https://github.com/hydra-genetics/parabricks/tree/v1.2.1) for GPU 
+or [Alignment hydra-genetics module](https://alignment.readthedocs.io/en/latest/)/[github](https://github.com/hydra-genetics/alignment/tree/v0.6.0) for CPU.
 
 ![dag plot](includes/images/alignment.png){: style="height:100%;width:100%"}
 
@@ -61,7 +61,7 @@ Bamfile indexing is performed by **[samtools index](http://www.htslib.org/doc/sa
 
 ---
 ## SNV and indels
-SNV and indels are called using the [SNV_indels module](https://github.com/hydra-genetics/snv_indels/tree/v0.3.0) and is annotated using the [Annotation module](https://github.com/hydra-genetics/annotation/tree/v0.3.0).
+SNV and indels are called using the [SNV_indels module](https://github.com/hydra-genetics/snv_indels/tree/a0bdf7a) and is annotated using the [Annotation module](https://github.com/hydra-genetics/annotation/tree/v1.1.0).
 
 ![dag plot](includes/images/snv_indels.png){: style="height:100%;width:100%"}
 
@@ -74,8 +74,8 @@ SNV and indels are called using the [SNV_indels module](https://github.com/hydra
 Variants are called using [Parabricks DeepVariant](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_deepvariant.html#man-deepvariant) per chromosome to speed up the analysis.
 
 ---
-## CNV
-CNVs are called using the [Hydra-Genetics CNV_SV module](https://github.com/hydra-genetics/cnv_sv/tree/78f270c).
+## CNVs and SVs 
+CNVs are called using the [Hydra-Genetics CNV_SV module](https://github.com/hydra-genetics/cnv_sv/tree/6739845)
 <br />
 
 ![dag plot](includes/images/cnv_sv.png){: style="height:60%;width:60%"}
@@ -90,7 +90,7 @@ To call larger structural variants **[Exomedepth](https://cran.r-project.org/web
 
 ---
 ## QC
-For quality control several the [QC-module](https://github.com/hydra-genetics/qc/tree/ca947b1) is used and the results are then summarized/aggregated into a MultiQC-report.
+For quality control several the [QC-module](https://github.com/hydra-genetics/qc/tree/v0.5.0) is used and the results are then summarized/aggregated into a MultiQC-report.
 
 <br />
 

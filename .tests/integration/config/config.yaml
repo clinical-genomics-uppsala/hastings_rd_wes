@@ -73,6 +73,11 @@ deepvariant:
   model_type: "WES"
   output_gvcf: True
 
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: "--use_default_pon_filtering=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
   bedfile: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"

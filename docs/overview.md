@@ -18,22 +18,25 @@ See the [snv_indels hydra-genetics module](https://hydra-genetics-snv-indels.rea
     - Used to create a multisample VCF file analysed with Peddy.
     - Used for the creation of trio VCF files used for UPD analysis
 
-### CNVs
+#### Mosaic variants
+- Somatic variant caller to give to the mosaic predictors
+    - [DeepSomatic](https://docs.nvidia.com/clara/parabricks/4.5.0/documentation/tooldocs/man_deepsomatic.html) and hydra genetics documentation [DeepSomatic](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#deepsomatic_t_only)
+- Mosaic variant predictors
+    - [DeepMosaic](https://github.com/shishenyxx/DeepMosaic) and hydra genetics documentation [DeepMosaic](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#deepmosaic)
+    - [MosaicForecast](https://github.com/parklab/MosaicForecast) and hydra genetics documentation [MosaicForecast](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#mosaicforecast)
+
+### CNVs and SVs
 - CNV callers
-    - [Exome depth](https://github.com/vplagnol/ExomeDepth) and hydra genetics documentation [ExomeDepth](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#exomedepth)
+    - [ExomeDepth](https://github.com/vplagnol/ExomeDepth) and hydra genetics documentation [ExomeDepth](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#exomedepth)
+
+- Mobile element caller
+    - [MELT](https://melt.igs.umaryland.edu/index.php) and hydra genetics documentation [MELT](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#melt)
 
 ### Regions Of Homozygosity
 - [AutoMap](https://github.com/mquinodo/AutoMap) and hydra genetics documentation [AutoMap](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#automap)
 
 ### UniParental Disomy 
 - [upd](https://github.com/bjhall/upd) and hydra genetics documentation [upd](https://hydra-genetics-cnv-sv.readthedocs.io/en/latest/softwares/#upd)
-
-### Mosaic variants
-- Somatic variant caller to give to the mosaic predictors
-    - [DeepSomatic](https://docs.nvidia.com/clara/parabricks/4.5.0/documentation/tooldocs/man_deepsomatic.html) and hydra genetics documentation [DeepSomatic](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#deepsomatic_t_only)
-- Mosaic variant predictors
-    - [DeepMosaic](https://github.com/shishenyxx/DeepMosaic) and hydra genetics documentation [DeepMosaic](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#deepmosaic)
-    - [MosaicForecast](https://github.com/parklab/MosaicForecast) and hydra genetics documentation [MosaicForecast](https://hydra-genetics-snv-indels.readthedocs.io/en/latest/softwares/#mosaicforecast)
 
 ## QC
 See the [qc hydra-genetics module](https://hydra-genetics-qc.readthedocs.io/en/latest/) documentation for more details on the softwares for the quality control. Default hydra-genetics settings/resources are used if no configuration is specified.
