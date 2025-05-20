@@ -114,6 +114,7 @@ melt:
 
 mosaicforecast:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  path: "alignment/samtools_merge_bam/"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
