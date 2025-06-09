@@ -22,7 +22,7 @@
       type: file
       url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
     gene_panels:
-      checksum: 69762e0104f506a8ac5054755af0cefa
+      checksum: a0933c6d5f5a84a3dfb8fed9ff953f60
       path: hastings/genepanels.list
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list
@@ -76,11 +76,11 @@
       path: hastings/Epilepsi.list
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Epilepsi.list
-    Familjar_hyperkolesterolemi:
-      checksum: 18a2f84df484c3e4d5431c6709fbbac4
-      path: hastings/Familjar_hyperkolesterolemi.list
+    Familjar_hyperkolesterolemi_v2:
+      checksum: bf0b7634a72285fba0235daafcdcc305
+      path: hastings/Familjar_hyperkolesterolemi_v2.list
       type: file
-      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Familjar_hyperkolesterolemi.list
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Familjar_hyperkolesterolemi_v2.list
     FHH_v1:
       checksum: bbffbab0cec99434b757f6b666258c24
       path: hastings/FHH_v1.list
@@ -111,6 +111,11 @@
       path: hastings/Hyperaldosteronism_v1.list
       type: file
       url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hyperaldosteronism_v1.list
+    Hyperlipidemi_v1:
+      checksum: a952c3e9e3789958f01585984a5742d2
+      path: hastings/Hyperlipidemi_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hyperlipidemi_v1.list
     Hyperparatyreoidism_v2:
       checksum: e96cc9a6b37069dab17ca2264b0d531d
       path: hastings/Hyperparatyreoidism_v2.list
