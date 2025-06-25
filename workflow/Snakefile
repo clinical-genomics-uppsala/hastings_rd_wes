@@ -588,7 +588,13 @@ use rule mosaicforecast_input from snv_indels as snv_indels_mosaicforecast_input
         vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
 
 
-use rule mosaicforecast from snv_indels as snv_indels_mosaicforecast
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_prediction
+
+
+use rule mosaicforecast_phasing from snv_indels as snv_indels_mosaicforecast_phasing
+
+
+use rule mosaicforecast_readlevel from snv_indels as snv_indels_mosaicforecast_readlevel
 
 
 use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
