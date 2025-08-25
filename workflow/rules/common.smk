@@ -10,6 +10,7 @@ from datetime import datetime
 
 from hydra_genetics.utils.misc import get_module_snakefile
 from hydra_genetics.utils.resources import load_resources
+from hydra_genetics.utils.misc import replace_dict_variables
 from hydra_genetics.utils.samples import *
 from hydra_genetics.utils.units import *
 from hydra_genetics.utils.misc import extract_chr
@@ -32,6 +33,7 @@ min_version("7.8.0")
 
 hydra_min_version("3.0.0")
 
+config = replace_dict_variables(config)
 validate(config, schema="../schemas/config.schema.yaml")
 
 config = load_resources(config, config["resources"])

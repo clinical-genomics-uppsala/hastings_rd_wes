@@ -4,13 +4,13 @@
   "results/{sample}/{sample}_exomedepth.aed": {"name": "_copy_exomedepth_aed", "file": "cnv_sv/exomedepth_call/{sample}_N.aed", "types": ["N"]},
   "results/{sample}/{sample}_exomedepth_SV.txt": {"name": "_copy_exomedepth_nexus", "file": "cnv_sv/exomedepth_call/{sample}_N_SV.txt", "types": ["N"]},
   "results/{sample}/{sample}_exomedepth.txt": {"name": "_copy_exomedepth_call", "file": "cnv_sv/exomedepth_call/{sample}_N.txt", "types": ["N"]},
+  "results/{sample}/{sample}_exomedepth.vcf.gz": {"name": "_copy_exomedepth_vcf", "file": "cnv_sv/exomedepth_call/{sample}_N.vcf.gz", "types": ["N"]},
   "results/{sample}/{sample}.upd_regions.bed": {"name": "_copy_upd_regions_bed", "file": "cnv_sv/upd/{sample}_N.upd_regions.bed", "types": ["N"]},
   "results/{sample}/automap/{sample}.HomRegions.tsv": {"name": "_copy_automap_tsv", "file": "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.tsv", "types": ["N"]},
   "results/{sample}/automap/{sample}.HomRegions.pdf": {"name": "_copy_automap_pdf", "file": "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.pdf", "types": ["N"]},
   "results/{sample}/{sample}.coverage_analysis.xlsx": {"name": "_copy_coverage_excel", "file": "qc/create_cov_excel/{sample}_N.coverage.xlsx", "types": ["N"]},
   "results/{sample}/{sample}_N.cram": {"name": "_copy_samtools_cram", "file": "compression/samtools_view/{sample}_N.cram", "types": ["N"]},
   "results/{sample}/{sample}_N.cram.crai": {"name": "_copy_samtools_crai", "file": "compression/samtools_view/{sample}_N.cram.crai", "types": ["N"]},
-  "results/{sample}/spring/{sample}_{type}_{flowcell}_{lane}_{barcode}.spring":  {"name": "_copy_spring", "file": "compression/spring/{sample}_{type}_{flowcell}_{lane}_{barcode}.spring", "types": ["N"]},
   "results/peddy.html": {"name": "_copy_peddy_html", "file": "qc/peddy/peddy.html", "types": ["N"]},
   "results/multiqc_DNA.html": {"name": "_copy_multiqc_html", "file": "qc/multiqc/multiqc_DNA.html", "types": ["N"]}
 }

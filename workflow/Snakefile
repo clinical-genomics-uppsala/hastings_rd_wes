@@ -5,6 +5,7 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
+include: "rules/tsv2vcf.smk"
 include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
 include: "rules/exomedepth_export.smk"
@@ -33,7 +34,8 @@ if config["output"] == "config/output_list.json":
 
 module alignment:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/alignment",
             path="workflow/Snakefile",
             tag=config["modules"]["alignment"],
@@ -47,7 +49,8 @@ use rule * from alignment as alignment_*
 
 module annotation:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/annotation",
             path="workflow/Snakefile",
             tag=config["modules"]["annotation"],
@@ -79,7 +82,8 @@ use rule vep from annotation as annotation_vep_trio with:
 
 module cnv_sv:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/cnv_sv",
             path="workflow/Snakefile",
             tag=config["modules"]["cnv_sv"],
@@ -109,7 +113,8 @@ use rule automap from cnv_sv as cnv_sv_automap with:
 
 module compression:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/compression",
             path="workflow/Snakefile",
             tag=config["modules"]["compression"],
@@ -130,7 +135,7 @@ use rule samtools_view from compression as compression_samtools_view with:
 
 module filtering:
     snakefile:
-        github("hydra-genetics/filtering", path="workflow/Snakefile", tag=config["modules"]["filtering"])
+        get_module_snakefile(config, "hydra-genetics/filtering", path="workflow/Snakefile", tag=config["modules"]["filtering"])
     config:
         config
 
@@ -168,7 +173,8 @@ use rule tabix from misc as misc_tabix
 
 module parabricks:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/parabricks",
             path="workflow/Snakefile",
             tag=config["modules"]["parabricks"],
@@ -192,7 +198,8 @@ use rule pbrun_deepvariant from parabricks as parabricks_deepvariant with:
 
 module prealignment:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/prealignment",
             path="workflow/Snakefile",
             tag=config["modules"]["prealignment"],
@@ -206,7 +213,8 @@ use rule * from prealignment as prealignment_*
 
 module qc:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/qc",
             path="workflow/Snakefile",
             tag=config["modules"]["qc"],
@@ -337,7 +345,8 @@ use rule samtools_idxstats from qc as qc_samtools_idxstats with:
 
 module references:
     snakefile:
-        github(
+        get_module_snakefile(
+            config,
             "hydra-genetics/references",
             path="workflow/Snakefile",
             tag=config["modules"]["references"],

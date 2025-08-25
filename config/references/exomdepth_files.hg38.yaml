@@ -1,0 +1,34 @@
+exomedepth:
+  exonsfile:
+    checksum: f3ed2cb6706065422ef72d307d82452f
+    path: hastings/exons_GRCh38_ensembl109.txt
+    type: file
+    url: file:/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt
+  genesfile:
+    checksum: a72c9c1608e07cd8d3a1bfd1f65106ee
+    path: hastings/genes_GRCh38_ensembl109.txt
+    type: file
+    url: file:/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt
+  references:
+    nextseq:
+      male_reference:
+          checksum: d94156c07d1d9691baadadaeaefb5e5c
+          path: hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata
+          type: file
+          url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata
+      female_reference:
+        checksum: 6e5f76df1a77b895e0b9292930ddc597
+        path: hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata
+        type: file
+        url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata
+    novaseqX:
+      male_reference:
+        checksum: f179c687f2e2a8b671ef9ce2598b4f70
+        path: hastings/Twist2.0_hg38_RefCount_male_novX.Rdata
+        type: file
+        url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_novX.Rdata
+      female_reference:
+        checksum: 942e32a5e63b611c2ed1ccf05ef1390a
+        path: hastings/Twist2.0_hg38_RefCount_female_novX.Rdata
+        type: file
+        url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female_novX.Rdata

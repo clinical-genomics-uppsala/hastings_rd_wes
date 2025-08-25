@@ -1,0 +1,251 @@
+---
+
+  reference:
+    coverage_bed:
+      checksum: e27b6ee22b7013342a8b94103203d718
+      path: hastings/hastings_coverage_20250109.bed
+      type: file
+      url: file:/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed
+    design_bed:
+      checksum: f8a920a0983b7fe9998be30d5ee18810
+      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed
+      type: file
+      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed
+    design_intervals:
+      checksum: bd61ce7c4d8a7ed0fc528672f86943a8
+      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
+      type: file
+      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
+    padded_regions:
+      checksum: 1e4a414eac6c0da831afa475d97e9aae
+      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+      type: file
+      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+    gene_panels:
+      checksum: a0933c6d5f5a84a3dfb8fed9ff953f60
+      path: hastings/genepanels.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list
+    Alport_syndrom_v1:
+      checksum: b201cc0019cc78d47e3d9a4d41475df7
+      path: hastings/Alport_syndrom_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Alport_syndrom_v1.list
+    Amyloidos_v2:
+      checksum: 4361704365bcde96cedacb068ac9fc8a
+      path: hastings/Amyloidos_v2.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Amyloidos_v2.list
+    Bindvav:
+      checksum: d36801159fe163411831938bb697191a
+      path: hastings/Bindvav.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Bindvav.list
+    Cadasil:
+      checksum: de698fc0d599d9750bf31ec9af4295db
+      path: hastings/Cadasil.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Cadasil.list
+    Cerebrala_smakarlssjukdomar:
+      checksum: 78a45a896eda13d60177f2ee86954773
+      path: hastings/Cerebrala_smakarlssjukdomar.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Cerebrala_smakarlssjukdomar.list
+    ChiCaP:
+      checksum: c4cdd98c8e6ea39f7386a7dd8eb103ca
+      path: hastings/ChiCaP.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/ChiCaP.list
+    Dystoni:
+      checksum: e26bd988c4b3529d25cfe418591af606
+      path: hastings/Dystoni.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Dystoni.list
+    EBS:
+      checksum: bb30140ffa78883db731837dd57b4a11
+      path: hastings/EBS.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/EBS.list
+    Endokrin:
+      checksum: 125788f7519875ecda3e8f83e364257b
+      path: hastings/Endokrin.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Endokrin.list
+    Epilepsi:
+      checksum: 1a9fb5834256c790f620de16ea0add68
+      path: hastings/Epilepsi.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Epilepsi.list
+    Familjar_hyperkolesterolemi_v2:
+      checksum: bf0b7634a72285fba0235daafcdcc305
+      path: hastings/Familjar_hyperkolesterolemi_v2.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Familjar_hyperkolesterolemi_v2.list
+    FHH_v1:
+      checksum: bbffbab0cec99434b757f6b666258c24
+      path: hastings/FHH_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/FHH_v1.list
+    GLS_syndrom_v1:
+      checksum: 670de7fd73cdb9b21120d1a4618124e1
+      path: hastings/GLS_syndrom_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/GLS_syndrom_v1.list
+    Hematologi:
+      checksum: a14595367f88b007b36bfaa396d86f9a
+      path: hastings/Hematologi.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hematologi.list
+    HHT_v1:
+      checksum: b1d5b7447b22e124acd395829625a76d
+      path: hastings/HHT_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/HHT_v1.list
+    Hydrops_fetalis:
+      checksum: 76a14865513b5a66cbd747753a18c34c
+      path: hastings/Hydrops_fetalis.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hydrops_fetalis.list
+    Hyperaldosteronism_v1:
+      checksum: e1a53d4c5659fa766fdd0815b9447fba
+      path: hastings/Hyperaldosteronism_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hyperaldosteronism_v1.list
+    Hyperlipidemi_v1:
+      checksum: a952c3e9e3789958f01585984a5742d2
+      path: hastings/Hyperlipidemi_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hyperlipidemi_v1.list
+    Hyperparatyreoidism_v2:
+      checksum: e96cc9a6b37069dab17ca2264b0d531d
+      path: hastings/Hyperparatyreoidism_v2.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hyperparatyreoidism_v2.list
+    Hypogonadotrofisk_hypogonadism:
+      checksum: 605e24ba29c688f4d31073248d7c2a51
+      path: hastings/Hypogonadotrofisk_hypogonadism.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hypogonadotrofisk_hypogonadism.list
+    Hypoparatyreoidism_v1:
+      checksum: 26869abf5d1fc07e796a126231b7e781
+      path: hastings/Hypoparatyreoidism_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Hypoparatyreoidism_v1.list
+    HSP:
+      checksum: 22ab63ef5d342691270af5bbc6a930d1
+      path: hastings/HSP.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/HSP.list
+    Iktyos:
+      checksum: 8ed3639a89105aedf87e8ce87e3a60df
+      path: hastings/Iktyos.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Iktyos.list
+    IPO_v1:
+      checksum: 264fc0b63eaccabed03de1ca106916fa
+      path: hastings/IPO_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/IPO_v1.list
+    Kardio:
+      checksum: 7dd160567fd78b6b9d2dd429082ef9ad
+      path: hastings/Kardio.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Kardio.list
+    Kraniosynostos:
+      checksum: 1aec2b03e5e73bd31cb9d3c63bfdea5d
+      path: hastings/Kraniosynostos.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Kraniosynostos.list
+    Makrocefali_overtillvaxt_v1:
+      checksum: 4174d8d00db2083bf3cd71397246bf22
+      path: hastings/Makrocefali_overtillvaxt_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Makrocefali_overtillvaxt_v1.list
+    Meckel_och_Joubert_syndrom:
+      checksum: 3474b3232df5f3f1bb7ee58a36008816
+      path: hastings/Meckel_och_Joubert_syndrom.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Meckel_och_Joubert_syndrom.list
+    Nefronoftis_v1:
+      checksum: 02017e5e6a729ea4519bbb89fbbd3cfd
+      path: hastings/Nefronoftis_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Nefronoftis_v1.list
+    Nefrotiskt_syndrom_v1:
+      checksum: d09ca7b5b5e1f6a27bc58e007f086c47
+      path: hastings/Nefrotiskt_syndrom_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Nefrotiskt_syndrom_v1.list
+    Neuromuskular:
+      checksum: 1b27d5842c2874d6fd9f1920beabfb5f
+      path: hastings/Neuromuskular.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Neuromuskular.list
+    Neuropati:
+      checksum: dc7cc616cc006bf78543b43e002a3d22
+      path: hastings/Neuropati.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Neuropati.list
+    Njursjukdomar:
+      checksum: 0cb58cfe8559ad9ab55c7c1f1730966b
+      path: hastings/Njursjukdomar.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Njursjukdomar.list
+    Obesitas_v1:
+      checksum: a243477527ffc2c4c2f767456da34228
+      path: hastings/Obesitas_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Obesitas_v1.list
+    PCD:
+      checksum: 263bdd1fd216109a52a740e531dc4833
+      path: hastings/PCD.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/PCD.list
+    Periodisk_feber:
+      checksum: f24c13edfeefa3d07849da66fd100756
+      path: hastings/Periodisk_feber.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Periodisk_feber.list
+    Periodisk_paralys:
+      checksum: 46f5f16520bd716c8571775bc28a5731
+      path: hastings/Periodisk_paralys.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Periodisk_paralys.list
+    Polycystisk_njursjukdom_v1:
+      checksum: 06428e25be55bf0b33720064c6971571
+      path: hastings/Polycystisk_njursjukdom_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Polycystisk_njursjukdom_v1.list
+    Primar_Hyperaldosteronism:
+      checksum: 3240572128f2c0b7320357e06693abc6
+      path: hastings/Primar_Hyperaldosteronism.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Primar_Hyperaldosteronism.list
+    Rasopatier_v3:
+      checksum: 9ed4634845e0c74a3b645af705e5c55f
+      path: hastings/Rasopatier_v3.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Rasopatier_v3.list
+    Skelettsjukdomar:
+      checksum: 187851b2b784978f05ffa4de145a6718
+      path: hastings/Skelettsjukdomar.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Skelettsjukdomar.list
+    Sotos:
+      checksum: d4abc6e1e442ee911cb672f6d5aafec3
+      path: hastings/Sotos.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Sotos.list
+    Trombocytopenier:
+      checksum: 9f574a0896d2190f4382749091f5fe75
+      path: hastings/Trombocytopenier.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Trombocytopenier.list
+    Tyroideahormonresistens_v1:
+      checksum: b123aee4c99da6ee6b966cb7aeee95ee
+      path: hastings/Tyroideahormonresistens_v1.list
+      type: file
+      url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/Tyroideahormonresistens_v1.list
+
+  
+

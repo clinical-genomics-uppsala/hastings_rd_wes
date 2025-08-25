@@ -160,8 +160,6 @@ picard_collect_wgs_metrics:
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
 
-sample_order_for_multiqc:
-  sample_sheet: "config/SampleSheet.csv"
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
