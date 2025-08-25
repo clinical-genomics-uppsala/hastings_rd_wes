@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.6.0...v0.7.0) (2025-08-25)
+
+
+### Features
+
+* add hydrops_fetalis panel ([8b77413](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/8b774133cd2737941181041746b91fce685b903d))
+* add vcf output for exomedepth calls ([1fa9672](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/1fa96721d9aa9f8b8be6c192a5cb3e50d8452c8e))
+* miarka compatibility and refrence files ([a787ef5](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/a787ef55b89dcc4639261106b2f5613fc87c2ae2))
+* remove spring files from the results ([e5fdcaf](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/e5fdcaf65c1ca0004733a293a3520ff1d2ffb385))
+* Update gene panels lists in design_files.hg38.yaml ([8c2051f](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/8c2051f022776565e04432f901031baf7c963251))
+
+
+### Bug Fixes
+
+* fix path for marvin in config_exomedepth_novaseqX.yaml ([7d2d41c](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/7d2d41c932fc87c5f6e7022300cffbd62a1e568e))
+* remove conda from add_ref_to_vcf.smk ([0390fec](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/0390fecad9ffc3d64f5cef113fcd190c7f92a6b3))
+* vep version etc ([da07983](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/da07983c2f146a962185a66e2a706160298a69d5))
+
+
+### Documentation
+
+* fix typo in README heading ([53704e8](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/53704e8b537a17f5a28fc9f4cc4b474ec2dca7b2))
+* Update build README.md ([f21cca6](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/f21cca63fecee3d886fe5770cc16b218a5709cda))
+* update dag image ([b40c627](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/b40c6275a53954435a5e3c3a3919c416f3a96037))
+* update output file list ([1cdf8f1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/1cdf8f1dad11d9fc514f94bb6752165c6745478e))
+* update the dag to latest workflow ([dcbb576](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/dcbb576a703206fcbed731b135e46bbdbc645870))
+
 ## [0.6.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.5.1...v0.6.0) (2025-02-25)
 
 
