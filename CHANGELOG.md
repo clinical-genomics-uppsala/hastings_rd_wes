@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.7.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.7.0...v0.7.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* change file names to work with SeqOne ([f202db3](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/f202db351096840222b62c5bfa2bbe440de7d9cd))
+
 ## [0.7.0](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.6.0...v0.7.0) (2025-08-25)
 
 
