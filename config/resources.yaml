@@ -7,12 +7,35 @@ default_resources:
   mem_per_cpu: 6144
   partition: "core"
 
-bwa_mem:
-  mem_mb: 122880
+automap:
+  threads: 1
+  mem_mb: 6144
   mem_per_cpu: 6144
-  threads: 8
+
+bwa_mem:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+
+deepmosaic_draw:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
+deepmosaic_predict:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
 
 deepvariant:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
+deepsomatic_t_only:
   mem_mb: 61440
   mem_per_cpu: 6144
   threads: 10
@@ -30,6 +53,16 @@ fastqc:
 
 glnexus:
   threads: 20
+
+melt:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+
+mosaicforecast:
+  threads: 2
+  mem_mb: 12288
+  mem_per_cpu: 6144
 
 mosdepth_bed:
   mem_mb: 36864
@@ -63,10 +96,10 @@ samtools_view:
   threads: 10
 
 spring:
-  mem_mb: 49152
+  mem_mb: 12288
   mem_per_cpu: 6144
-  threads: 8
   partition: "core_bkup"
+  threads: 2
 
 vep:
   threads: 4

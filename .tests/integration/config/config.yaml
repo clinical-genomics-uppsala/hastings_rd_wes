@@ -11,18 +11,19 @@ default_container: "docker://hydragenetics/common:1.11.1"
 
 modules:
   alignment: "v0.6.0"
-  annotation: "v0.3.0"
+  annotation: "v1.1.0"
   compression: "v2.0.0"
-  cnv_sv: "v0.4.1"
-  filtering: "v0.2.0"
+  cnv_sv: "6739845"
+  filtering: "v1.1.0"
   misc: "v0.2.0"
-  parabricks: "v1.1.0"
-  prealignment: "v1.1.0"
-  qc: "v0.4.1"
+  parabricks: "v1.2.1"
+  prealignment: "v1.2.0"
+  qc: "v0.5.0"
   references: "e71ee62"
-  snv_indels: "v1.0.0"
+  snv_indels: "mosaicforecast"
 
 reference:
+  annovar: "reference/annovar"
   coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
   design_bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
   design_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
@@ -60,11 +61,22 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+  
 deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
   bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
+
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: "--use_default_pon_filtering=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
@@ -74,7 +86,6 @@ exomedepth_call:
   genome_version: "hg38"
   male_reference: "reference/RefCount_male.Rdata"
   female_reference: "reference/RefCount_female.Rdata"
-
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"
@@ -94,6 +105,16 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+melt:
+  container: "docker://vanallenlab/melt:3159ce1"
+  bed: "reference/Hg38.genes.bed"
+  extra: ""
+  mei: "reference/mei_list.txt"
+
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  path: "alignment/samtools_merge_bam/"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
