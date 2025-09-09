@@ -23,7 +23,7 @@
 - [ ] New code is executed and covered by tests, and test approve
 - [ ] If you've fixed a bug or added code that should be tested, add tests!
 - [ ] Check that all tests passes ([hydra-genetics testing](https://hydra-genetics.readthedocs.io/en/latest/development/testing/) or through actions on github)
-- [ ] Make a new DAG-graph
+- [ ] Generate a new DAG-graph ([example of how to](https://github.com/hydra-genetics/snv_indels/blob/develop/docs/images/generate_dag.txt))
 - [ ] Updated the `README.md` ([how to format](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax))
 - [ ] Updated ReadTheDocs
 - [ ] `CHANGELOG.md` is updated
