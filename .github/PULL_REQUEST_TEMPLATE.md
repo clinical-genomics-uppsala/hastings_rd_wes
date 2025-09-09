@@ -9,7 +9,6 @@
 - [ ] Updated ReadTheDocs
 - [ ] `CHANGELOG.md` is updated
 - [ ] Code review
-
 <BR>
 
 ### Use commit tag:
