@@ -30,6 +30,7 @@ if config["output"] == "config/output_list.json":
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
     ruleorder: snv_indels_tabix > misc_tabix
     ruleorder: snv_indels_bgzip > misc_bgzip
+    rulerorder: _copy_exomedepth_tbi and misc_tabix
 
 
 module alignment:
