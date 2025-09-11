@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.7.2](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.7.1...v0.7.2) (2025-09-11)
+
+
+### Bug Fixes
+
+* add rulerorder for _copy_exomedepth_tbi and misc_tabix ([b3a685a](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/b3a685ae48bb2bbe2d1ace3d1ead62189448eaa6))
+
 ### [0.7.1](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.7.0...v0.7.1) (2025-09-08)
 
 
