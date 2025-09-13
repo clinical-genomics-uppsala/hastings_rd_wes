@@ -20,7 +20,7 @@ cat <<EOL >$VCF_FILE
 ##ALT=<ID=DUP,Description="Duplication">
 ##FILTER=<ID=PASS,Description="All filters passed">
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
-##FORMAT=<ID=CN,Number=1,Type=Integer,Description="Copy Number calculated as 2^(READSRATIO), rounded to the nearest integer">
+##FORMAT=<ID=CN,Number=1,Type=Integer,Description="Copy Number calculated as 2*(READSRATIO), rounded to the nearest integer">
 ##INFO=<ID=BF,Number=1,Type=Float,Description="Bayes Factor">
 ##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
 ##INFO=<ID=SVLEN,Number=1,Type=Integer,Description="Difference in length between REF and ALT alleles">
