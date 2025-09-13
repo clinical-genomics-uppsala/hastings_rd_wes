@@ -1,4 +1,4 @@
-PIPELINE_VERSION: v0.7.0
+PIPELINE_VERSION: v0.8.0
 REFERENCE_DATA: /proj/ngi2024001/nobackup/bin/wp3_te/design_and_ref_files
 APPTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/{{PIPELINE_VERSION}}/apptainer_cache
 
@@ -52,6 +52,9 @@ automap:
 
 bcftools_view_deepvariant:
   regions: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed'
+
+bcftools_hardfilter_exomedepth:
+  exclude: "'BF<=0'"
 
 bwa_mem:
   amb: '{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb'
