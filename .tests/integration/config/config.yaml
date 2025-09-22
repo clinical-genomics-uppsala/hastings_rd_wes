@@ -49,6 +49,10 @@ automap:
 bcftools_view_deepvariant:
   regions: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
 
+
+bcftools_hardfilter_exomedepth:
+  exclude: "'BF<=0'"
+
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
   amb: "reference/homo_sapiens.fasta.amb"
