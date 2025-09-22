@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.7.2...v0.8.0) (2025-09-22)
+
+
+### Features
+
+* add filtering on BF for cnv calls ([6534b1b](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6534b1bafd8654e5ec3273f0b4cdd21d4a362341))
+
 ### [0.7.2](https://www.github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.7.1...v0.7.2) (2025-09-11)
 
 
