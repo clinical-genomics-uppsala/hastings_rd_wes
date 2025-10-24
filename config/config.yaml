@@ -33,7 +33,7 @@ reference:
   skip_chrs:
     - chrM
 
-trimmer_software: "fastp_pe"q
+trimmer_software: "fastp_pe"
 
 aligner: "bwa_cpu" # or "bwa_cpu"
 snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"

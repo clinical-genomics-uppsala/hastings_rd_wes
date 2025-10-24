@@ -19,7 +19,7 @@ deepvariant:
   time: "12:00:00"
 
 fastp_pe:
-  threads: 1
+  threads: 10
   mem_mb: 6144
   mem_per_cpu: 6144
 
