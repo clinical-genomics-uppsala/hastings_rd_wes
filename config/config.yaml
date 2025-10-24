@@ -33,7 +33,7 @@ reference:
   skip_chrs:
     - chrM
 
-trimmer_software: "fastp_pe"
+trimmer_software: "fastp_pe"q
 
 aligner: "bwa_cpu" # or "bwa_cpu"
 snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
@@ -165,7 +165,7 @@ picard_mark_duplicates:
 
 seqtk_subsample:
   container: "docker://hydragenetics/seqtk:1.4"
-  nr_reads: 0.5
+  nr_reads: 65000000
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
