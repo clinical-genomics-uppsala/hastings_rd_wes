@@ -10,14 +10,14 @@ output: "config/output_list.json"
 default_container: "docker://hydragenetics/common:1.11.1"
 
 modules:
-  alignment: "v0.6.0"
+  alignment: "v0.7.0"
   annotation: "v0.3.0"
   compression: "v2.0.0" 
   cnv_sv: "v0.5.0"
   filtering: "v0.2.0"
   misc: "v0.2.0"
   parabricks: "v1.1.0"
-  prealignment: "v1.2.0"
+  prealignment: "v1.4.0"
   qc: "v0.4.1"
   references: "e71ee62"
   snv_indels: "v1.0.0"
@@ -163,6 +163,9 @@ picard_collect_wgs_metrics:
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
 
+seqtk_subsample:
+  container: "docker://hydragenetics/seqtk:1.4"
+  nr_reads: 0.5
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
