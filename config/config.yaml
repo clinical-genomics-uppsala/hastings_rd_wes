@@ -51,6 +51,9 @@ bcftools_view_deepsomatic:
 bcftools_view_deepvariant:
   regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
 
+bcftools_hardfilter_exomedepth:
+  exclude: "'BF<=0'"
+
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
   amb: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"

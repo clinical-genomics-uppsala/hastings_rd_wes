@@ -30,6 +30,9 @@ if config["output"] == "config/output_list.json":
     ruleorder: cnv_sv_bgzip > snv_indels_bgzip
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
+    ruleorder: snv_indels_tabix > misc_tabix
+    ruleorder: snv_indels_bgzip > misc_bgzip
+    ruleorder: _copy_exomedepth_tbi > misc_tabix
 
 
 module alignment:
@@ -182,6 +185,36 @@ use rule bcftools_view from filtering as filtering_bcftools_view_deepsomatic wit
             "snv_indels/bcftools_view/{sample}_{type}.ds.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
+
+
+use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_hardfilter_exomedepth with:
+    input:
+        vcf="cnv_sv/exomedepth_call/{sample}_{type}.vcf",
+    output:
+        vcf="cnv_sv/exomedepth_call/{sample}_{type}.filtered.vcf.gz",
+    params:
+        filter=lambda wildcards: "-e {}".format(config["bcftools_hardfilter_exomedepth"]["exclude"]),
+        extra=config.get("bcftools_hardfilter_exomedepth", {}).get("extra", ""),
+    log:
+        "cnv_sv/exomedepth_call/{sample}_{type}.hardfiltered.vcf.log",
+    benchmark:
+        repeat(
+            "cnv_sv/exomedepth_call/{sample}_{type}.hardfiltered.vcf.benchmark.tsv",
+            config.get("bcftools_hardfilter_exomedepth", {}).get("benchmark_repeats", 1),
+        )
+
+
+module misc:
+    snakefile:
+        get_module_snakefile(config, "hydra-genetics/misc", path="workflow/Snakefile", tag=config["modules"]["misc"])
+    config:
+        config
+
+
+use rule bgzip from misc as misc_bgzip
+
+
+use rule tabix from misc as misc_tabix
 
 
 module parabricks:
