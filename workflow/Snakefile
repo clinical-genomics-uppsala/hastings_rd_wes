@@ -114,13 +114,7 @@ use rule automap from cnv_sv as cnv_sv_automap with:
         vcf="vcf_final/{sample}_{type}.vcf",
 
 
-use rule melt from cnv_sv as cnv_sv_melt with:
-    output:
-        alu="cnv_sv/melt/{sample}_{type}/ALU.final_comp.vcf",
-        hervk="cnv_sv/melt/{sample}_{type}/HERVK.final_comp.vcf",
-        line1="cnv_sv/melt/{sample}_{type}/LINE1.final_comp.vcf",
-        sva="cnv_sv/melt/{sample}_{type}/SVA.final_comp.vcf",
-        tmpdir=directory("cnv_sv/melt/{sample}_{type}"),
+use rule melt from cnv_sv as cnv_sv_melt
 
 
 module compression:
@@ -521,6 +515,7 @@ use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
     input:
         annovar=config.get("reference", {}).get("annovar", ""),
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
         vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
 
@@ -528,6 +523,7 @@ use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
 use rule deepmosaic_input from snv_indels as snv_indels_deepmosaic_input with:
     input:
         bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
         sex="qc/peddy/peddy.sex_check.csv",
         vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
 
@@ -621,7 +617,42 @@ use rule mosaicforecast_input from snv_indels as snv_indels_mosaicforecast_input
         vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
 
 
-use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_prediction
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_prediction with:
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trainedSNP", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_typeSNP", ""),
+
+
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_predictionINS with:
+    output:
+        predict="snv_indels/mosaicforecast/{sample}_{type}/INS.predictions",
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trainedINS", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_typeINDEL", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionINS.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionINS.benchmark.tsv",
+            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_predictionDEL with:
+    output:
+        predict="snv_indels/mosaicforecast/{sample}_{type}/DEL.predictions",
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trainedDEL", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_typeINDEL", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionDEL.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionDEL.benchmark.tsv",
+            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
 
 
 use rule mosaicforecast_phasing from snv_indels as snv_indels_mosaicforecast_phasing

@@ -44,7 +44,81 @@
       path: hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa
       type: file
       url: file:/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa
- 
+
+  efficientnet_deepmosaic:
+    pth:
+      checksum: 8c363a3d0fa1cd8c48c37337ca413b62
+      path: hastings/efficientnet-b4-6ed6700e.pth
+      type: file
+      url: file:/beegfs-storage/data/ref_data/wp3/hastings/efficientnet-b4-6ed6700e.pth
+
+  melt:
+    bed:
+      checksum: b7cc511549a1ee6fd5a3ba73955a10ae
+      path: hastings/melt/Hg38.genes.bed
+      type: file
+      url: file:/beegfs-storage/data/ref_data/wp3/melt/Hg38.genes.bed
+    mei:
+      checksum: 7c7d346197879988408db7cef7bfa045
+      path: hastings/melt/mei_list.txt
+      type: file
+      url: file:/beegfs-storage/data/ref_data/wp3/melt/mei_hastings_list.txt
+    alu:
+      checksum: 8e2bf5db30c7053c640ba8aaa4ded716
+      path: hastings/melt/me_refs/Hg38/ALU_MELT.zip 
+      type: folder
+      url: file:/beegfs-storage/data/ref_data/wp3/melt/me_refs/Hg38/ALU_MELT.zip 
+    hervk:
+      checksum: 8672106ec4205e5787217204e7186038 
+      path: hastings/melt/me_refs/Hg38/HERVK_MELT.zip
+      type: folder
+      url: file:/beegfs-storage/data/ref_data/wp3/melt/me_refs/Hg38/HERVK_MELT.zip
+    line1:
+      checksum: d53f11c7e8e0805c8e44b42309855909 
+      path: hastings/melt/me_refs/Hg38/LINE1_MELT.zip
+      type: folder
+      url: file:/beegfs-storage/data/ref_data/wp3/melt/me_refs/Hg38/LINE1_MELT.zip
+    sva:
+      checksum: 159093e9fecc796f11382fb29340d011
+      path: hastings/melt/me_refs/Hg38/SVA_MELT.zip
+      type: folder
+      url: file:/beegfs-storage/data/ref_data/wp3/melt/me_refs/Hg38/SVA_MELT.zip
+    
+  mosaicforecast_genotype_prediction:
+    model_trainedSNP:
+      checksum: a71a3ce2a76ccb4374a96c126c21bcaa
+      path: hastings/150xRFmodel_addRMSK_Refine.rds
+      type: file
+      url: file:/beegfs-storage/data/ref_data/wp3/hastings/150xRFmodel_addRMSK_Refine.rds
+    model_trainedINS:
+      checksum: f9414c3df89d030fabdfa891c493997e
+      path: hastings/insertions_250x.RF.rds
+      type: file
+      url: file:/beegfs-storage/data/ref_data/wp3/hastings/insertions_250x.RF.rds
+    model_trainedDEL:
+      checksum: aedaa0b0ba9f7cdb596d030c40fe0048
+      path: hastings/deletions_250x.RF.rds
+      type: file
+      url: file:/beegfs-storage/data/ref_data/wp3/hastings/deletions_250x.RF.rds
+
+  annovar:
+    annovar_2025Feb18:
+      compressed_checksum: d713f17ffb5d43ddd48756f6e1a28b04
+      path: hastings/annovar/
+      type: folder
+      content_checksum:
+        annotate_variation.pl: d4996fe4809e44cdd09399fd676c3b03
+        coding_change.pl: 2afc56f7661d10f855d74690c5ae4b3a
+        convert2annovar.pl: 9e9d5fbffa84e48f13227160d4b868d4
+        retrieve_seq_from_fasta.pl: ec79ec9e3aa6736dfd6fe0372e104a62
+        table_annovar.pl: 41b3b0cb2f995f24d131050c60eff865
+        variants_reduction.pl: e76488cf837c79403f2af031732fef35
+        humandb/hg38_gnomad41_genome.txt: 9b140e4a94c875bad1e3f97d8298cd59
+        humandb/hg38_gnomad41_genome.txt.idx: d4cc6fec5c78d8e85c80cf1ccc43a584
+        humandb/hg38_refGene.txt: 77af23e0a7f318fca6ecf517d4296e05
+        humandb/hg39_refGeneMrna.fa: d41d8cd98f00b204e9800998ecf8427e
+      url: file:/beegfs-storage/data/ref_data/wp3/annovar/annovar.tar.gz
+
   vep:
     vep_cache:
       compressed_checksum: a15e82b4ae89fcadee62b9c95c4ccb41

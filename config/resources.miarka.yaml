@@ -18,6 +18,12 @@ deepvariant:
   threads: 10
   time: "12:00:00"
 
+deepsomatic_t_only:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
 fastp_pe:
   threads: 1
   mem_mb: 6144

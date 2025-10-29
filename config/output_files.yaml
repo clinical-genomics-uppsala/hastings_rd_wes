@@ -1,0 +1,101 @@
+directory: ./results
+files:
+  - name: MultiQC
+    input: qc/multiqc/multiqc_DNA.html
+    output: "multiqc_DNA.html"
+ 
+  - name: QC xlsx-report
+    input: qc/create_cov_excel/{sample}_N.coverage.xlsx
+    output: "{sample}/{sample}.coverage_analysis.xlsx"
+
+  - name: Alignment cram file
+    input: compression/samtools_view/{sample}_N.cram
+    output: "{sample}/{sample}_N.cram"
+
+  - name: Alignment crai file
+    input: compression/samtools_view/{sample}_N.cram.crai
+    output: "{sample}/{sample}_N.cram.crai"
+
+  - name: Vcf file
+    input: vcf_final/{sample}_N.vcf.gz
+    output: "{sample}/{sample}.hard-filtered.vcf.gz"
+
+  - name: Vcf tbi file
+    input: vcf_final/{sample}_N.vcf.gz.tbi
+    output: "{sample}/{sample}.hard-filtered.vcf.gz.tbi"
+
+  - name: AutoMap homozygote regions tsv
+    input: "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.tsv"
+    output: "{sample}/automap/{sample}.HomRegions.tsv" 
+
+  - name: AutoMap homozygote regions pdf
+    input: "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.pdf"
+    output: "{sample}/{sample}.upd_regions.bed" 
+
+  - name: Deepmosaic prediction txt
+    input: "snv_indels/deepmosaic/{sample}_N/final_predictions.txt"
+    output: "{sample}/mosaic/{sample}.deepmosaic.txt" 
+
+  - name: DeepSomatic tumour only vcf
+    input: "snv_indels/deepsomatic_t_only/{sample}_N.vcf.gz"
+    output: "{sample}/mosaic/{sample}.deepsomatic.vcf.gz"   
+
+  - name: DeepSomatic tumour only tbi
+    input: "snv_indels/deepsomatic_t_only/{sample}_N.vcf.gz.tbi"
+    output: "{sample}/mosaic/{sample}.deepsomatic.vcf.gz.tbi"   
+  
+  - name: Exomedepth nexus
+    input: cnv_sv/exomedepth_call/{sample}_N_SV.txt
+    output: "{sample}/{sample}_exomedepth_SV.txt"
+
+  - name: Exomedepth aed
+    input: cnv_sv/exomedepth_call/{sample}_N.aed
+    output: "{sample}/{sample}_exomedepth.aed"
+  
+  - name: Exomedepth vcf
+    input: "cnv_sv/exomedepth_call/{sample}_N.filtered.vcf.gz"
+    output: "{sample}/{sample}.cnv.vcf.gz"
+
+  - name: Exomedepth vcf tbi
+    input: "cnv_sv/exomedepth_call/{sample}_N.filtered.vcf.gz.tbi"
+    output: "{sample}/{sample}.cnv.vcf.gz.tbi" 
+
+  - name: MELT ALU
+    input: "cnv_sv/melt/{sample}_N/ALU.final_comp.vcf.gz"
+    output: "{sample}/mobile_elements/{sample}.melt_ALU.vcf.gz"  
+
+  - name: MELT HERVK
+    input: "cnv_sv/melt/{sample}_N/HERVK.final_comp.vcf.gz"
+    output: "{sample}/mobile_elements/{sample}.HERVK.vcf.gz"  
+
+  - name: MELT LINE1
+    input: "cnv_sv/melt/{sample}_N/LINE1.final_comp.vcf.gz"
+    output: "{sample}/mobile_elements/{sample}.LINE1.vcf.gz"  
+
+  - name: MELT SVA
+    input: "cnv_sv/melt/{sample}_N/SVA.final_comp.vcf.gz"
+    output: "{sample}/mobile_elements/{sample}.SVA.vcf.gz"   
+
+  - name: MosaicForecast phase
+    input: "snv_indels/mosaicforecast/{sample}_N/all.phasing"
+    output: "{sample}/mosaic/{sample}.mosaicforecast.phasing"   
+
+  - name: MosaicForecast DEL predictions
+    input: "snv_indels/mosaicforecast/{sample}_N/DEL.predictions"
+    output: "{sample}/mosaic/{sample}.mosaicforecast.DEL.predictions"   
+
+  - name: MosaicForecast INS predictions
+    input: "snv_indels/mosaicforecast/{sample}_N/INS.predictions"
+    output: "{sample}/mosaic/{sample}.mosaicforecast.INS.predictions"   
+
+  - name: MosaicForecast SNP predictions
+    input: "snv_indels/mosaicforecast/{sample}_N/SNP.predictions"
+    output: "{sample}/mosaic/{sample}.mosaicforecast.SNP.predictions"   
+
+  - name: Peddy html
+    input: "qc/peddy/peddy.html"
+    output: "peddy.html"   
+
+  - name: UPD region bed
+    input: "cnv_sv/upd/{sample}_N.upd_regions.bed"
+    output: "{sample}/{sample}.upd_regions.bed"   

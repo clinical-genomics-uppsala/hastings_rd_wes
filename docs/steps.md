@@ -67,11 +67,15 @@ SNV and indels are called using the [SNV_indels module](https://github.com/hydra
 
 ### Pipeline output files
 
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}.vcf.gz`
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}.merged.genome.vcf.gz`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}.vcf.gz`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}.merged.genome.vcf.gz`
 
 ### SNV calling
 Variants are called using [Parabricks DeepVariant](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_deepvariant.html#man-deepvariant) per chromosome to speed up the analysis.
+
+### Mosaic variant calling
+Possible mosaic variants is called by [DeepSomatic](https://github.com/google/deepsomatic) which are then predicted to be real or not with [MosaicForecast](https://github.com/parklab/MosaicForecast) and [DeepMosaic](https://github.com/XiaoxuYangLab/DeepMosaic).
+
 
 ---
 ## CNVs and SVs 
@@ -82,11 +86,14 @@ CNVs are called using the [Hydra-Genetics CNV_SV module](https://github.com/hydr
 
 ### Pipeline output files
 
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth_SV.txt`
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth.aed`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth_SV.txt`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth.aed`
 
 ### Exomedepth
 To call larger structural variants **[Exomedepth](https://cran.r-project.org/web/packages/ExomeDepth/index.html)** v1.1.15 is used. Exomedepth does **not** use a window approach but evaluates each row in the bedfile as a segment, therefor the bedfile need to be split into appropriate large windows (e.g. using `bedtools makewindows`). Exomedepth also need a `RData` file containing the normal pool, this can be created using the [Marple - references workflow](/running_ref).
+
+### Mobile elements
+To find mobile elements, like ALU, HERVK, LINE1 and SVA, [MELT](https://melt.igs.umaryland.edu/index.php) is used. It is free to use for academic purposes and you can buy a licence if used in other cases, like for this pipeline as part of the clinical workflow at the hospital. Since you should ask to use MELT, the singularity we use are local.
 
 ---
 ## QC
@@ -97,7 +104,7 @@ For quality control several the [QC-module](https://github.com/hydra-genetics/qc
 ![dag plot](includes/images/qc.png){: style="height:70%;width:70%"}
 
 ### Pipeline output files
-* `Results/{sequenceid}_MultiQC.html`
+* `results/{sequenceid}_MultiQC.html`
 
 ### MultiQC
 A MultiQC html report is generated using **[MultiQC](https://github.com/ewels/MultiQC)** v1.11. The report starts with a general statistics table showing the most important QC-values followed by additional QC data and diagrams. The qc data is collected and generated using Fastp, FastQC, samtools, picard and Mosdepth.

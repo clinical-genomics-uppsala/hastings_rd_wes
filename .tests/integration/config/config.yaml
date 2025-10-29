@@ -7,20 +7,20 @@ units: "config/units.tsv"
 
 output: "config/output_list.json"
 
-default_container: "docker://hydragenetics/common:1.11.1"
+default_container: "docker://hydragenetics/common:3.1.1"
 
 modules:
-  alignment: "v0.6.0"
-  annotation: "v1.1.0"
-  compression: "v2.0.0"
-  cnv_sv: "6739845"
+  alignment: "v0.7.0"
+  annotation: "v1.2.0"
+  cnv_sv: "f441cb7"
+  compression: "v2.1.0" 
   filtering: "v1.1.0"
   misc: "v0.2.0"
   parabricks: "v1.2.1"
-  prealignment: "v1.2.0"
-  qc: "v0.5.0"
+  prealignment: "v1.4.0"
+  qc: "v0.6.0"
   references: "e71ee62"
-  snv_indels: "mosaicforecast"
+  snv_indels: "v1.3.0"
 
 reference:
   annovar: "reference/annovar"
@@ -32,8 +32,6 @@ reference:
   genepanels: "reference/genepanels.list"
   sites: "reference/homo_sapiens.known_indels.vcf.gz"
   skip_chrs:
-    - chrM
-  skip_contigs:
     - chrM
 
 trimmer_software: "fastp_pe"
@@ -47,9 +45,11 @@ automap:
   extra: "--DP 10 --minsize 3 --chrX"
   outdir: "cnv_sv/automap"
 
-bcftools_view_deepvariant:
-  regions: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+bcftools_view_deepsomatic:
+  extra: " -f PASS --exclude 'FORMAT/DP<10 | FORMAT/GQ<20 | FORMAT/VAF>0.4 && FORMAT/VAF<0.6 | FORMAT/VAF<0.02 | FORMAT/VAF>0.98' " # remove gnomad of some AF threshold? -T ^/projects/wp3/nobackup/Workspace/mosaic/hardregNgnomad_hg38.bed
 
+bcftools_view_deepvariant:
+  regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
 
 bcftools_hardfilter_exomedepth:
   exclude: "'BF<=0'"
@@ -61,6 +61,7 @@ bwa_mem:
   bwt: "reference/homo_sapiens.fasta.bwt"
   pac: "reference/homo_sapiens.fasta.pac"
   sa: "reference/homo_sapiens.fasta.sa"
+  extra: "-K 100000000"
 
 create_cov_excel:
   covLimits: "10 20 30"
@@ -70,16 +71,16 @@ deepmosaic_draw:
 
 deepmosaic_predict:
   container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
-  
+
 deepvariant:
-  container: "docker://hydragenetics/deepvariant:1.4.0"
-  bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  container: "docker://google/deepvariant:1.6.1" 
+  bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
-  extra: "--use_default_pon_filtering=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  extra: "--use_default_pon_filtering=true make_examples_extra_args='vsc_min_fraction_snps=0.029,vsc_min_fraction_indels=0.05' " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
   model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 exomedepth_call:
@@ -88,8 +89,6 @@ exomedepth_call:
   exonsfile: "reference/exons_GRCh38_ensembl109.txt"
   genesfile: "reference/genes_GRCh38_ensembl109.txt"
   genome_version: "hg38"
-  male_reference: "reference/RefCount_male.Rdata"
-  female_reference: "reference/RefCount_female.Rdata"
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"
@@ -111,21 +110,37 @@ glnexus_trio:
   configfile: "DeepVariantWES"
 
 melt:
-  container: "docker://vanallenlab/melt:3159ce1"
+  container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
   bed: "reference/Hg38.genes.bed"
   extra: ""
   mei: "reference/mei_list.txt"
 
-mosaicforecast:
+mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  path: "alignment/samtools_merge_bam/"
+  f_format: "bam" # cram/bam
+  path: "alignment/samtools_merge_bam/" # path to bam-files
+  umap: "reference/k24.umap.wg.bw"
+
+mosaicforecast_readlevel:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  f_format: "bam" # cram/bam
+  path: "alignment/samtools_merge_bam/" # path to bam-files
+  umap: "reference/k24.umap.wg.bw"
+
+mosaicforecast_genotype_prediction:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  model_trainedSNP: "reference/150xRFmodel_addRMSK_Refine.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedINS: "reference/insertions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedDEL: "reference/deletions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_typeSNP: "Refine"  # phase/refine
+  model_typeINDEL: "Phase"  # phase/refine
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
   extra: ""
 
 multiqc:
-  container: "docker://hydragenetics/multiqc:1.11"
+  container: "docker://hydragenetics/multiqc:1.21"
   reports:
     DNA:
       config: "config/multiqc_config_DNA.yaml"
@@ -133,10 +148,7 @@ multiqc:
       qc_files:
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq1_fastqc.zip"
         - "qc/fastqc/{sample}_{type}_{flowcell}_{lane}_{barcode}_fastq2_fastqc.zip"
-        - "qc/mosdepth_bed/{sample}_{type}.mosdepth.summary.txt"
         - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.summary.txt"
-        - "qc/mosdepth_bed_design/{sample}_{type}.per-base.bed.gz"
-        - "qc/mosdepth_bed_design/{sample}_{type}.regions.bed.gz"
         - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.region.dist.txt"
         - "qc/mosdepth_bed_design/{sample}_{type}.mosdepth.global.dist.txt"
         - "qc/peddy/peddy.peddy.ped"
@@ -155,12 +167,12 @@ multiqc:
         - "qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"
 
 pbrun_deepvariant:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
-  extra: "--pb-model-file /beegfs-storage/data/parabricks/4.0.0-1/A30/wes/deepvariant_wes.eng \
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
+  extra: "--use-wes-model --mode shortread \
    --disable-use-window-selector-model --gvcf " ## disable window selector model for consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1"
+  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
   extra: ""
 
 peddy:
@@ -192,21 +204,17 @@ picard_collect_wgs_metrics:
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
 
-sample_order_for_multiqc:
-  sample_sheet: "config/SampleSheet.csv"
-
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
-
 
 upd:
   container: "docker://hydragenetics/upd:0.1.1"
   extra: "--vep "
 
 vep_trio:
-  container: "docker://ensemblorg/ensembl-vep:release_109.3"
+  container: "docker://ensemblorg/ensembl-vep:release_110.1"
   vep_cache: "reference/VEP/"
-  extra: "--assembly GRCh38 --check_existing --pick --max_af --buffer_size 50000"
+  extra: "--assembly GRCh38 --check_existing --pick --max_af "
 
 vt_decompose:
   container: "docker://hydragenetics/vt:2015.11.10"

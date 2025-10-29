@@ -7,20 +7,20 @@ units: "config/units.tsv"
 
 output: "config/output_list.json"
 
-default_container: "docker://hydragenetics/common:1.11.1"
+default_container: "docker://hydragenetics/common:3.1.1"
 
 modules:
-  alignment: "v0.6.0"
-  annotation: "v1.1.0"
-  cnv_sv: "6739845"
-  compression: "v2.0.0" 
+  alignment: "v0.7.0"
+  annotation: "v1.2.0"
+  cnv_sv: "f441cb7"
+  compression: "v2.1.0" 
   filtering: "v1.1.0"
   misc: "v0.2.0"
   parabricks: "v1.2.1"
-  prealignment: "v1.2.0"
-  qc: "v0.5.0"
+  prealignment: "v1.4.0"
+  qc: "v0.6.0"
   references: "e71ee62"
-  snv_indels: "mosaicforecast"
+  snv_indels: "v1.3.0"
 
 reference:
   annovar: "/opt/ohpc/pub/annotators/annovar/2025Feb18"
@@ -80,7 +80,7 @@ deepvariant:
 
 deepsomatic_t_only:
   container: "docker://google/deepsomatic:1.8.0"
-  extra: "--use_default_pon_filtering=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  extra: "--use_default_pon_filtering=true make_examples_extra_args='vsc_min_fraction_snps=0.029,vsc_min_fraction_indels=0.05' " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
   model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 exomedepth_call:
@@ -110,7 +110,7 @@ glnexus_trio:
   configfile: "DeepVariantWES"
 
 melt:
-  container: "docker://vanallenlab/melt:3159ce1"
+  container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
   bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
   extra: ""
   mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
@@ -129,8 +129,11 @@ mosaicforecast_readlevel:
 
 mosaicforecast_genotype_prediction:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
-  model_trained: "/data/ref_data/wp3/mosaicforecast/150xRFmodel_addRMSK_Refine.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
-  model_type: "Refine"  # phase/refine
+  model_trainedSNP: "/data/ref_data/wp3/mosaicforecast/150xRFmodel_addRMSK_Refine.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedINS: "/data/ref_data/wp3/mosaicforecast/insertions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedDEL: "/data/ref_data/wp3/mosaicforecast/deletions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_typeSNP: "Refine"  # phase/refine
+  model_typeINDEL: "Phase"  # phase/refine
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"

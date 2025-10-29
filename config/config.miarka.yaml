@@ -1,4 +1,4 @@
-PIPELINE_VERSION: v0.8.0
+PIPELINE_VERSION: v0.9.0
 REFERENCE_DATA: /proj/ngi2024001/nobackup/bin/wp3_te/design_and_ref_files
 APPTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/{{PIPELINE_VERSION}}/apptainer_cache
 
@@ -12,22 +12,23 @@ units: config/units.tsv
 
 output: config/output_list.json
 
-default_container: '{{APPTAINER_CACHE}}/hydragenetics__common_1.11.1.sif'
+default_container: '{{APPTAINER_CACHE}}/hydragenetics__common_3.1.1.sif'
 
 modules:
-  alignment: v0.6.0
-  annotation: v0.3.0
-  cnv_sv: v0.5.0
-  compression: v2.0.0
-  filtering: v0.2.0
+  alignment: v0.7.0
+  annotation: v1.2.0
+  cnv_sv: f441cb7
+  compression: v2.1.0
+  filtering: v1.1.0
   misc: v0.2.0
-  parabricks: v1.1.0
-  prealignment: v1.2.0
-  qc: v0.4.1
+  parabricks: v1.2.0
+  prealignment: v1.4.0
+  qc: v0.6.0
   references: e71ee62
-  snv_indels: v1.0.0
+  snv_indels: v1.3.0
 
 reference:
+  annovar: '{{REFERENCE_DATA}}/hastings/annovar/'
   coverage_bed: '{{REFERENCE_DATA}}/hastings/hastings_coverage_20250109.bed'
   design_bed: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed'
   design_intervals: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list'
@@ -68,11 +69,22 @@ bwa_mem:
 create_cov_excel:
   covLimits: 10 20 30
 
+deepmosaic_draw:
+  container: '{{APPTAINER_CACHE}}/library_____sanglee8888__deepmosaic__deepmosaic_sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e.sif'
+
+deepmosaic_predict:
+  container: '{{APPTAINER_CACHE}}/library_____sanglee8888__deepmosaic__deepmosaic_sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e.sif'
+
 deepvariant:
   bed: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed'
   container: '{{APPTAINER_CACHE}}/google__deepvariant_1.6.1.sif'
   model_type: WES
   output_gvcf: true
+
+deepsomatic_t_only:
+  container: '{{APPTAINER_CACHE}}/google__deepsomatic_1.8.0.sif'
+  extra: "--use_default_pon_filtering=true make_examples_extra_args='vsc_min_fraction_snps=0.029,vsc_min_fraction_indels=0.05' " #--use_default_pon_filtering=true or --pon_filtering='pon.vcf' --process_somatic=true or ''
+  model: 'WGS_TUMOR_ONLY' # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
 
 exomedepth_call:
   bedfile: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed'
@@ -99,6 +111,32 @@ glnexus_peddy:
 glnexus_trio:
   configfile: DeepVariantWES
   container: '{{APPTAINER_CACHE}}/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif'
+
+melt:
+  container: "{{APPTAINER_CACHE}}/MELT_v2.2.2.sif"
+  bed: "{{REFERENCE_DATA}}/hastings/melt/Hg38.genes.bed"
+  extra: ""
+  mei: "{{REFERENCE_DATA}}/hastings/melt/mei_list.txt"
+
+mosaicforecast_phasing:
+  container: '{{APPTAINER_CACHE}}/yanmei__mosaicforecast_hg38_0.0.1.sif'
+  f_format: 'bam' # cram/bam
+  path: 'alignment/samtools_merge_bam/' # path to bam-files
+  umap: '/usr/local/bin/k24.umap.wg.bw'
+
+mosaicforecast_readlevel:
+  container: '{{APPTAINER_CACHE}}/yanmei__mosaicforecast_hg38_0.0.1.sif'
+  f_format: 'bam' # cram/bam
+  path: 'alignment/samtools_merge_bam/' # path to bam-files
+  umap: '/usr/local/bin/k24.umap.wg.bw'
+
+mosaicforecast_genotype_prediction:
+  container: '{{APPTAINER_CACHE}}/yanmei__mosaicforecast_hg38_0.0.1.sif'
+  model_trainedSNP: '{{REFERENCE_DATA}}/hastings/150xRFmodel_addRMSK_Refine.rds' # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedINS: '{{REFERENCE_DATA}}/hastings/insertions_250x.RF.rds' # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedDEL: '{{REFERENCE_DATA}}/hastings/deletions_250x.RF.rds' # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_typeSNP: 'Refine'  # phase/refine
+  model_typeINDEL: 'Phase'  # phase/refine
 
 mosdepth_bed:
   container: '{{APPTAINER_CACHE}}/hydragenetics__mosdepth_0.3.2.sif'

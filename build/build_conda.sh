@@ -51,6 +51,8 @@ tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRA
 conda activate ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env
 hydra-genetics prepare-environment create-singularity-files -c config/config.yaml -o apptainer_cache
 
+cp /projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif apptainer_cache
+
 # Download references
 for reference_config in "$@"
 do
