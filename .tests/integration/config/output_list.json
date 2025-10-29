@@ -20,5 +20,3 @@
   "results/peddy.html": {"name": "_copy_peddy_html", "file": "qc/peddy/peddy.html", "types": ["N"]},
   "results/multiqc_DNA.html": {"name": "_copy_multiqc_html", "file": "qc/multiqc/multiqc_DNA.html", "types": ["N"]}
 }
-
-# Can't test melt since singularity is local
