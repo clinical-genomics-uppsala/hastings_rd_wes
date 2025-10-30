@@ -110,7 +110,7 @@ glnexus_trio:
   configfile: "DeepVariantWES"
 
 melt:
-  container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
+  container: "reference/MELT_v2.2.2.sif"
   bed: "reference/Hg38.genes.bed"
   extra: ""
   mei: "reference/mei_list.txt"
