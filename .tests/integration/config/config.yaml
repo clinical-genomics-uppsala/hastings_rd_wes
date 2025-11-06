@@ -20,7 +20,7 @@ modules:
   prealignment: "v1.4.0"
   qc: "v0.6.0"
   references: "e71ee62"
-  snv_indels: "e10fd45"
+  snv_indels: "v1.3.1"
 
 reference:
   annovar: "reference/annovar"

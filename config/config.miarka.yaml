@@ -1,6 +1,7 @@
-PIPELINE_VERSION: v0.9.0
+
 REFERENCE_DATA: /proj/ngi2024001/nobackup/bin/wp3_te/design_and_ref_files
-APPTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/{{PIPELINE_VERSION}}/apptainer_cache
+
+APPTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache
 
 hydra_local_path: /proj/ngi2024001/nobackup/bin/wp3_te/{{PIPELINE_VERSION}}/hydra-genetics
 
@@ -25,7 +26,7 @@ modules:
   prealignment: v1.4.0
   qc: v0.6.0
   references: e71ee62
-  snv_indels: v1.3.0
+  snv_indels: v1.3.1
 
 reference:
   annovar: '{{REFERENCE_DATA}}/hastings/annovar/'
@@ -121,13 +122,11 @@ melt:
 mosaicforecast_phasing:
   container: '{{APPTAINER_CACHE}}/yanmei__mosaicforecast_hg38_0.0.1.sif'
   f_format: 'bam' # cram/bam
-  path: 'alignment/samtools_merge_bam/' # path to bam-files
   umap: '/usr/local/bin/k24.umap.wg.bw'
 
 mosaicforecast_readlevel:
   container: '{{APPTAINER_CACHE}}/yanmei__mosaicforecast_hg38_0.0.1.sif'
   f_format: 'bam' # cram/bam
-  path: 'alignment/samtools_merge_bam/' # path to bam-files
   umap: '/usr/local/bin/k24.umap.wg.bw'
 
 mosaicforecast_genotype_prediction:
