@@ -644,11 +644,7 @@ use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaic
 
 
 use rule mosaicforecast_phasing from snv_indels as snv_indels_mosaicforecast_phasing with:
-    input:
-        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
-        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
-        fasta=config.get("reference", {}).get("fasta", ""),
-        variants="snv_indels/mosaicforecast/{sample}_{type}.input",
+
 
 use rule mosaicforecast_readlevel from snv_indels as snv_indels_mosaicforecast_readlevel
 

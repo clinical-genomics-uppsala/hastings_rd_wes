@@ -20,7 +20,7 @@ modules:
   prealignment: "v1.4.0"
   qc: "v0.6.0"
   references: "e71ee62"
-  snv_indels: "v1.3.0"
+  snv_indels: "e10fd45"
 
 reference:
   annovar: "reference/annovar"
@@ -118,13 +118,11 @@ melt:
 mosaicforecast_phasing:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   f_format: "bam" # cram/bam
-  path: "alignment/samtools_merge_bam/" # path to bam-files
   umap: "reference/k24.umap.wg.bw"
 
 mosaicforecast_readlevel:
   container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
   f_format: "bam" # cram/bam
-  path: "alignment/samtools_merge_bam/" # path to bam-files
   umap: "reference/k24.umap.wg.bw"
 
 mosaicforecast_genotype_prediction:
