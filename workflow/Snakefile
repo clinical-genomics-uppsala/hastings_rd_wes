@@ -643,7 +643,7 @@ use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaic
         )
 
 
-use rule mosaicforecast_phasing from snv_indels as snv_indels_mosaicforecast_phasing with:
+use rule mosaicforecast_phasing from snv_indels as snv_indels_mosaicforecast_phasing
 
 
 use rule mosaicforecast_readlevel from snv_indels as snv_indels_mosaicforecast_readlevel
