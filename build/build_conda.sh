@@ -24,8 +24,8 @@ download_pipeline() {
     echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
     git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
 
-    envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml > ${PIPELINE_NAME}_${TAG_OR_BRANCH}/profiles/${PROFILE_NAME}/config.yaml.sub
-    mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/profiles/${PROFILE_NAME}/config.yaml.sub ${PIPELINE_NAME}_${TAG_OR_BRANCH}/profiles/${PROFILE_NAME}/config.yaml
+    envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml > ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml.sub
+    mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml.sub ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml
     
     # Install the requirements for the pipeline
     echo "Installing pipeline requirements"
