@@ -9,5 +9,5 @@ drmaa: "-p {resources.partition} -t {resources.time} -n {resources.threads} --me
 default-resources: [gres="", ]
 drmaa-log-dir: "slurm"
 singularity-args: "-e --cleanenv -B /proj -B $HOME --nv"
-singularity-prefix: "/proj/ngi2024001/nobackup/bin/wp3_te/v0.7.0/apptainer_cache/"
-wrapper-prefix: "git+file://proj/ngi2024001/nobackup/bin/wp3_te/v0.7.0/snakemake-wrappers/"
+singularity-prefix: "/proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache/"
+wrapper-prefix: "git+file://proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_${TAG_OR_BRANCH}/snakemake-wrappers/"
