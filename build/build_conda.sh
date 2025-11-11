@@ -73,8 +73,8 @@ download_pipeline() {
     tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
     
     # Download the config files from the config repo
-    echo "Downloading config files from ${CONFIG_GITHUB_REPO} (version: ${CONFIG_VERSION})"
-    git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
+    # echo "Downloading config files from ${CONFIG_GITHUB_REPO} (version: ${CONFIG_VERSION})"
+    # git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
     
     echo "Pipeline download completed successfully"
 }
