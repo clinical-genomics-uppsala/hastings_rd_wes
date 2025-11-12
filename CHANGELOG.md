@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.9.0...v0.9.1) (2025-11-12)
+
+
+### Bug Fixes
+
+* Update pipeline version and paths in config ([ea63c12](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/ea63c12a083a26a3d8a7ec8c2668710e104b8943))
+
 ## [0.9.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.8.0...v0.9.0) (2025-11-11)
 
 
