@@ -45,3 +45,14 @@
       type: file
       url: file:/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa
  
+  exomedepth_call:
+    exonsfile:
+      checksum: f3ed2cb6706065422ef72d307d82452f  
+      path: hastings/exons_GRCh38_ensembl109.txt
+      type: file
+      url: file:/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt
+    genesfile:
+      checksum: a72c9c1608e07cd8d3a1bfd1f65106ee
+      path: hastings/genes_GRCh38_ensembl109.txt
+      type: file
+      url: file:/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt
