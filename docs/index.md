@@ -13,16 +13,16 @@ It is called Hastings, named after Agatha Christie's creation Arthur Hastings wh
 **Hastings uses the following hydra genetics modules:**
 
 - [alignment](https://github.com/hydra-genetics/alignment/tree/v0.6.0)
-- [annotation](https://github.com/hydra-genetics/annotation/tree/v0.3.0)
+- [annotation](https://github.com/hydra-genetics/annotation/tree/v1.1.0)
 - [compression](https://github.com/hydra-genetics/compression/tree/v2.0.0)
-- [cnv_sv](https://github.com/hydra-genetics/cnv_sv/tree/v0.5.0)
-- [filtering](https://github.com/hydra-genetics/filtering/tree/v0.2.0)
+- [cnv_sv](https://github.com/hydra-genetics/cnv_sv/tree/6739845)
+- [filtering](https://github.com/hydra-genetics/filtering/tree/v1.1.0)
 - [misc](https://github.com/hydra-genetics/misc/tree/v0.2.0)
-- [parabricks](https://github.com/hydra-genetics/parabricks/tree/v1.1.0)
+- [parabricks](https://github.com/hydra-genetics/parabricks/tree/v1.2.0)
 - [prealignment](https://github.com/hydra-genetics/prealignment/tree/v1.2.0)
-- [qc](https://github.com/hydra-genetics/qc/tree/v0.4.1)
+- [qc](https://github.com/hydra-genetics/qc/tree/v0.5.0)
 - [references](https://github.com/hydra-genetics/references/commit/e71ee62)
-- [snv_indels](https://github.com/hydra-genetics/snv_indels/tree/v1.0.0)
+- [snv_indels](https://github.com/hydra-genetics/snv_indels/tree/a0bdf7a)
 
 
 ## Hydra-genetics

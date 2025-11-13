@@ -5,11 +5,11 @@ __license__ = "GPL-3"
 
 
 include: "rules/common.smk"
-include: "rules/tsv2vcf.smk"
 include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
 include: "rules/exomedepth_export.smk"
 include: "rules/peddy.smk"
+include: "rules/tsv2vcf.smk"
 
 
 report: "report/workflow.rst"
@@ -22,15 +22,17 @@ rule all:
 
 if config["output"] == "config/output_list.json":
 
-    ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: _copy_samtools_crai > compression_samtools_index
-    ruleorder: _copy_snv_indels_tbi > misc_tabix
+    ruleorder: _copy_deepsomatic_vcf > snv_indels_bgzip
+    ruleorder: _copy_deepsomatic_tbi > snv_indels_tabix
+    ruleorder: _copy_exomedepth_tbi > cnv_sv_tabix
+    ruleorder: _copy_exomedepth_tbi > snv_indels_tabix
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
+    ruleorder: cnv_sv_bgzip > snv_indels_bgzip
+    ruleorder: cnv_sv_tabix > snv_indels_tabix
+    ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
-    ruleorder: snv_indels_tabix > misc_tabix
-    ruleorder: snv_indels_bgzip > misc_bgzip
-    ruleorder: _copy_exomedepth_tbi > misc_tabix
 
 
 module alignment:
@@ -112,6 +114,9 @@ use rule automap from cnv_sv as cnv_sv_automap with:
         vcf="vcf_final/{sample}_{type}.vcf",
 
 
+use rule melt from cnv_sv as cnv_sv_melt
+
+
 module compression:
     snakefile:
         get_module_snakefile(
@@ -141,7 +146,7 @@ module filtering:
         config
 
 
-use rule bcftools_view from filtering as filtering_bcftools_view with:
+use rule bcftools_view from filtering as filtering_bcftools_view_deepvariant with:
     input:
         vcf="vcf_final/{sample}_{type}.fix_af.vcf.gz",
         tbi="vcf_final/{sample}_{type}.fix_af.vcf.gz.tbi",
@@ -155,6 +160,23 @@ use rule bcftools_view from filtering as filtering_bcftools_view with:
     benchmark:
         repeat(
             "snv_indels/bcftools_view/{sample}_{type}.vcf.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule bcftools_view from filtering as filtering_bcftools_view_deepsomatic with:
+    input:
+        vcf="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz",
+        tbi="snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz.tbi",
+    output:
+        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz"),
+    log:
+        "snv_indels/bcftools_view/{sample}_{type}.ds.vcf.log",
+    params:
+        extra=config.get("bcftools_view_deepsomatic", {}).get("extra", ""),
+    benchmark:
+        repeat(
+            "snv_indels/bcftools_view/{sample}_{type}.ds.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
@@ -174,19 +196,6 @@ use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_har
             "cnv_sv/exomedepth_call/{sample}_{type}.hardfiltered.vcf.benchmark.tsv",
             config.get("bcftools_hardfilter_exomedepth", {}).get("benchmark_repeats", 1),
         )
-
-
-module misc:
-    snakefile:
-        get_module_snakefile(config, "hydra-genetics/misc", path="workflow/Snakefile", tag=config["modules"]["misc"])
-    config:
-        config
-
-
-use rule bgzip from misc as misc_bgzip
-
-
-use rule tabix from misc as misc_tabix
 
 
 module parabricks:
@@ -425,12 +434,88 @@ module snv_indels:
         config
 
 
-use rule * from snv_indels as snv_indels_*
-
-
 use rule bed_split from snv_indels as snv_indels_bed_split with:
     input:
         bed=config.get("deepvariant", {}).get("bed", ""),
+
+
+use rule bcftools_concat from snv_indels as snv_indels_bcftools_concat
+
+
+use rule bcftools_view from snv_indels as snv_indels_bcftools_view with:
+    input:
+        bcf="snv_indels/glnexus/{sample}_{type}.bcf",
+    output:
+        vcf=temp("snv_indels/glnexus/{sample}_{type}.vcf.gz"),
+    log:
+        "snv_indels/glnexus/{sample}_{type}.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/glnexus/{sample}_{type}.vcf.gz.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
+    input:
+        bcf="qc/peddy/all.bcf",
+    output:
+        vcf=temp("qc/peddy/all.vcf.gz"),
+    log:
+        "qc/peddy/all.vcf.gz.log",
+    benchmark:
+        repeat(
+            "qc/peddy/all.vcf.gz.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule bgzip from snv_indels as snv_indels_bgzip with:
+    input:
+        vcf="{final}.vcf",
+    output:
+        gz=temp("{final}.vcf.gz"),
+    log:
+        "{final}.gz.log",
+    benchmark:
+        repeat(
+            "{final}.gz.benchmark.tsv",
+            config.get("tabix", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule tabix from snv_indels as snv_indels_tabix with:
+    input:
+        gz="{final}.vcf.gz",
+    output:
+        tbi=temp("{final}.vcf.gz.tbi"),
+    log:
+        "{final}.tbi.log",
+    benchmark:
+        repeat(
+            "{final}.tbi.benchmark.tsv",
+            config.get("tabix", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule deepmosaic_draw from snv_indels as snv_indels_deepmosaic_draw with:
+    input:
+        annovar=config.get("reference", {}).get("annovar", ""),
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        txt="snv_indels/deepmosaic/{sample}_{type}.input.txt",
+        vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
+
+
+use rule deepmosaic_input from snv_indels as snv_indels_deepmosaic_input with:
+    input:
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        sex="qc/peddy/peddy.sex_check.csv",
+        vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
+
+
+use rule deepmosaic_predict from snv_indels as snv_indels_deepmosaic_predict
 
 
 use rule deepvariant from snv_indels as snv_indels_deepvariant with:
@@ -447,18 +532,29 @@ use rule deepvariant from snv_indels as snv_indels_deepvariant with:
         extra=config.get("deepvariant", {}).get("extra", ""),
 
 
-use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
+use rule deepsomatic_t_only from snv_indels as snv_indels_deepsomatic_t_only with:
     input:
-        bcf="qc/peddy/all.bcf",
+        bam="alignment/samtools_merge_bam/{sample}_{type}.bam",
+        bai="alignment/samtools_merge_bam/{sample}_{type}.bam.bai",
+        ref=config.get("reference", {}).get("fasta", ""),
+        bed=config.get("reference", {}).get("design_bed", ""),
+
+
+use rule fix_af from snv_indels as snv_indels_fix_af with:
+    input:
+        vcf=lambda wildcards: get_vcf_input(wildcards),
     output:
-        vcf=temp("qc/peddy/all.vcf.gz"),
+        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
     log:
-        "qc/peddy/all.vcf.gz.log",
+        "vcf_final/{sample}_{type}.fix_af.vcf.log",
     benchmark:
         repeat(
-            "qc/peddy/all.vcf.gz.benchmark.tsv",
-            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
+            "vcf_final/{sample}_{type}.fix_af.vcf.benchmark.tsv",
+            config.get("fix_af", {}).get("benchmark_repeats", 1),
         )
+
+
+use rule glnexus from snv_indels as snv_indels_glnexus
 
 
 use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
@@ -503,6 +599,56 @@ use rule glnexus from snv_indels as snv_indels_glnexus_trio with:
         config.get("glnexus_trio", {}).get("container", config["default_container"])
 
 
+use rule mosaicforecast_input from snv_indels as snv_indels_mosaicforecast_input with:
+    input:
+        vcf="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
+
+
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_prediction with:
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trainedSNP", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_typeSNP", ""),
+
+
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_predictionINS with:
+    output:
+        predict="snv_indels/mosaicforecast/{sample}_{type}/INS.predictions",
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trainedINS", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_typeINDEL", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionINS.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionINS.benchmark.tsv",
+            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule mosaicforecast_genotype_prediction from snv_indels as snv_indels_mosaicforecast_genotype_predictionDEL with:
+    output:
+        predict="snv_indels/mosaicforecast/{sample}_{type}/DEL.predictions",
+    params:
+        extra=config.get("mosaicforecast_genotype_prediction", {}).get("extra", ""),
+        model_trained=config.get("mosaicforecast_genotype_prediction", {}).get("model_trainedDEL", ""),
+        model_type=config.get("mosaicforecast_genotype_prediction", {}).get("model_typeINDEL", ""),
+    log:
+        "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionDEL.log",
+    benchmark:
+        repeat(
+            "snv_indels/mosaicforecast/{sample}_{type}.mosaicforecast_genotype_predictionDEL.benchmark.tsv",
+            config.get("mosaicforecast_genotype_prediction", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule mosaicforecast_phasing from snv_indels as snv_indels_mosaicforecast_phasing
+
+
+use rule mosaicforecast_readlevel from snv_indels as snv_indels_mosaicforecast_readlevel
+
+
 use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
     input:
         vcf="snv_indels/glnexus/{sample}_{type}.vcf.gz",
@@ -514,18 +660,4 @@ use rule vt_decompose from snv_indels as snv_indels_vt_decompose with:
         repeat(
             "snv_indels/glnexus/{sample}_{type}.decomposed.vcf.gz.benchmark.tsv",
             config.get("vt_decompose", {}).get("benchmark_repeats", 1),
-        )
-
-
-use rule fix_af from snv_indels as snv_indels_fix_af with:
-    input:
-        vcf=lambda wildcards: get_vcf_input(wildcards),
-    output:
-        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
-    log:
-        "vcf_final/{sample}_{type}.fix_af.vcf.log",
-    benchmark:
-        repeat(
-            "vcf_final/{sample}_{type}.fix_af.vcf.benchmark.tsv",
-            config.get("fix_af", {}).get("benchmark_repeats", 1),
         )

@@ -3,25 +3,35 @@ Hastings produces a lot of intermediate and result files but only files defined 
 
 
 ## Files
-Successful execution of the pipeline result in the the following output files located in `Results/`-folder:
+Successful execution of the pipeline result in the the following output files located in `results/`-folder:
 
 | File | Format |Description |
 |---|---|---|
-multiqc_DNA.html| html  | Aggregated QC values for entire sequence run, open in browser|
-{sample}/{sample}_N.cram | cram | Sorted and deduplicated CRAM alignement file |
-{sample}/{sample}_N.cram.crai | crai |  Index for the CRAM alignment file | 
-{sample}/spring/{sample}_{type}_{flowcell}_{lane}_{barcode}.spring| spring (.tar archives) | Spring compressed files (lossless) are tar archives of the raw fastq files (.fastq.gz files)|
-{sample}/{sample}_snv_indels.vcf.gz | vcf.gz | Compressed deepvariant VCF file  |
-{sample}/{sample}_snv_indels.vcf.gz.tbi | tbi | Index for the compressed deepvariant VCF file  |
-{sample}/{sample}_exomedepth.aed | aed | Exome depth calls in aed format |
-{sample}/{sample}_exomedepth.txt | txt | Exome depth calls in nexus tsv format|
-{sample}/{sample}_exomedepth_SV.txt | txt | Exome depth calls in nexus SV format|
-{sample}/{sample}_exomedepth.vcf.gz | vcf.gz | Exome depth calls in compressed VCF |
-{sample}/{sample}.upd_regions.bed | bed | Bed file of UPD regions called from a Trio VCF. Sample in this case is the sample id of the proband in the trio.  |
-{sample}/{sample}.coverage_analysis.xlsx | excel  | Excel file summarising the depth of covearage in genes in various gene panels |
-{sample}/automap/{sample}.HomRegions.tsv | tsv |  Regions of homozygosity  detected by AutoMap |
-{sample}/automap/{sample}.HomRegions.pdf | pdf  | Visualisation of ROH regions detected by AutoMap |
-{sample}/peddy/peddy.html | html  | Peddy results visualised to be open in browser |
+|`multiqc_DNA.html` | html  | Aggregated QC values for entire sequence run, open in browser|
+|`{sample}/{sample}_N.cram` | cram | Sorted and deduplicated CRAM alignement file |
+|`{sample}/{sample}_N.cram.crai` | crai |  Index for the CRAM alignment file | 
+|`{sample}/{sample}.coverage_analysis.xlsx` | excel  | Excel file summarising the depth of covearage in genes in various gene panels |
+|`{sample}/{sample}.hard-filtered.vcf.gz` | vcf.gz | Compressed VCF-file decomposed, normalized and annotated with vep |
+|`{sample}/{sample}.hard-filtered.vcf.gz.tbi` | tbi | Index for variant file |
+|`{sample}/{sample}_exomedepth_SV.txt`| txt | Nexus SV text file with structural variants from ExomeDepth |
+|`{sample}/{sample}_exomedepth.aed`| aed | aed text file with structural variants from ExomeDepth |
+|`{sample}/{sample}.cnv.vcf.gz`| vcf.gz | Compressed VCF-file with structural variants from ExomeDepth |
+|`{sample}/{sample}.cnv.vcf.gz.tbi`| tbi | Index for variant file from ExomeDepth |
+|`{sample}/{sample}.upd_regions.bed` | bed | Bed file of UPD regions called from a Trio VCF. Sample in this case is the sample id of the proband in the trio.  |
+|`{sample}/automap/{sample}.HomRegions.tsv` | tsv |  Regions of homozygosity  detected by AutoMap |
+|`{sample}/automap/{sample}.HomRegions.pdf` | pdf  | Visualisation of ROH regions detected by AutoMap |
+|`{sample}/mobile_elements/{sample}.ALU.vcf.gz`| vcf.gz | Compressed VCF-file with predicted ALU elements |
+|`{sample}/mobile_elements/{sample}.LINE1.vcf.gz`| vcf.gz | Compressed VCF-file with predicted LINE1 elements |
+|`{sample}/mobile_elements/{sample}.HERVK.vcf.gz`| vcf.gz | Compressed VCF-file with predicted HERVK elements |
+|`{sample}/mobile_elements/{sample}.SVA.vcf.gz`| vcf.gz | Compressed VCF-file with predicted SVA elements |
+|`{sample}/mosaic/{sample}.deepmosaic.txt`| tsv | Candidate variants and their predictions from DeepMosaic |
+|`{sample}/mosaic/{sample}.deepsomatic.vcf.gz`| vcf.gz | Compressed VCF-file from DeepSomatic where PASS are possible mosaic variants|
+|`{sample}/mosaic/{sample}.deepsomatic.vcf.gz.tbi`| vcf.gz | Index for genome VCF-file |
+|`{sample}/mosaic/{sample}.mosaicforecast.phasing`| tsv | Candidate mosaic variants based on phasing from MosaicForecast |
+|`{sample}/mosaic/{sample}.mosaicforecast.DEL.predictions`| tsv | Candidate deletion variants and their predictions from MosaicForecast |
+|`{sample}/mosaic/{sample}.mosaicforecast.INS.predictions`| tsv | Candidate insertion variants and their predictions from MosaicForecast |
+|`{sample}/mosaic/{sample}.mosaicforecast.SNP.predictions`| tsv | Candidate SNP variants and their predictions from MosaicForecast |
+|`{sample}/peddy/peddy.html` | html  | Peddy results visualised to be open in browser |
 
 
 ## MultiQC report

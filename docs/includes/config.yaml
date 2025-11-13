@@ -11,19 +11,20 @@ default_container: "docker://hydragenetics/common:1.11.1"
 
 modules:
   alignment: "v0.6.0"
-  annotation: "v0.3.0"
+  annotation: "v1.1.0"
   compression: "v2.0.0" 
-  cnv_sv: "v0.5.0"
-  filtering: "v0.2.0"
+  cnv_sv: "6739845"
+  filtering: "v1.1.0"
   misc: "v0.2.0"
-  parabricks: "v1.1.0"
+  parabricks: "v1.2.1"
   prealignment: "v1.2.0"
-  qc: "v0.4.1"
+  qc: "v0.5.0"
   references: "e71ee62"
-  snv_indels: "v1.0.0"
+  snv_indels: "a0bdf7a"
 
 reference:
-  coverage_bed: "/beegfs-storage/data/ref_data/refseq/refseq_select_mane_20230828.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
+  annovar: "/opt/ohpc/pub/annotators/annovar/2025Feb18"
+  coverage_bed: "/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed"
   design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
   design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
   fasta: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
@@ -44,6 +45,9 @@ automap:
   extra: "--DP 10 --minsize 3 --chrX"
   outdir: "cnv_sv/automap"
 
+bcftools_view_deepsomatic:
+  extra: " -f PASS --exclude 'FORMAT/DP<10 | FORMAT/GQ<20 | FORMAT/VAF>0.4 && FORMAT/VAF<0.6 | FORMAT/VAF<0.02 | FORMAT/VAF>0.98' " # remove gnomad of some AF threshold? -T ^/projects/wp3/nobackup/Workspace/mosaic/hardregNgnomad_hg38.bed
+
 bcftools_view_deepvariant:
   regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
 
@@ -59,20 +63,29 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
 deepvariant:
-  container: "docker://google/deepvariant:1.4.0" 
+  container: "docker://google/deepvariant:1.6.1" 
   bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
-  
+
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: "--use_default_pon_filtering=true " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
   bedfile: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed" 
   exonsfile: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
   genesfile: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
   genome_version: "hg38"
-  male_reference: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male.Rdata" 
-  female_reference: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female.Rdata"
 
 exomedepth_export:
   container: "docker://hydragenetics/exomedepth:1.1.15"
@@ -92,6 +105,15 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+melt:
+  container: "docker://vanallenlab/melt:3159ce1"
+  bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
+  extra: ""
+  mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
+
+mosaicforecast:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
@@ -161,9 +183,6 @@ picard_collect_wgs_metrics:
 
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
-
-sample_order_for_multiqc:
-  sample_sheet: "config/SampleSheet.csv"
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"

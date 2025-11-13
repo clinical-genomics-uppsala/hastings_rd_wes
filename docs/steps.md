@@ -15,8 +15,8 @@ Trimming of fastq files is performed by **[fastp](https://github.com/OpenGene/fa
 
 ---
 ## Alignment
-We use deepvariant for alignment on CPU or with parabricks on GPU. For more information and documentation on the softwares used in the alignment steps see [Parabricks hydra-genetics module]()/[github](https://github.com/hydra-genetics/parabricks/tree/v1.1.0) for GPU 
-or [Alignment hydra-genetics module](https://alignment.readthedocs.io/en/latest/)/[github](https://github.com/hydra-genetics/alignment/tree/v0.4.0) for CPU.
+We use deepvariant for alignment on CPU or with parabricks on GPU. For more information and documentation on the softwares used in the alignment steps see [Parabricks hydra-genetics module]()/[github](https://github.com/hydra-genetics/parabricks/tree/v1.2.1) for GPU 
+or [Alignment hydra-genetics module](https://alignment.readthedocs.io/en/latest/)/[github](https://github.com/hydra-genetics/alignment/tree/v0.6.0) for CPU.
 
 ![dag plot](includes/images/alignment.png){: style="height:100%;width:100%"}
 
@@ -60,52 +60,51 @@ Merged bamfile are sorted by **[samtools sort](http://www.htslib.org/doc/samtool
 Bamfile indexing is performed by **[samtools index](http://www.htslib.org/doc/samtools-index.html)** v1.15.
 
 ---
-## SNV indels
-SNV and indels are called using the [SNV_indels module](https://github.com/hydra-genetics/snv_indels/tree/v0.3.0) and is annotated using the [Annotation module](https://github.com/hydra-genetics/annotation/tree/v0.3.0).
+## SNV and indels
+SNV and indels are called using the [SNV_indels module](https://github.com/hydra-genetics/snv_indels/tree/a0bdf7a) and is annotated using the [Annotation module](https://github.com/hydra-genetics/annotation/tree/v1.1.0).
 
 ![dag plot](includes/images/snv_indels.png){: style="height:100%;width:100%"}
 
 ### Pipeline output files
 
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}.vcf.gz`
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}.merged.genome.vcf.gz`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}.vcf.gz`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}.merged.genome.vcf.gz`
 
 ### SNV calling
-Variants are called using [**GATKs Haplotypecaller** v4.2.2.0](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller) per chromosome to speed up the analysis. Haplotypecaller runs twice, once for standard `vcf` and once for `genome.vcf` with the extra parameter `-ERC GVCF`. Both files are then merged using **[bcftools concat](https://samtools.github.io/bcftools/bcftools.html#concat)** v1.15, the AF field is also added to the `INFO` column in the vcf:s using the `fix_af.py` from the snv_indel module.
+Variants are called using [Parabricks DeepVariant](https://docs.nvidia.com/clara/parabricks/latest/documentation/tooldocs/man_deepvariant.html#man-deepvariant) per chromosome to speed up the analysis.
 
-### Normalizing
-The standard vcf files is then decomposed with **[vt decompose**](https://genome.sph.umich.edu/wiki/Vt#Decompose) followed by [**vt decompose_blocksub**](https://genome.sph.umich.edu/wiki/Vt#Decompose_biallelic_block_substitutions) v2015.11.10. The vcf files are then normalized by [**vt normalize**](https://genome.sph.umich.edu/wiki/Vt#Normalization) v2015.11.10.
+### Mosaic variant calling
+Possible mosaic variants is called by [DeepSomatic](https://github.com/google/deepsomatic) which are then predicted to be real or not with [MosaicForecast](https://github.com/parklab/MosaicForecast) and [DeepMosaic](https://github.com/XiaoxuYangLab/DeepMosaic).
 
-### Annotation
-Both the normalized standard VCF files and the genome vcf files are then annotated using **[VEP](https://www.ensembl.org/info/docs/tools/vep/index.html)** v109. Vep is run with the extra parameters `--assembly GRCh38 --check_existing --pick --variant_class --everything`.
-
-See the [annotation hydra-genetics module](https://annotation.readthedocs.io/en/latest/) for additional information.
 
 ---
-## CNV
-CNVs are called using the [Hydra-Genetics CNV_SV module](https://github.com/hydra-genetics/cnv_sv/tree/78f270c).
+## CNVs and SVs 
+CNVs are called using the [Hydra-Genetics CNV_SV module](https://github.com/hydra-genetics/cnv_sv/tree/6739845)
 <br />
 
 ![dag plot](includes/images/cnv_sv.png){: style="height:60%;width:60%"}
 
 ### Pipeline output files
 
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth_SV.txt`
-* `Results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth.aed`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth_SV.txt`
+* `results/{sample}_{sequenceid}/{sample}_{sequenceid}_exomedepth.aed`
 
 ### Exomedepth
 To call larger structural variants **[Exomedepth](https://cran.r-project.org/web/packages/ExomeDepth/index.html)** v1.1.15 is used. Exomedepth does **not** use a window approach but evaluates each row in the bedfile as a segment, therefor the bedfile need to be split into appropriate large windows (e.g. using `bedtools makewindows`). Exomedepth also need a `RData` file containing the normal pool, this can be created using the [Marple - references workflow](/running_ref).
 
+### Mobile elements
+To find mobile elements, like ALU, HERVK, LINE1 and SVA, [MELT](https://melt.igs.umaryland.edu/index.php) is used. It is free to use for academic purposes and you can buy a licence if used in other cases, like for this pipeline as part of the clinical workflow at the hospital. Since you should ask to use MELT, the singularity we use are local.
+
 ---
 ## QC
-For quality control several the [QC-module](https://github.com/hydra-genetics/qc/tree/ca947b1) is used and the results are then summarized/aggregated into a MultiQC-report.
+For quality control several the [QC-module](https://github.com/hydra-genetics/qc/tree/v0.5.0) is used and the results are then summarized/aggregated into a MultiQC-report.
 
 <br />
 
 ![dag plot](includes/images/qc.png){: style="height:70%;width:70%"}
 
 ### Pipeline output files
-* `Results/{sequenceid}_MultiQC.html`
+* `results/{sequenceid}_MultiQC.html`
 
 ### MultiQC
 A MultiQC html report is generated using **[MultiQC](https://github.com/ewels/MultiQC)** v1.11. The report starts with a general statistics table showing the most important QC-values followed by additional QC data and diagrams. The qc data is collected and generated using Fastp, FastQC, samtools, picard and Mosdepth.

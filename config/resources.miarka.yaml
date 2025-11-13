@@ -12,7 +12,25 @@ bwa_mem:
   mem_per_cpu: 6144
   threads: 8
 
+deepmosaic_draw:
+  mem_mb: 40960
+  mem_per_cpu: 4096
+  threads: 10
+  time: "12:00:00"
+
+deepmosaic_predict:
+  mem_mb: 40960
+  mem_per_cpu: 4096
+  threads: 10
+  time: "12:00:00"
+
 deepvariant:
+  mem_mb: 61440
+  mem_per_cpu: 6144
+  threads: 10
+  time: "12:00:00"
+
+deepsomatic_t_only:
   mem_mb: 61440
   mem_per_cpu: 6144
   threads: 10
@@ -30,6 +48,16 @@ fastqc:
 
 glnexus:
   threads: 20
+
+melt:
+  threads: 10
+  mem_mb: 40960
+  mem_per_cpu: 4096
+
+mosaicforecast:
+  threads: 2
+  mem_mb: 8200
+  mem_per_cpu: 4096
 
 mosdepth_bed:
   mem_mb: 36864

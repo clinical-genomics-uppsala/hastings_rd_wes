@@ -7,22 +7,23 @@ units: "config/units.tsv"
 
 output: "config/output_list.json"
 
-default_container: "docker://hydragenetics/common:1.11.1"
+default_container: "docker://hydragenetics/common:3.1.1"
 
 modules:
-  alignment: "v0.6.0"
-  annotation: "v0.3.0"
-  compression: "v2.0.0" 
-  cnv_sv: "v0.5.0"
-  filtering: "v0.2.0"
+  alignment: "v0.7.0"
+  annotation: "v1.2.0"
+  cnv_sv: "v1.0.2"
+  compression: "v2.1.0" 
+  filtering: "v1.1.0"
   misc: "v0.2.0"
-  parabricks: "v1.1.0"
-  prealignment: "v1.2.0"
-  qc: "v0.4.1"
+  parabricks: "v1.2.1"
+  prealignment: "v1.4.0"
+  qc: "v0.6.0"
   references: "e71ee62"
-  snv_indels: "v1.0.0"
+  snv_indels: "v1.3.1"
 
 reference:
+  annovar: "/opt/ohpc/pub/annotators/annovar/2025Feb18"
   coverage_bed: "/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed"
   design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
   design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
@@ -44,6 +45,9 @@ automap:
   extra: "--DP 10 --minsize 3 --chrX"
   outdir: "cnv_sv/automap"
 
+bcftools_view_deepsomatic:
+  extra: " -f PASS --exclude 'FORMAT/DP<10 | FORMAT/GQ<20 | FORMAT/VAF>0.4 && FORMAT/VAF<0.6 | FORMAT/VAF<0.02 | FORMAT/VAF>0.98' " # remove gnomad of some AF threshold? -T ^/projects/wp3/nobackup/Workspace/mosaic/hardregNgnomad_hg38.bed
+
 bcftools_view_deepvariant:
   regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
 
@@ -62,12 +66,23 @@ bwa_mem:
 create_cov_excel:
   covLimits: "10 20 30"
 
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
 deepvariant:
   container: "docker://google/deepvariant:1.6.1" 
   bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
   model_type: "WES"
   output_gvcf: True
-  
+
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: "--use_default_pon_filtering=true make_examples_extra_args='vsc_min_fraction_snps=0.029,vsc_min_fraction_indels=0.05' " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  model: "WGS_TUMOR_ONLY" # WGS,WES,PACBIO,ONT,FFPE_WGS,FFPE_WES,WGS_TUMOR_ONLY,PACBIO_TUMOR_ONLY,ONT_TUMOR_ONLY
+
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
   bedfile: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed" 
@@ -93,6 +108,30 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+melt:
+  container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
+  bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
+  extra: ""
+  mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
+
+mosaicforecast_phasing:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  f_format: "bam" # cram/bam
+  umap: "/usr/local/bin/k24.umap.wg.bw"
+
+mosaicforecast_readlevel:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  f_format: "bam" # cram/bam
+  umap: "/usr/local/bin/k24.umap.wg.bw"
+
+mosaicforecast_genotype_prediction:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  model_trainedSNP: "/data/ref_data/wp3/mosaicforecast/150xRFmodel_addRMSK_Refine.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedINS: "/data/ref_data/wp3/mosaicforecast/insertions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trainedDEL: "/data/ref_data/wp3/mosaicforecast/deletions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_typeSNP: "Refine"  # phase/refine
+  model_typeINDEL: "Phase"  # phase/refine
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
@@ -162,7 +201,6 @@ picard_collect_wgs_metrics:
 
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
-
 
 spring:
   container: "docker://hydragenetics/spring:1.1.1"
