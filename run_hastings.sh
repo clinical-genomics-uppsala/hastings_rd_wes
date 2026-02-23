@@ -12,7 +12,7 @@ module load slurm-drmaa
 module load singularity/3.11.0
 
 inbox_path=/projects/inbox/wp3_te/230226-reanalysis/
-#cp $inbox_path/samples_and_settings.json .
+cp $inbox_path/samples_and_settings.json .
 
 hydra-genetics create-input-files -f -p Illumina -d ${inbox_path}/ -t N  -b 'NNNNNNNNN+NNNNNNNNN' --data-json samples_and_settings.json --data-columns /projects/bin/data/wp3_te_columns.json 
 
@@ -41,9 +41,9 @@ if [ $(wc -l < samples_twist2.0.tsv) -gt 1 ]; then
     mv units_twist2.0.tsv units.tsv
 
     echo "Running Twist 2.0 pipeline..."
-    snakemake -n --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile \
+    snakemake  --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile \
         --prioritize prealignment_fastp_pe -p --configfile config/config.yaml \
-        --config aligner=bwa_cpu snp_caller=deepvariant_cpu --notemp
+        --config aligner=bwa_cpu snp_caller=deepvariant_cpu 
 
     rm config/sample_order.tsv config/sample_replacement.tsv
 fi
@@ -65,9 +65,9 @@ if [ $(wc -l < samples_comprehensive.tsv) -gt 1 ]; then
     mv units_comprehensive.tsv units.tsv
 
     echo "Running Comprehensive pipeline..."
-    snakemake -n --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile \
+    snakemake --profile ${pipeline_path}/profiles/slurm/ -s ${pipeline_path}/workflow/Snakefile \
         --prioritize prealignment_fastp_pe -p --configfiles config/config.yaml config/config_twist_comp.yaml \
-        --config aligner=bwa_cpu snp_caller=deepvariant_cpu --notemp
+        --config aligner=bwa_cpu snp_caller=deepvariant_cpu 
     
     rm config/sample_order.tsv config/sample_replacement.tsv
 fi
