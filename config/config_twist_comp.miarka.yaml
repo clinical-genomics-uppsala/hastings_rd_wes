@@ -1,0 +1,29 @@
+---
+
+REFERENCE_DATA: /proj/ngi2024001/nobackup/bin/wp3_te/design_and_ref_files
+APPTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache
+
+hydra_local_path: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_{{PIPELINE_VERSION}}/hydra-genetics
+
+resources: "config/resources.yaml"
+samples: "samples_comp.tsv"
+units: "units_comp.tsv"
+
+output: "config/output_list.json"
+
+default_container: "docker://hydragenetics/common:1.11.1"
+
+reference:
+  design_bed: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+  design_intervals: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+
+bcftools_view_deepvariant:
+  regions: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+
+deepvariant:
+  bed: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+
+exomedepth_call:
+  bedfile: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
+  male_reference: "{{REFERENCE_DATA}}/hastings/RefCount_male.Rdata"
+  female_reference: "{{REFERENCE_DATA}}/hastings/RefCount_female.Rdata"
