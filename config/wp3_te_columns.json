@@ -1,0 +1,11 @@
+{
+  "samples": [
+    "samples.{SAMPLE}.settings.trio:NA",
+    "samples.{SAMPLE}.settings.sex:NA",
+    "samples.{SAMPLE}.settings.twist:NA"
+  ],
+  "units": [
+    "samples.{SAMPLE}.settings.type:N"
+  ]
+}
+
