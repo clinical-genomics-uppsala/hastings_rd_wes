@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.10.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.9.1...v0.10.0) (2026-02-24)
+
+
+### Features
+
+* reorganise configs for running twist2.0 or comprehensive in reanalysis ([90e57ee](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/90e57ee86da8224bfa37c5486e20688947b92ca4))
+
+
+### Bug Fixes
+
+* add missing exonsfile and genesfile to reference yaml ([9383cae](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/9383cae6f6ef470079acd68d6b2f997ebd1e6926))
+* fix binds in singularity-args ([6f2fab3](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6f2fab3e24b5779b9ebe8a1cd415778ad0cc19c0))
+
 ## [0.9.1](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.9.0...v0.9.1) (2025-11-12)
 
 
