@@ -6,7 +6,7 @@ set -o pipefail
 
 module load slurm-drmaa
 
-version="v0.9.0"
+version="v0.10.0"
 pipeline_path="/projects/bin/wp3_te/hastings_rd_wes/${version}/"
 
 python3.9 -m venv venv
