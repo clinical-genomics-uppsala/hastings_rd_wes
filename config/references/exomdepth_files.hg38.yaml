@@ -11,16 +11,28 @@ exomedepth:
     url: file:/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt
   references:
     nextseq:
-      male_reference:
-          checksum: d94156c07d1d9691baadadaeaefb5e5c
-          path: hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata
+      twist2.0:
+        male_reference:
+            checksum: d94156c07d1d9691baadadaeaefb5e5c
+            path: hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata
+            type: file
+            url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata
+        female_reference:
+          checksum: 6e5f76df1a77b895e0b9292930ddc597
+          path: hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata
           type: file
-          url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata
-      female_reference:
-        checksum: 6e5f76df1a77b895e0b9292930ddc597
-        path: hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata
-        type: file
-        url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata
+          url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata
+      twist_comprehensive:
+        male_reference:
+            checksum: c5130a18a24360b4b288f3a9379a8e4f
+            path: hastings/RefCount_male.Rdata
+            type: file
+            url: file:/beegfs-storage/data/ref_data/wp3/RefCount_male.Rdata
+        female_reference:
+          checksum: af428ec91e4c1de1358d0260759b781a
+          path: hastings/RefCount_female.Rdata
+          type: file
+          url: file:/beegfs-storage/data/ref_data/wp3/RefCount_female.Rdata
     novaseqX:
       male_reference:
         checksum: f179c687f2e2a8b671ef9ce2598b4f70

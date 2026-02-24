@@ -82,16 +82,21 @@ download_pipeline() {
 # Function to download containers
 download_containers() {
     echo "=== Downloading Containers ==="
-    
+
     # Check if config directory exists, if not download it
-    if [ ! -d hastings_config ]; then
-        echo "Config directory not found, downloading config files"
-        git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
+    # if [ ! -d hastings_config ]; then
+    #     echo "Config directory not found, downloading config files"
+    #     git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
+    # fi
+    
+    if [ ! -d ${PIPELINE_NAME}_${TAG_OR_BRANCH} ]; then
+        echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
+        git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
     fi
     
     # Download containers using hydra-genetics
     echo "Creating singularity files using hydra-genetics"
-    hydra-genetics prepare-environment create-singularity-files -c hastings_config/config/config_production_pipeline.yaml -o apptainer_cache
+    hydra-genetics prepare-environment create-singularity-files -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -o apptainer_cache
     
     # Copy additional container (MELT)
     echo "Copying MELT container"
@@ -115,10 +120,15 @@ download_design_and_reference_files() {
     fi
     
     # Check if config directory exists, if not download it
-    if [ ! -d hastings_config ]; then
-        echo "Config directory not found, downloading config files"
-        git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
+    # if [ ! -d hastings_config ]; then
+    #     echo "Config directory not found, downloading config files"
+    #     git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
+    # fi
+    if [ ! -d ${PIPELINE_NAME}_${TAG_OR_BRANCH} ]; then
+        echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
+        git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
     fi
+
     
     # Download references for each provided config file
     for reference_config in "$@"; do
