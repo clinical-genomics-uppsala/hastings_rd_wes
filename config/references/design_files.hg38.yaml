@@ -6,21 +6,39 @@
       path: hastings/hastings_coverage_20250109.bed
       type: file
       url: file:/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed
-    design_bed:
-      checksum: f8a920a0983b7fe9998be30d5ee18810
-      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed
-      type: file
-      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed
-    design_intervals:
-      checksum: bd61ce7c4d8a7ed0fc528672f86943a8
-      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
-      type: file
-      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
-    padded_regions:
-      checksum: 1e4a414eac6c0da831afa475d97e9aae
-      path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
-      type: file
-      url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+    design_files:
+      twist2.0:
+        design_bed:
+          checksum: f8a920a0983b7fe9998be30d5ee18810
+          path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed
+          type: file
+          url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed
+        design_intervals:
+          checksum: bd61ce7c4d8a7ed0fc528672f86943a8
+          path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
+          type: file
+          url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list
+        padded_regions:
+          checksum: 1e4a414eac6c0da831afa475d97e9aae
+          path: hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+          type: file
+          url: file:/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed
+      twist_comprehensive:
+          design_bed:
+            checksum: fd3a57c45d060cf57abe3c4b535bea1e
+            path: hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed
+            type: file
+            url: file:/data/ref_data/wp3/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed
+          design_intervals:
+            checksum: cdee004120f9b7ca50b0058be45c3d2c
+            path: hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed
+            type: file
+            url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed
+          padded_regions:
+            checksum: 0618914de08d7c023ebb01da6115ab65
+            path: hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed
+            type: file
+            url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed
     gene_panels:
       checksum: a0933c6d5f5a84a3dfb8fed9ff953f60
       path: hastings/genepanels.list
