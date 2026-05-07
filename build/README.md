@@ -28,7 +28,7 @@ bash build_conda.sh --pipeline-only
 Download only reference and design files (requires running bash build_conda.sh --pipeline-only to be run first)
 
 ```bash
-bash build_conda.sh --references-only hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/design_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/exomdepth_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/config/references/references.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/vep_cache.hg38.yaml
+bash build_conda.sh --references-only hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/design_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/exomdepth_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/references.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/vep_cache.hg38.yaml
 ```
 
 Download only gene panels and design files (requires running bash build_conda.sh --pipeline-only to be run first)
@@ -40,7 +40,7 @@ bash build_conda.sh --references-only hastings_rd_wes_${TAG_OR_BRANCH}/hastings_
 Download all files
 
 ```bash
-bash build_conda.sh --all hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/gene_panels.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/design_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/exomdepth_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/config/references/references.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/vep_cache.hg38.yamll
+bash build_conda.sh --all hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/design_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/exomdepth_files.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/references.hg38.yaml hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/config/references/vep_cache.hg38.yaml
 ```
 
 
