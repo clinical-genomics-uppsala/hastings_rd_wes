@@ -294,6 +294,7 @@ EOF
 # Function to parse command line arguments
 parse_arguments() {
     DOWNLOAD_PIPELINE=false
+    DOWNLOAD_CONTAINERS=false
     DOWNLOAD_REFERENCES=false
     # DOWNLOAD_CONFIG=false
     REFERENCE_CONFIGS=()
@@ -301,6 +302,7 @@ parse_arguments() {
     # If no arguments, download all components (except config-only)
     if [ $# -eq 0 ]; then
         DOWNLOAD_PIPELINE=true
+        DOWNLOAD_CONTAINERS=true
         DOWNLOAD_REFERENCES=true
         return
     fi
@@ -313,6 +315,7 @@ parse_arguments() {
                 ;;
             -p|--pipeline-only)
                 DOWNLOAD_PIPELINE=true
+                DOWNLOAD_CONTAINERS=true
                 shift
                 ;;
             -r|--references-only)
@@ -325,6 +328,7 @@ parse_arguments() {
             #     ;;
             -a|--all)
                 DOWNLOAD_PIPELINE=true
+                DOWNLOAD_CONTAINERS=true
                 DOWNLOAD_REFERENCES=true
                 shift
                 ;;
@@ -343,6 +347,7 @@ parse_arguments() {
     # If no specific component selected, download all (except config-only)
     if [ "$DOWNLOAD_PIPELINE" = false ] && [ "$DOWNLOAD_REFERENCES" = false ]; then
         DOWNLOAD_PIPELINE=true
+        DOWNLOAD_CONTAINERS=true
         DOWNLOAD_REFERENCES=true
     fi
     
@@ -368,6 +373,7 @@ main() {
     echo ""
     echo "Components to download:"
     echo "  - Pipeline: $DOWNLOAD_PIPELINE"
+    echo "  - Containers: $DOWNLOAD_CONTAINERS"
     echo "  - References: $DOWNLOAD_REFERENCES"
     if [ ${#REFERENCE_CONFIGS[@]} -gt 0 ]; then
         echo "  - Reference configs: ${REFERENCE_CONFIGS[*]}"
@@ -377,8 +383,14 @@ main() {
     # Execute selected build steps
     if [ "$DOWNLOAD_PIPELINE" = true ]; then
         download_pipeline
+    fi
+
+    if [ "$DOWNLOAD_CONTAINERS" = true ]; then
         download_containers
-	# Pack all cloned repositories
+    fi
+
+    if [ "$DOWNLOAD_PIPELINE" = true ]; then
+        # Pack all cloned repositories (after containers have updated the config)
         echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
         tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
     fi
