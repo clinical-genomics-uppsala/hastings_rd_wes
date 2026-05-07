@@ -5,10 +5,10 @@ The build_conda.sh script packages the pipeline, cofigs, reference files and app
 When succesfully run the script will generate four compressed tar archives:
 
 * design_and_ref_files.tar.gz
-* hastings_rd_wes_${PIPELINE_VERSION}.tar.gz
+* hastings_rd_wes_${TAG_OR_BRANCH}.tar.gz
 * apptainer_cache.tar.gz
 
-The requirments listed in requirements.txt are packaged using conda-pack in a .tar.gz in the hastings_rd_wes_${PIPELINE_VERSION}.tar.gz. The snakemake-wrappers github repo and all hydra-genetics modules required by the pipeline are cloned and packaged in hastings_rd_wes_${PIPELINE_VERSION}.tar.gz.
+The requirments listed in requirements.txt are packaged using conda-pack in a .tar.gz in the hastings_rd_wes_${TAG_OR_BRANCH}.tar.gz. The snakemake-wrappers github repo and all hydra-genetics modules required by the pipeline are cloned and packaged in hastings_rd_wes_${TAG_OR_BRANCH}.tar.gz.
 
 ```bash
 export TAG_OR_BRANCH="v0.10.0"
@@ -47,7 +47,7 @@ bash build_conda.sh --all hastings_rd_wes_${TAG_OR_BRANCH}/hastings_rd_wes/confi
 ## Unpacking on the offline server
 
 ```bash
-tar -xvf hastings_rd_wes_${PIPELINE_VERSION}.tar.gz
+tar -xvf hastings_rd_wes_${TAG_OR_BRANCH}.tar.gz
 tar -xvf design_and_ref_files.tar.gz
 tar -xvf apptainer_cache.tar.gz
 ```
@@ -55,7 +55,7 @@ tar -xvf apptainer_cache.tar.gz
 ### Unpack the venv
 
 ```bash
-cd hastings_rd_wes_${PIPELINE_VERSION}/
+cd hastings_rd_wes_${TAG_OR_BRANCH}/
 mkdir venv && tar zxvf env.tar.gz -C venv/
 source venv/bin/activate
 conda-unpack 
