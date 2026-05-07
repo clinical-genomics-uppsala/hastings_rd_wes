@@ -30,7 +30,9 @@ download_pipeline() {
     # Install the requirements for the pipeline
     echo "Installing pipeline requirements"
     export PYTHONNOUSERSITE=1 # stops pip looking in ˙$HOME/.local for packages
-    ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env/bin/pip3 install -r ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/requirements.txt
+    unset PYTHONPATH # Remove PYTHONPATH so that only the  Conda-env used  används
+   
+    ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env/bin/pip3 install --no-cache-dir -I -r ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/requirements.txt
     
     # Pack the environment with the requirements installed
     echo "Packing conda environment"
@@ -69,8 +71,8 @@ download_pipeline() {
     done
     
     # Pack all cloned repositories
-    echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
-    tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
+    #echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
+    #tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
     
     # Download the config files from the config repo
     # echo "Downloading config files from ${CONFIG_GITHUB_REPO} (version: ${CONFIG_VERSION})"
@@ -102,6 +104,10 @@ download_containers() {
     echo "Copying MELT container"
     cp /projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif apptainer_cache
     
+    # Update the paths to the containers in the config
+    hydra-genetics prepare-environment container-path-update -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -n config.new.yaml -p $APPTAINER_CACHE
+    mv config.new.yaml ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml 
+
     # Create container archive
     echo "Creating container archive: apptainer_cache.tar.gz"
     tar -czvf apptainer_cache.tar.gz apptainer_cache
@@ -249,15 +255,13 @@ usage() {
 Usage: $0 [OPTIONS] [reference_config1.yaml] [reference_config2.yaml] ...
 
 This script builds a complete pipeline package including:
-  1. Pipeline code and conda environment
-  2. Container images (Singularity/Apptainer)
-  3. Design and reference files
+  1. Pipeline code and conda environment and singuarity images
+  2. Design and reference files
 
 OPTIONS:
   -h, --help              Show this help message and exit
-  -p, --pipeline-only     Download only the pipeline (step 1)
-  -c, --containers-only   Download only the containers (step 2)
-  -r, --references-only   Download only the design and reference files (step 3)
+  -p, --pipeline-only     Download only the pipeline and containers needed (step 1)
+  -r, --references-only   Download only the design and reference files (step 2)
   -a, --all              Download all components (default behavior)
 
 If no options are specified, all components will be downloaded.
@@ -277,9 +281,6 @@ Examples:
 
   # Download only the pipeline
   bash $0 --pipeline-only
-
-  # Download only containers
-  bash $0 --containers-only
 
   # Download only config files
   bash $0 --config-only
@@ -314,9 +315,6 @@ parse_arguments() {
                 ;;
             -p|--pipeline-only)
                 DOWNLOAD_PIPELINE=true
-                shift
-                ;;
-            -c|--containers-only)
                 DOWNLOAD_CONTAINERS=true
                 shift
                 ;;
@@ -347,7 +345,7 @@ parse_arguments() {
     done
     
     # If no specific component selected, download all (except config-only)
-    if [ "$DOWNLOAD_PIPELINE" = false ] && [ "$DOWNLOAD_CONTAINERS" = false ] && [ "$DOWNLOAD_REFERENCES" = false ]; then
+    if [ "$DOWNLOAD_PIPELINE" = false ] && [ "$DOWNLOAD_REFERENCES" = false ]; then
         DOWNLOAD_PIPELINE=true
         DOWNLOAD_CONTAINERS=true
         DOWNLOAD_REFERENCES=true
@@ -375,7 +373,7 @@ main() {
     echo ""
     echo "Components to download:"
     echo "  - Pipeline: $DOWNLOAD_PIPELINE"
-    echo "  - Containers: $DOWNLOAD_CONTAINERS"  
+    echo "  - Containers: $DOWNLOAD_CONTAINERS"
     echo "  - References: $DOWNLOAD_REFERENCES"
     if [ ${#REFERENCE_CONFIGS[@]} -gt 0 ]; then
         echo "  - Reference configs: ${REFERENCE_CONFIGS[*]}"
@@ -386,9 +384,15 @@ main() {
     if [ "$DOWNLOAD_PIPELINE" = true ]; then
         download_pipeline
     fi
-    
+
     if [ "$DOWNLOAD_CONTAINERS" = true ]; then
         download_containers
+    fi
+
+    if [ "$DOWNLOAD_PIPELINE" = true ]; then
+        # Pack all cloned repositories (after containers have updated the config)
+        echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
+        tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
     fi
     
     if [ "$DOWNLOAD_REFERENCES" = true ]; then

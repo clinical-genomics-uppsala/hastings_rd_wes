@@ -28,7 +28,7 @@
             checksum: fd3a57c45d060cf57abe3c4b535bea1e
             path: hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed
             type: file
-            url: file:/data/ref_data/wp3/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed
+            url: file:/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed
           design_intervals:
             checksum: cdee004120f9b7ca50b0058be45c3d2c
             path: hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed
