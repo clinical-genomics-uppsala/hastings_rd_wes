@@ -10,4 +10,4 @@ default-resources: [gres="", ]
 drmaa-log-dir: "slurm"
 singularity-args: "--cleanenv --bind /beegfs-scratch,/beegfs-storage,/scratch,/projects,/data -B /beegfs-scratch/wp4/poirot_rd_wgs_tmp:/tmp --disable-cache --nv"
 singularity-prefix: "/projects/wp4/nobackup/singularity_cache/"
-
+wrapper-prefix: "git+file://projects/bin/snakemake-wrappers/"
