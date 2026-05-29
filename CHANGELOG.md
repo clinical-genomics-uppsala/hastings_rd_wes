@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.10.0...v0.11.0) (2026-05-29)
+
+
+### Features
+
+* Add wrapper-prefix to Slurm config ([3984356](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/398435658e8a1fc8e7ce989ba108c46479978da9))
+
 ## [0.10.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.9.1...v0.10.0) (2026-02-24)
 
 
