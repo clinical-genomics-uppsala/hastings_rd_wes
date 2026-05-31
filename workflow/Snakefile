@@ -3,6 +3,8 @@ __copyright__ = "Copyright 2023, Padraic Corcoran"
 __email__ = "padraic.corcoran@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+# Workflow structure is documented in workflow/manifest.yaml. Keep local rule
+# includes grouped here and load reusable hydra modules below rule all.
 
 include: "rules/common.smk"
 include: "rules/tsv2vcf.smk"
@@ -19,6 +21,8 @@ rule all:
     input:
         unpack(compile_output_list),
 
+# Rule precedence is kept close to rule all so restart/debug behavior is easy to
+# audit before module-specific overrides start.
 
 if config["output"] == "config/output_list.json":
 
@@ -32,6 +36,9 @@ if config["output"] == "config/output_list.json":
     ruleorder: snv_indels_bgzip > misc_bgzip
     ruleorder: _copy_exomedepth_tbi > misc_tabix
 
+
+# Reusable hydra modules. Module versions are pinned in config.modules and can
+# be resolved from a packed local hydra-genetics tree by get_module_snakefile.
 
 module alignment:
     snakefile:
