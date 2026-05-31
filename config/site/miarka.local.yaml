@@ -1,0 +1,40 @@
+# Miarka site override following the standard config/site layout.
+
+PIPELINE_HOME: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_{{PIPELINE_VERSION}}
+REFERENCE_DATA_DIR: /proj/ngi2024001/nobackup/cgu/library/references/GRCh38
+CONTAINER_DIR: /proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache
+HYDRA_MODULES_DIR: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_{{PIPELINE_VERSION}}/hydra-genetics
+RESOURCES_FILE: config/resources.miarka.yaml
+PACKAGED_REF_DIR: /proj/ngi2024001/nobackup/bin/wp3_te/design_and_ref_files/hastings
+
+resources: "{{RESOURCES_FILE}}"
+hydra_local_path: "{{HYDRA_MODULES_DIR}}"
+
+reference:
+  coverage_bed: "{{PACKAGED_REF_DIR}}/hastings_coverage_20250109.bed"
+  design_bed: "{{PACKAGED_REF_DIR}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
+  design_intervals: "{{PACKAGED_REF_DIR}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
+  fai: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
+  fasta: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
+  genepanels: "{{PACKAGED_REF_DIR}}/genepanels.list"
+  sites: "{{PACKAGED_REF_DIR}}/Homo_sapiens_assembly38.known_indels.vcf.gz"
+  skip_chrs:
+    - chrM
+
+bcftools_view_deepvariant:
+  regions: "{{PACKAGED_REF_DIR}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+
+bwa_mem:
+  amb: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"
+  ann: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann"
+  bwt: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt"
+  pac: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac"
+  sa: "{{PACKAGED_REF_DIR}}/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa"
+
+deepvariant:
+  bed: "{{PACKAGED_REF_DIR}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+
+exomedepth_call:
+  bedfile: "{{PACKAGED_REF_DIR}}/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
+  exonsfile: "{{PACKAGED_REF_DIR}}/exons_GRCh38_ensembl109.txt"
+  genesfile: "{{PACKAGED_REF_DIR}}/genes_GRCh38_ensembl109.txt"
