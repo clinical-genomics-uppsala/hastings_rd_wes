@@ -19,15 +19,15 @@ rule exomedepth_export:
             "cnv_sv/exomedepth_call/{sample}_{type}_SV.txt.benchmark.tsv",
             config.get("exomedepth_export", {}).get("benchmark_repeats", 1),
         )
-    threads: config.get("exomedepth_export", {}).get("threads", config["default_resources"]["threads"])
+    threads: rule_resource("exomedepth_export", "threads")
     resources:
-        mem_mb=config.get("exomedepth_export", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("exomedepth_export", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("exomedepth_export", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("exomedepth_export", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("exomedepth_export", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=rule_resource("exomedepth_export", "mem_mb"),
+        mem_per_cpu=rule_resource("exomedepth_export", "mem_per_cpu"),
+        partition=rule_resource("exomedepth_export", "partition"),
+        threads=rule_resource("exomedepth_export", "threads"),
+        time=rule_resource("exomedepth_export", "time"),
     container:
-        config.get("exomedepth_export", {}).get("container", config["default_container"])
+        rule_container("exomedepth_export")
     message:
         "{rule}: Export exomedepth CNV results from {input.exon} "
     script:
