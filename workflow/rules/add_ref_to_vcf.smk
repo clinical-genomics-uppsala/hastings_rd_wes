@@ -18,13 +18,13 @@ rule vcf_addRef:
             config.get("vcf_addRef", {}).get("benchmark_repeats", 1),
         )
     resources:
-        mem_mb=config.get("vcf_addRef", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
-        mem_per_cpu=config.get("vcf_addRef", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
-        partition=config.get("vcf_addRef", {}).get("partition", config["default_resources"]["partition"]),
-        threads=config.get("vcf_addRef", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("vcf_addRef", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=rule_resource("vcf_addRef", "mem_mb"),
+        mem_per_cpu=rule_resource("vcf_addRef", "mem_per_cpu"),
+        partition=rule_resource("vcf_addRef", "partition"),
+        threads=rule_resource("vcf_addRef", "threads"),
+        time=rule_resource("vcf_addRef", "time"),
     container:
-        config.get("vcf_addRef", {}).get("container", config["default_container"])
+        rule_container("vcf_addRef")
     message:
         "{rule}: Add reference to the header of the deepvariant vcf: {input.vcf}"
     script:
