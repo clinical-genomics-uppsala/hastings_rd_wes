@@ -24,13 +24,9 @@ if config["output"] == "config/output_list.json":
 
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: _copy_samtools_crai > compression_samtools_index
-    ruleorder: _copy_snv_indels_tbi > misc_tabix
     ruleorder: _copy_snv_indels_vcf > snv_indels_bgzip
     ruleorder: _copy_snv_indels_tbi > snv_indels_tabix
     ruleorder: snv_indels_glnexus_trio > snv_indels_glnexus
-    ruleorder: snv_indels_tabix > misc_tabix
-    ruleorder: snv_indels_bgzip > misc_bgzip
-    ruleorder: _copy_exomedepth_tbi > misc_tabix
 
 
 module alignment:
@@ -103,13 +99,34 @@ use rule exomedepth_call from cnv_sv as cnv_sv_exomedepth_call with:
         bedfile=config.get("exomedepth_call", {}).get("bedfile", ""),
         genes=config.get("exomedepth_call", {}).get("genesfile", ""),
         exons=config.get("exomedepth_call", {}).get("exonsfile", ""),
-        sex="qc/peddy/peddy.sex_check-checkpoint.csv",
         ref_count=get_exomedepth_ref,
 
 
 use rule automap from cnv_sv as cnv_sv_automap with:
     input:
-        vcf="vcf_final/{sample}_{type}.vcf",
+        vcf="snv_indels/bcftools_view/{sample}_{type}.ref.vcf",
+
+
+use rule svdb_merge from cnv_sv as cnv_sv_svdb_merge with:
+    input:
+        exomedepth="cnv_sv/exomedepth_call/{sample}_{type}.filtered.vcf.gz",
+        melt="cnv_sv/melt/{sample}_{type}.softfiltered.vcf.gz",
+        scramble="cnv_sv/scramble_vcf/{sample}_{type}.softfiltered.vcf.gz",
+    output:
+        vcf=temp("cnv_sv/svdb_merge/{sample}_{type}.merged.vcf"),
+    params:
+        extra=config.get("svdb_merge", {}).get("extra", ""),
+        overlap=config.get("svdb_merge", {}).get("overlap", 0.6),
+        bnd_distance=config.get("svdb_merge", {}).get("bnd_distance", 10000),
+        priority=config.get("svdb_merge", {}).get("priority", ""),
+        vcfs=lambda wildcards, input: get_vcfs_for_svdb_merge(wildcards, input),
+    log:
+        "cnv_sv/svdb_merge/{sample}_{type}.merged.vcf.log",
+    benchmark:
+        repeat(
+            "cnv_sv/svdb_merge/{sample}_{type}.merged.benchmark.tsv",
+            config.get("svdb_merge", {}).get("benchmark_repeats", 1),
+        )
 
 
 module compression:
@@ -143,8 +160,8 @@ module filtering:
 
 use rule bcftools_view from filtering as filtering_bcftools_view with:
     input:
-        vcf="vcf_final/{sample}_{type}.fix_af.vcf.gz",
-        tbi="vcf_final/{sample}_{type}.fix_af.vcf.gz.tbi",
+        vcf="snv_indels/fix_af/{sample}_{type}.fix_af.vcf.gz",
+        tbi="snv_indels/fix_af/{sample}_{type}.fix_af.vcf.gz.tbi",
         regions=config.get("bcftools_view_deepvariant", {}).get("regions", ""),
     output:
         vcf=temp("snv_indels/bcftools_view/{sample}_{type}.vcf"),
@@ -176,17 +193,54 @@ use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_har
         )
 
 
-module misc:
-    snakefile:
-        get_module_snakefile(config, "hydra-genetics/misc", path="workflow/Snakefile", tag=config["modules"]["misc"])
-    config:
-        config
+use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_softfilter_melt with:
+    input:
+        vcf="cnv_sv/melt/{sample}_{type}.vcf.gz",
+    output:
+        vcf="cnv_sv/melt/{sample}_{type}.softfiltered.vcf.gz",
+    params:
+        filter=lambda wildcards: "-e {}".format(config["bcftools_softfilter_melt"]["exclude"]),
+        extra=config.get("bcftools_softfilter_melt", {}).get("extra", ""),
+    log:
+        "cnv_sv/melt/{sample}_{type}.softfiltered.vcf.gz.log",
+    benchmark:
+        repeat(
+            "cnv_sv/melt/{sample}_{type}.softfiltered.vcf.gz.benchmark.tsv",
+            config.get("bcftools_softfilter_melt", {}).get("benchmark_repeats", 1),
+        )
 
 
-use rule bgzip from misc as misc_bgzip
+use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_softfilter_scramble with:
+    input:
+        vcf="cnv_sv/scramble_vcf/{sample}_{type}.sorted.vcf.gz",
+    output:
+        vcf="cnv_sv/scramble_vcf/{sample}_{type}.softfiltered.vcf.gz",
+    params:
+        filter=lambda wildcards: "-e {}".format(config["bcftools_softfilter_scramble"]["exclude"]),
+        extra=config.get("bcftools_softfilter_scramble", {}).get("extra", ""),
+    log:
+        "cnv_sv/scramble_vcf/{sample}_{type}.softfiltered.vcf.gz.log",
+    benchmark:
+        repeat(
+            "cnv_sv/scramble_vcf/{sample}_{type}.softfiltered.vcf.gz.benchmark.tsv",
+            config.get("bcftools_softfilter_scramble", {}).get("benchmark_repeats", 1),
+        )
 
 
-use rule tabix from misc as misc_tabix
+use rule bcftools_view from filtering as filtering_bcftools_view_svdb with:
+    input:
+        vcf="cnv_sv/svdb_merge/{sample}_{type}.merged.vcf.gz",
+    output:
+        vcf="cnv_sv/svdb_merge/{sample}_{type}.merged.filtered.vcf.gz",
+    params:
+        extra=config.get("bcftools_view_svdb", {}).get("extra", ""),
+    log:
+        "cnv_sv/svdb_merge/{sample}_{type}.merged.filtered.vcf.log",
+    benchmark:
+        repeat(
+            "cnv_sv/svdb_merge/{sample}_{type}.merged.filtered.vcf.benchmark.tsv",
+            config.get("bcftools_view_svdb", {}).get("benchmark_repeats", 1),
+        )
 
 
 module parabricks:
@@ -311,7 +365,11 @@ use rule multiqc from qc as qc_multiqc with:
         + input.config,
 
 
-use rule peddy from qc as qc_peddy
+use rule peddy from qc as qc_peddy with:
+    input:
+        vcf="snv_indels/glnexus_peddy/all.vcf.gz",
+        tbi="snv_indels/glnexus_peddy/all.vcf.gz.tbi",
+        ped="qc/peddy/all.ped",
 
 
 use rule picard_collect_alignment_summary_metrics from qc as qc_pic_align_sum_met with:
@@ -449,14 +507,14 @@ use rule deepvariant from snv_indels as snv_indels_deepvariant with:
 
 use rule bcftools_view from snv_indels as snv_indels_bcftools_view_peddy with:
     input:
-        bcf="qc/peddy/all.bcf",
+        bcf="snv_indels/glnexus_peddy/all.bcf",
     output:
-        vcf=temp("qc/peddy/all.vcf.gz"),
+        vcf=temp("snv_indels/glnexus_peddy/all.vcf.gz"),
     log:
-        "qc/peddy/all.vcf.gz.log",
+        "snv_indels/glnexus_peddy/all.vcf.gz.log",
     benchmark:
         repeat(
-            "qc/peddy/all.vcf.gz.benchmark.tsv",
+            "snv_indels/glnexus_peddy/all.vcf.gz.benchmark.tsv",
             config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
@@ -465,17 +523,17 @@ use rule glnexus from snv_indels as snv_indels_glnexus_peddy with:
     input:
         gvcfs=lambda wildcards: get_gvcf_list(wildcards),
     output:
-        bcf=temp("qc/peddy/all.bcf"),
-        dir=temp(directory("qc/peddy/GLnexus_peddy.DB")),
+        bcf=temp("snv_indels/glnexus_peddy/all.bcf"),
+        dir=temp(directory("snv_indels/glnexus_peddy/GLnexus_peddy.DB")),
     params:
         extra=config.get("glnexus_peddy", {}).get("extra", ""),
         glnexus_config=config.get("glnexus_peddy", {}).get("configfile", ""),
         in_gvcf=lambda wildcards, input: get_glnexus_input(wildcards, input),
     log:
-        "qc/peddy/all.bcf.log",
+        "snv_indels/glnexus_peddy/all.bcf.log",
     benchmark:
         repeat(
-            "qc/peddy/all.bcf.benchmark.tsv",
+            "snv_indels/glnexus_peddy/all.bcf.benchmark.tsv",
             config.get("glnexus_peddy", {}).get("benchmark_repeats", 1),
         )
     container:
@@ -521,11 +579,11 @@ use rule fix_af from snv_indels as snv_indels_fix_af with:
     input:
         vcf=lambda wildcards: get_vcf_input(wildcards),
     output:
-        vcf=temp("vcf_final/{sample}_{type}.fix_af.vcf"),
+        vcf=temp("snv_indels/fix_af/{sample}_{type}.fix_af.vcf"),
     log:
-        "vcf_final/{sample}_{type}.fix_af.vcf.log",
+        "snv_indels/fix_af/{sample}_{type}.fix_af.vcf.log",
     benchmark:
         repeat(
-            "vcf_final/{sample}_{type}.fix_af.vcf.benchmark.tsv",
+            "snv_indels/fix_af/{sample}_{type}.fix_af.vcf.benchmark.tsv",
             config.get("fix_af", {}).get("benchmark_repeats", 1),
         )

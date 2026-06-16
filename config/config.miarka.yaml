@@ -34,3 +34,7 @@ exomedepth_call:
   bedfile: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed'
   exonsfile: '{{REFERENCE_DATA}}/hastings/exons_GRCh38_ensembl109.txt'
   genesfile: '{{REFERENCE_DATA}}/hastings/genes_GRCh38_ensembl109.txt'
+
+melt:
+  bed: "{{REFERENCE_DATA}}/hastings/melt/Hg38.genes.bed"
+  mei: "{{REFERENCE_DATA}}/hastings/melt/mei_list.txt"

@@ -1,6 +1,5 @@
 ---
 
-
 resources: "config/resources.yaml"
 samples: "config/samples.tsv"
 units: "config/units.tsv"
@@ -13,13 +12,13 @@ modules:
   alignment: "v0.6.0"
   annotation: "v0.3.0"
   compression: "v2.0.0" 
-  cnv_sv: "v0.5.0"
-  filtering: "v0.2.0"
+  cnv_sv: "v3.2.0"
+  filtering: "v1.1.0"
   misc: "v0.2.0"
   parabricks: "v1.1.0"
   prealignment: "v1.2.0"
-  qc: "v0.4.1"
-  references: "e71ee62"
+  qc: "v0.8.0"
+  references: "v1.0.1"
   snv_indels: "v1.0.0"
 
 reference:
@@ -35,9 +34,6 @@ reference:
 
 trimmer_software: "fastp_pe"
 
-aligner: "bwa_cpu" # or "bwa_cpu"
-snp_caller: "deepvariant_cpu" # or "deepvariant_cpu"
-
 automap:
   container: "docker://hydragenetics/automap:1.2"
   build: "hg38"
@@ -49,6 +45,17 @@ bcftools_view_deepvariant:
 
 bcftools_hardfilter_exomedepth:
   exclude: "'BF<=0'"
+
+bcftools_softfilter_melt:
+  exclude: "'FILTER=\"ac0\" '"
+  extra: "-s LowQual "
+
+bcftools_softfilter_scramble:
+  exclude: "'INFO/Clipped_Reads_In_Cluster<5 || INFO/Alignment_Score<60 || INFO/Alignment_Percent_Length<90 || INFO/Alignment_Percent_Identity<90'"
+  extra: "-s LowQual "
+
+bcftools_view_svdb:
+  extra: "-f 'PASS'"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
@@ -93,6 +100,12 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+melt:
+  container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
+  bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
+  extra: "-r 150 "
+  mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
@@ -163,9 +176,19 @@ picard_collect_wgs_metrics:
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
 
+scramble_cluster_analysis:
+  container: "docker://hydragenetics/scramble:1.0.2"
+  mei_refs: "/opt/scramble/cluster_analysis/resources/MEI_consensus_seqs.fa" # path in the container
+  install_dir: "/opt/scramble/cluster_analysis/bin" # path in the container
 
-spring:
-  container: "docker://hydragenetics/spring:1.1.1"
+scramble_cluster_identifier:
+  container: "docker://hydragenetics/scramble:1.0.2"
+
+svdb_merge:
+  container: "docker://hydragenetics/svdb:2.10.2"
+  overlap: 0.6
+  priority: "exomedepth,melt,scramble"
+  extra: "--pass_only --no_intra "
 
 upd:
   container: "docker://hydragenetics/upd:0.1.1"
