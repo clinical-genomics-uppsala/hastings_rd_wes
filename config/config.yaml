@@ -176,6 +176,9 @@ picard_collect_wgs_metrics:
 picard_mark_duplicates:
   container: "docker://hydragenetics/picard:2.25.4"
 
+samtools_merge_bam:
+  extra: "-c -p"
+
 scramble_cluster_analysis:
   container: "docker://hydragenetics/scramble:1.0.2"
   mei_refs: "/opt/scramble/cluster_analysis/resources/MEI_consensus_seqs.fa" # path in the container
