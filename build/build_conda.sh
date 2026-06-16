@@ -7,42 +7,49 @@ eval "$(conda shell.bash hook)"
 download_pipeline() {
     echo "=== Downloading Pipeline ==="
     
+    local env_dir="./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env"
+
     # Create and activate conda environment in the current directory, then install pipeline requirements
     echo "Creating conda environment: ${PIPELINE_NAME}_${TAG_OR_BRANCH}_env"
-    mamba create --prefix ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env python=${PYTHON_VERSION} -y
-    conda activate ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env
-    
+    mamba create --prefix ${env_dir} python=${PYTHON_VERSION} conda-pack -y
     # Clean up existing pipeline directory if it exists
-    if [ -d ${PIPELINE_NAME}_${TAG_OR_BRANCH} ]; then
-        echo "Removing existing pipeline directory: ${PIPELINE_NAME}_${TAG_OR_BRANCH}"
-        rm -fr ${PIPELINE_NAME}_${TAG_OR_BRANCH}
+    if [ -d ${pipeline_dir} ]; then
+        echo "Removing existing pipeline directory: ${pipeline_dir}"
+        rm -fr ${pipeline_dir}
     fi
     
-    mkdir ${PIPELINE_NAME}_${TAG_OR_BRANCH}
+    mkdir ${pipeline_dir}
     
     # Clone the required version of the pipeline
     echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
-    git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
+    git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${pipeline_dir}/${PIPELINE_NAME}
 
-    envsubst < ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml > ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml.sub
-    mv ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml.sub ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml
+    envsubst '${TAG_OR_BRANCH}' \
+        < ${pipeline_dir}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml \
+        > ${pipeline_dir}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml.sub \
+        || { echo "ERROR: envsubst failed on ${profile_config}"; exit 1; }
+    mv ${pipeline_dir}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml.sub  ${pipeline_dir}/${PIPELINE_NAME}/profiles/${PROFILE_NAME}/config.yaml
     
     # Install the requirements for the pipeline
     echo "Installing pipeline requirements"
-    export PYTHONNOUSERSITE=1 # stops pip looking in ˙$HOME/.local for packages
-    unset PYTHONPATH # Remove PYTHONPATH so that only the  Conda-env used  används
+    export PYTHONNOUSERSITE=1  # stops pip looking in $HOME/.local for packages
+    "${env_dir}/bin/pip3" install \
+        -r "${pipeline_dir}/${PIPELINE_NAME}/requirements.txt" \
+        || { echo "ERROR: Failed to install pipeline requirements"; exit 1; }
    
-    ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env/bin/pip3 install --no-cache-dir -I -r ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/requirements.txt
+    ${env_dir}/bin/pip3 install --no-cache-dir -I -r ${pipeline_dir}/${PIPELINE_NAME}/requirements.txt
     
     # Pack the environment with the requirements installed
     echo "Packing conda environment"
-    conda pack --prefix ./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env -o ${PIPELINE_NAME}_${TAG_OR_BRANCH}/env.tar.gz
+    "${env_dir}/bin/conda-pack" --prefix "${env_dir}" \
+        -o "${pipeline_dir}/env.tar.gz" \
+        || { echo "ERROR: Failed to pack conda environment"; exit 1; }
     
     # Clone snakemake-wrappers and hydra-genetics modules
     echo "Cloning snakemake-wrappers and hydra-genetics modules"
-    mkdir -p ${PIPELINE_NAME}_${TAG_OR_BRANCH}/hydra-genetics
+    mkdir -p ${pipeline_dir}/hydra-genetics
     
-    git clone https://github.com/snakemake/snakemake-wrappers.git ${PIPELINE_NAME}_${TAG_OR_BRANCH}/snakemake-wrappers
+    git clone https://github.com/snakemake/snakemake-wrappers.git ${pipeline_dir}/snakemake-wrappers
     
     # Array of hydra-genetics modules to clone
     
@@ -67,53 +74,38 @@ download_pipeline() {
     # Clone each hydra-genetics module
     for module in "${hydra_modules[@]}"; do
         echo "Cloning hydra-genetics/${module}"
-        git clone https://github.com/hydra-genetics/${module}.git ${PIPELINE_NAME}_${TAG_OR_BRANCH}/hydra-genetics/${module}
+        git clone https://github.com/hydra-genetics/${module}.git ${pipeline_dir}/hydra-genetics/${module}
     done
     
-    # Pack all cloned repositories
-    #echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
-    #tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
-    
-    # Download the config files from the config repo
-    # echo "Downloading config files from ${CONFIG_GITHUB_REPO} (version: ${CONFIG_VERSION})"
-    # git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
-    
-    echo "Pipeline download completed successfully"
-}
-
-# Function to download containers
-download_containers() {
-    echo "=== Downloading Containers ==="
-
-    # Check if config directory exists, if not download it
-    # if [ ! -d hastings_config ]; then
-    #     echo "Config directory not found, downloading config files"
-    #     git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
-    # fi
-    
-    if [ ! -d ${PIPELINE_NAME}_${TAG_OR_BRANCH} ]; then
-        echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
-        git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
-    fi
-    
     # Download containers using hydra-genetics
+    echo "=== Downloading Containers ==="
     echo "Creating singularity files using hydra-genetics"
-    hydra-genetics prepare-environment create-singularity-files -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -o apptainer_cache
-    
-    # Copy additional container (MELT)
-    echo "Copying MELT container"
-    cp /projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif apptainer_cache
-    
-    # Update the paths to the containers in the config
-    hydra-genetics prepare-environment container-path-update -c ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml -n config.new.yaml -p $APPTAINER_CACHE
-    mv config.new.yaml ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}/config/config.yaml 
+    hydra-genetics prepare-environment create-singularity-files \
+        -c "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml" \
+        -o apptainer_cache \
+        || { echo "ERROR: Failed to create singularity files"; exit 1; }
+
+    # Update the paths to the containers in the config before archiving
+    hydra-genetics prepare-environment container-path-update \
+        -c "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml" \
+        -n "config.new.yaml" \
+        -p $APPTAINER_CACHE \
+        || { echo "ERROR: Failed to update container paths in config"; exit 1;  }
+    mv config.new.yaml "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml"
+
+    # Pack all cloned repositories (config now contains updated container paths)
+    echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
+    tar -zcvf "${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz" "${pipeline_dir}"
 
     # Create container archive
     echo "Creating container archive: apptainer_cache.tar.gz"
     tar -czvf apptainer_cache.tar.gz apptainer_cache
+
+    echo "Pipeline and container download completed successfully"
     
-    echo "Container download completed successfully"
+    echo "Pipeline download completed successfully"
 }
+
 
 # Function to download design and reference files
 download_design_and_reference_files() {
@@ -130,9 +122,9 @@ download_design_and_reference_files() {
     #     echo "Config directory not found, downloading config files"
     #     git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
     # fi
-    if [ ! -d ${PIPELINE_NAME}_${TAG_OR_BRANCH} ]; then
+    if [ ! -d ${pipeline_dir} ]; then
         echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
-        git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${PIPELINE_NAME}_${TAG_OR_BRANCH}/${PIPELINE_NAME}
+        git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${pipeline_dir}/${PIPELINE_NAME}
     fi
 
     
@@ -294,7 +286,6 @@ EOF
 # Function to parse command line arguments
 parse_arguments() {
     DOWNLOAD_PIPELINE=false
-    DOWNLOAD_CONTAINERS=false
     DOWNLOAD_REFERENCES=false
     # DOWNLOAD_CONFIG=false
     REFERENCE_CONFIGS=()
@@ -302,7 +293,6 @@ parse_arguments() {
     # If no arguments, download all components (except config-only)
     if [ $# -eq 0 ]; then
         DOWNLOAD_PIPELINE=true
-        DOWNLOAD_CONTAINERS=true
         DOWNLOAD_REFERENCES=true
         return
     fi
@@ -315,7 +305,6 @@ parse_arguments() {
                 ;;
             -p|--pipeline-only)
                 DOWNLOAD_PIPELINE=true
-                DOWNLOAD_CONTAINERS=true
                 shift
                 ;;
             -r|--references-only)
@@ -328,7 +317,6 @@ parse_arguments() {
             #     ;;
             -a|--all)
                 DOWNLOAD_PIPELINE=true
-                DOWNLOAD_CONTAINERS=true
                 DOWNLOAD_REFERENCES=true
                 shift
                 ;;
@@ -347,7 +335,6 @@ parse_arguments() {
     # If no specific component selected, download all (except config-only)
     if [ "$DOWNLOAD_PIPELINE" = false ] && [ "$DOWNLOAD_REFERENCES" = false ]; then
         DOWNLOAD_PIPELINE=true
-        DOWNLOAD_CONTAINERS=true
         DOWNLOAD_REFERENCES=true
     fi
     
@@ -367,13 +354,14 @@ main() {
     # Validate environment variables
     validate_environment
     
+    pipeline_dir="./${PIPELINE_NAME}_${TAG_OR_BRANCH}"
+    
     echo "Starting build process for ${PIPELINE_NAME} ${TAG_OR_BRANCH}"
     echo "Python version: ${PYTHON_VERSION}"
     echo "Pipeline repo: ${PIPELINE_GITHUB_REPO}"
     echo ""
     echo "Components to download:"
     echo "  - Pipeline: $DOWNLOAD_PIPELINE"
-    echo "  - Containers: $DOWNLOAD_CONTAINERS"
     echo "  - References: $DOWNLOAD_REFERENCES"
     if [ ${#REFERENCE_CONFIGS[@]} -gt 0 ]; then
         echo "  - Reference configs: ${REFERENCE_CONFIGS[*]}"
