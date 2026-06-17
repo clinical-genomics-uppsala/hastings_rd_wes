@@ -8,7 +8,7 @@ default_resources:
   partition: "core"
 
 bwa_mem:
-  mem_mb: 122880
+  mem_mb: 49152
   mem_per_cpu: 6144
   threads: 8
 
