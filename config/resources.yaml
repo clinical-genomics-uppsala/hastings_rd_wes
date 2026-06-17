@@ -31,6 +31,11 @@ fastqc:
 glnexus:
   threads: 20
 
+melt:
+  mem_mb: 49152
+  mem_per_cpu: 6144
+  threads: 8
+
 mosdepth_bed:
   mem_mb: 36864
   threads: 4

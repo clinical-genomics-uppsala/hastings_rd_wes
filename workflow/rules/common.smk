@@ -29,9 +29,13 @@ from hydra_genetics.utils.software_versions import touch_pipeline_version_file_n
 from hydra_genetics.utils.software_versions import touch_software_version_file
 from hydra_genetics.utils.software_versions import use_container
 
+from hydra_genetics.utils import misc
+
+misc.ALIGNER_PATHS.update({"bwa_cpu": "alignment/samtools_merge_bam", "bwa_gpu": "parabricks/pbrun_fq2bam"})
+
 min_version("7.8.0")
 
-hydra_min_version("3.0.0")
+hydra_min_version("4.0.0")
 
 config = replace_dict_variables(config)
 validate(config, schema="../schemas/config.schema.yaml")
@@ -234,32 +238,6 @@ def get_glnexus_input(wildcards, input):
     return gvcf_input
 
 
-def get_parent_bams(wildcards):
-    aligner = config.get("aligner", None)
-
-    if aligner is None:
-        sys.exit("aligner missing from config, valid options: bwa_gpu or bwa_cpu")
-    elif aligner == "bwa_gpu":
-        bam_path = "parabricks/pbrun_fq2bam"
-    elif aligner == "bwa_cpu":
-        bam_path = "alignment/samtools_merge_bam"
-
-    proband_sample = samples[samples.index == wildcards.sample]
-    trio_id = proband_sample.at[wildcards.sample, "trioid"]
-
-    mother_sample = samples[(samples.trio_member == "mother") & (samples.trioid == trio_id)].index[0]
-    mother_bam = "{}/{}_{}.bam".format(bam_path, mother_sample, list(get_unit_types(units, mother_sample))[0])
-
-    father_sample = samples[(samples.trio_member == "father") & (samples.trioid == trio_id)].index[0]
-    father_bam = "{}/{}_{}.bam".format(bam_path, father_sample, list(get_unit_types(units, father_sample))[0])
-
-    bam_list = [mother_bam, father_bam]
-
-    bam_list += [f"{bam}.bai" for bam in bam_list]
-
-    return bam_list
-
-
 def get_peddy_sex(wildcards, peddy_sex_check):
     sample = "{}_{}".format(wildcards.sample, wildcards.type)
     sex_df = pandas.read_table(peddy_sex_check, sep=",").set_index("sample_id", drop=False)
@@ -269,8 +247,20 @@ def get_peddy_sex(wildcards, peddy_sex_check):
     return sample_sex
 
 
+def get_sample_sex(sample):
+    """
+    Get the sex of a sample from the samples dataframe.
+    """
+    if "sex" not in samples.columns:
+        return "NA"
+
+    sex = samples.at[sample, "sex"]
+
+    return sex
+
+
 def get_exomedepth_ref(wildcards):
-    sex = get_peddy_sex(wildcards, checkpoints.cnv_sv_exomedepth_sex.get().output[0])
+    sex = get_sample_sex(wildcards.sample)
 
     if sex == "male":
         ref = config.get("exomedepth_call", {}).get("male_reference", "")
@@ -278,6 +268,24 @@ def get_exomedepth_ref(wildcards):
         ref = config.get("exomedepth_call", {}).get("female_reference", "")
 
     return ref
+
+
+def get_vcfs_for_svdb_merge(wildcards, input):
+    """
+    Construct a list of VCF file paths with their corresponding input names as suffixes for SVDB merge.
+
+    Args:
+        wildcards: Snakemake wildcards object (not used, but kept for compatibility).
+        input: Snakemake input object, expected to have attributes manta, melt, scramble, cnvpytor.
+
+    Returns:
+        List of strings in the format 'path:name' for each input item, e.g., 'file.vcf.gz:manta'.
+    """
+    vcfs_with_suffix = []
+    for name, path in input.items():
+        vcfs_with_suffix.append(f"{path}:{name}")
+
+    return vcfs_with_suffix
 
 
 def compile_output_list(wildcards):

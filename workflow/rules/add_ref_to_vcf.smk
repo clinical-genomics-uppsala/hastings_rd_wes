@@ -9,7 +9,7 @@ rule vcf_addRef:
         vcf="snv_indels/bcftools_view/{sample}_{type}.vcf",
         ref=config["reference"]["fasta"],
     output:
-        vcf=temp("vcf_final/{sample}_{type}.vcf"),
+        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.ref.vcf"),
     log:
         "vcf_final/{sample}_{type}_add_ref.log",
     benchmark:

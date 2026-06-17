@@ -27,13 +27,13 @@ jobs:
       - name: snakemake dry run cpu mode
         working-directory: .tests/integration
         run: |
-          cp ../../config/*.yaml config/ && snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml config/config_dryrun.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu
+          cp -r ../../config/* config/ && snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml config/config_dryrun.yaml --config aligner=bwa_cpu snp_caller=deepvariant_cpu
       - name: snakemake dry run gpu mode
         working-directory: .tests/integration
         run: |
-          cp ../../config/*.yaml config/ && snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml config/config_dryrun.yaml --config aligner=bwa_gpu snp_caller=deepvariant_gpu
+          snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml config/config_dryrun.yaml --config aligner=bwa_gpu snp_caller=deepvariant_gpu
       - name: snakemake dry run cpu mode reference worflow
         working-directory: .tests/integration
         run: |
-          cp ../../config/*.yaml config/ && snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml config/config_dryrun.yaml config/config_reference.yaml  --config aligner=bwa_cpu snp_caller=deepvariant_cpu
+          snakemake -n -s ../../workflow/Snakefile --configfiles config/config.yaml config/config_dryrun.yaml config/config_reference.yaml  --config aligner=bwa_cpu snp_caller=deepvariant_cpu
   
