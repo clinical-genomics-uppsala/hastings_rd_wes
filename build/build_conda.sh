@@ -86,10 +86,15 @@ download_pipeline() {
         || { echo "ERROR: Failed to create singularity files"; exit 1; }
 
     # Update the paths to the containers in the config before archiving
+    if [ -z "${APPTAINER_CACHE:-}" ]; then
+        echo "ERROR: APPTAINER_CACHE is not set or is empty. Please export APPTAINER_CACHE before running this script."
+        exit 1
+    fi
+
     "${env_dir}/bin/hydra-genetics" prepare-environment container-path-update \
         -c "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml" \
         -n "config.new.yaml" \
-        -p $APPTAINER_CACHE \
+        -p "${APPTAINER_CACHE}" \
         || { echo "ERROR: Failed to update container paths in config"; exit 1;  }
     mv config.new.yaml "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml"
 
@@ -123,6 +128,7 @@ download_design_and_reference_files() {
     #     git clone --branch ${CONFIG_VERSION} ${CONFIG_GITHUB_REPO} hastings_config/
     # fi
     if [ ! -d ${pipeline_dir} ]; then
+        mkdir -p ${pipeline_dir}
         echo "Cloning pipeline from ${PIPELINE_GITHUB_REPO} (branch: ${TAG_OR_BRANCH})"
         git clone --branch ${TAG_OR_BRANCH} ${PIPELINE_GITHUB_REPO} ${pipeline_dir}/${PIPELINE_NAME}
     fi
