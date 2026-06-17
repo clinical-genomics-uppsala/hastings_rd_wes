@@ -80,13 +80,13 @@ download_pipeline() {
     # Download containers using hydra-genetics
     echo "=== Downloading Containers ==="
     echo "Creating singularity files using hydra-genetics"
-    hydra-genetics prepare-environment create-singularity-files \
+    "${env_dir}/bin/hydra-genetics" prepare-environment create-singularity-files \
         -c "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml" \
         -o apptainer_cache \
         || { echo "ERROR: Failed to create singularity files"; exit 1; }
 
     # Update the paths to the containers in the config before archiving
-    hydra-genetics prepare-environment container-path-update \
+    "${env_dir}/bin/hydra-genetics" prepare-environment container-path-update \
         -c "${pipeline_dir}/${PIPELINE_NAME}/config/config.yaml" \
         -n "config.new.yaml" \
         -p $APPTAINER_CACHE \
@@ -132,7 +132,7 @@ download_design_and_reference_files() {
     for reference_config in "$@"; do
         echo "Processing reference config: ${reference_config}"
         if [ -f "$reference_config" ]; then
-            hydra-genetics --debug references download -o design_and_ref_files -v "$reference_config"
+            "${env_dir}/bin/hydra-genetics" --debug references download -o design_and_ref_files -v "$reference_config"
         else
             echo "Warning: Reference config file not found: ${reference_config}"
         fi
@@ -196,8 +196,8 @@ cleanup() {
     #     rm -fr hastings_config
     # fi
     
-    # Clean container-related files
-    if [ "$DOWNLOAD_CONTAINERS" = true ]; then
+    # Containers are produced as part of pipeline download
+    if [ "$DOWNLOAD_PIPELINE" = true ]; then
         if [ -d apptainer_cache ]; then
             echo "Removing temporary container cache: apptainer_cache"
             rm -fr apptainer_cache
@@ -233,7 +233,7 @@ validate_environment() {
         echo ""
         echo "Please set all required variables before running this script."
         echo "Example usage:"
-        echo 'TAG_OR_BRANCH="v0.8.0" CONFIG_VERSION="v0.10.0" PIPELINE_NAME="hastings_rd_wes" \\'
+        echo 'TAG_OR_BRANCH="v0.8.0"  PIPELINE_NAME="hastings_rd_wes" \\'
         echo 'PYTHON_VERSION="3.9" PIPELINE_GITHUB_REPO="https://github.com/clinical-genomics-uppsala/hastings_rd_wes.git" \\'
         #echo 'CONFIG_GITHUB_REPO="https://github.com/clinical-genomics-uppsala/hastings_config.git" \\'
         echo 'bash build_conda.sh config1.yaml config2.yaml ...'
@@ -373,16 +373,6 @@ main() {
         download_pipeline
     fi
 
-    if [ "$DOWNLOAD_CONTAINERS" = true ]; then
-        download_containers
-    fi
-
-    if [ "$DOWNLOAD_PIPELINE" = true ]; then
-        # Pack all cloned repositories (after containers have updated the config)
-        echo "Creating pipeline archive: ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz"
-        tar -zcvf ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz ${PIPELINE_NAME}_${TAG_OR_BRANCH}
-    fi
-    
     if [ "$DOWNLOAD_REFERENCES" = true ]; then
         download_design_and_reference_files "${REFERENCE_CONFIGS[@]}"
     fi
@@ -405,14 +395,14 @@ main() {
     if [ "$DOWNLOAD_PIPELINE" = true ]; then
         echo "  - ${PIPELINE_NAME}_${TAG_OR_BRANCH}.tar.gz (pipeline)"
     fi
-    if [ "$DOWNLOAD_CONTAINERS" = true ]; then
+    if [ "$DOWNLOAD_PIPELINE" = true ]; then
         echo "  - apptainer_cache.tar.gz (containers)"
     fi
     if [ "$DOWNLOAD_REFERENCES" = true ] && [ ${#REFERENCE_CONFIGS[@]} -gt 0 ]; then
         echo "  - design_and_ref_files.tar.gz (reference files)"
     fi
     # if [ "$DOWNLOAD_CONFIG" = true ]; then
-    #     echo "  - poirot_config_${CONFIG_VERSION}.tar.gz (config files)"
+    #     echo "  - hastings_config_${CONFIG_VERSION}.tar.gz (config files)"
     # fi
 }
 
