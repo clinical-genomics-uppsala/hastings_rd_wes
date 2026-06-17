@@ -104,7 +104,7 @@ glnexus_trio:
 melt:
   container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
   bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
-  extra: "-r 150 "
+  extra: "-r 150 -exome"
   mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
 
 mosdepth_bed:
