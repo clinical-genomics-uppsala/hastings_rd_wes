@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.11.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.10.0...v0.11.0) (2026-06-22)
+
+
+### Features
+
+* add -c -p options to samtools merge ([d984cf6](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/d984cf6a064b3b177703a1bcc58728b96ff3a406))
+* add -exome flag for melt ([ff14784](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/ff1478442358e378c33513e97d93e73de3a8c4ba))
+* add melt and scramble callers ([6b2904a](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6b2904a57dcc18c88e54d109d5507575193923bc))
+* Add wrapper-prefix to Slurm config ([c3addb3](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/c3addb37704540171d867b0fd2e0f6db2f64b453))
+* Add wrapper-prefix to Slurm config ([3984356](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/398435658e8a1fc8e7ce989ba108c46479978da9))
+* make changes suggested by coderabbit review ([20d8f57](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/20d8f5743323e2e8cd8377e21b998cd4ee6faf75))
+
+
+### Bug Fixes
+
+* fix typo in bwa mem_mb ([6f18a81](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6f18a81a9ebeaf36ea016e51e411a3603078727d))
+* update build script and docs ([6f49782](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/6f4978272291ac85503e356e8e774f8f860d07f6))
+
+
+### Documentation
+
+* fix typos in the README ([690f2f4](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/690f2f44ffad5f7457d92921075a9ef2f39fc77c))
+* use tag_or_branch as variable ([ec41664](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/ec4166484b7ddd9ca401f18e822bdb2989df67a0))
+
 ## [0.10.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.9.1...v0.10.0) (2026-02-24)
 
 
