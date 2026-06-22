@@ -29,6 +29,9 @@ exomedepth_call:
   male_reference: "reference/RefCount_male.Rdata"
   female_reference: "reference/RefCount_female.Rdata"
 
+melt:
+  bed: "reference/Hg38.genes.bed"
+  mei: "reference/mei_list.txt"
 
 vep_trio:
   vep_cache: "reference/VEP/"
