@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.1](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.11.0...v0.11.1) (2026-06-24)
+
+
+### Bug Fixes
+
+* include all records where filter contains  ac0, not just those equal to ac0 ([1299373](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/1299373f56efdce43b7652e681da109e99d79f36))
+* update to cnv_sv module with melt fix ([abb826a](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/abb826a98aa8d09beabe28b24b6d5ada7c404f89))
+
 ## [0.11.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.10.0...v0.11.0) (2026-06-22)
 
 
