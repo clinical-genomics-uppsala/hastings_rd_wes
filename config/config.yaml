@@ -47,7 +47,7 @@ bcftools_hardfilter_exomedepth:
   exclude: "'BF<=0'"
 
 bcftools_softfilter_melt:
-  exclude: "'FILTER=\"ac0\" '"
+  exclude: "'FILTER~\"ac0\" '"
   extra: "-s LowQual "
 
 bcftools_softfilter_scramble:
