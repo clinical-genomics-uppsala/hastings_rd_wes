@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.2](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.11.1...v0.11.2) (2026-06-25)
+
+
+### Bug Fixes
+
+* adjust filter on svdb merged file ([960dfc4](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/960dfc4a5b65fef17f297d88cc04841f86935d2b))
+
 ## [0.11.1](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.11.0...v0.11.1) (2026-06-24)
 
 
