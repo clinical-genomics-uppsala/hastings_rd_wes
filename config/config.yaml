@@ -55,7 +55,7 @@ bcftools_softfilter_scramble:
   extra: "-s LowQual "
 
 bcftools_view_svdb:
-  extra: "-f 'PASS'"
+  extra: "-e 'FILTER~\"LowQual\"'"
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
