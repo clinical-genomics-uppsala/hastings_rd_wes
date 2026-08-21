@@ -5,9 +5,14 @@ rerun-incomplete: True
 max-jobs-per-second: 100
 max-status-checks-per-second: 100
 use-singularity: True
-drmaa: "-p {resources.partition} -t {resources.time} -n {resources.threads} --mem={resources.mem_mb} --mem-per-cpu={resources.mem_per_cpu} {resources.gres} -J {rule} -A ngi2024001 -e slurm/{rule}_%j.err -o slurm/{rule}_%j.out --nodes=1-1"
-default-resources: [gres="", ]
-drmaa-log-dir: "slurm"
+
+slurm: True
+default-resources:
+  - slurm_partition="core"
+  - slurm_account="ngi2024001"
+  - runtime="12h"
+  - nodes=1
+
 singularity-args: "-e --cleanenv -B /proj -B /scratch --nv"
 singularity-prefix: "/proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache/"
 wrapper-prefix: "git+file://proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_${TAG_OR_BRANCH}/snakemake-wrappers/"
