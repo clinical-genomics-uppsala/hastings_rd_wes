@@ -56,3 +56,15 @@
       path: hastings/genes_GRCh38_ensembl109.txt
       type: file
       url: file:/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt
+
+  melt:
+    bed:
+      checksum: b7cc511549a1ee6fd5a3ba73955a10ae
+      path: hastings/melt/Hg38.genes.bed
+      type: file
+      url: file:/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed
+    mei:
+      checksum: 47eefadac3d3ed1a3fa433fad22e2080
+      path: hastings/melt/mei_list.txt
+      type: file
+      url: file:/projects/wp3/Software/MELTv2.2.2/mei_list.txt
