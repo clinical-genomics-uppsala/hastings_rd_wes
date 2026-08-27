@@ -13,6 +13,6 @@ default-resources:
   - runtime="12h"
   - nodes=1
 
-singularity-args: "-e --cleanenv -B /proj -B /scratch --nv"
+singularity-args: "-e --cleanenv -B /proj -B $HOME --nv"
 singularity-prefix: "/proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache/"
 wrapper-prefix: "git+file://proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_${TAG_OR_BRANCH}/snakemake-wrappers/"
