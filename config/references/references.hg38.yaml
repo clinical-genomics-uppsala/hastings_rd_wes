@@ -68,3 +68,14 @@
       path: hastings/melt/mei_list.txt
       type: file
       url: file:/projects/wp3/Software/MELTv2.2.2/mei_list.txt
+    melt_zips:
+      compressed_checksum: 5d477deff0fb9ce0a60882af5e8e6339
+      path: Software/MELTv2.2.2/me_refs/Hg38
+      type: folder
+      content_checksum:
+        LINE1_MELT.zip: d53f11c7e8e0805c8e44b42309855909
+        SVA_MELT.zip: 159093e9fecc796f11382fb29340d011
+        ALU_MELT.zip: 8e2bf5db30c7053c640ba8aaa4ded716
+        HERVK_MELT.zip: 8672106ec4205e5787217204e7186038
+      url: /projects/wp3/Software/MELTv2.2.2/me_refs/Hg38.tar.gz
+      
