@@ -115,6 +115,8 @@ download_pipeline() {
 # Function to download design and reference files
 download_design_and_reference_files() {
     echo "=== Downloading Design and Reference Files ==="
+
+    local env_dir="./${PIPELINE_NAME}_${TAG_OR_BRANCH}_env"
     
     # Check if we have any reference configs to process
     if [ $# -eq 0 ]; then
