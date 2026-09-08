@@ -1,5 +1,6 @@
-# Container requirements discovered from config/config.yaml.
-# The sif filenames follow the CGU offline-cache naming convention used by Miarka.
+# Genererad av tools/gen_container_manifest.py ur config/**/*.yaml.
+# Sif-namnen följer CGU:s offline-cache-konvention på Miarka.
+# Kör om verktyget när config ändras; CI kontrollerar med --check.
 
 containers:
   automap:
@@ -8,13 +9,17 @@ containers:
   bwa:
     source: docker://hydragenetics/bwa:0.7.15
     sif: hydragenetics__bwa_0.7.15.sif
+  clara-parabricks:
+    source: docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1
+    sif: nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif
+    notes: GPU rules only.
   common:
     source: docker://hydragenetics/common:1.11.1
     sif: hydragenetics__common_1.11.1.sif
   deepvariant:
     source: docker://google/deepvariant:1.6.1
     sif: google__deepvariant_1.6.1.sif
-  ensembl_vep:
+  ensembl-vep:
     source: docker://ensemblorg/ensembl-vep:release_110.1
     sif: ensemblorg__ensembl-vep_release_110.1.sif
   exomedepth:
@@ -29,16 +34,15 @@ containers:
   glnexus:
     source: docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1
     sif: ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif
+  melt_v2_2_2:
+    source: /projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif
+    sif: MELT_v2.2.2.sif
   mosdepth:
     source: docker://hydragenetics/mosdepth:0.3.2
     sif: hydragenetics__mosdepth_0.3.2.sif
   multiqc:
     source: docker://hydragenetics/multiqc:1.21
     sif: hydragenetics__multiqc_1.21.sif
-  parabricks:
-    source: docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1
-    sif: nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif
-    notes: GPU rules only.
   peddy:
     source: docker://hydragenetics/peddy:0.4.8
     sif: hydragenetics__peddy_0.4.8.sif
@@ -48,9 +52,12 @@ containers:
   picard_2_25_4:
     source: docker://hydragenetics/picard:2.25.4
     sif: hydragenetics__picard_2.25.4.sif
-  spring:
-    source: docker://hydragenetics/spring:1.1.1
-    sif: hydragenetics__spring_1.1.1.sif
+  scramble:
+    source: docker://hydragenetics/scramble:1.0.2
+    sif: hydragenetics__scramble_1.0.2.sif
+  svdb:
+    source: docker://hydragenetics/svdb:2.10.2
+    sif: hydragenetics__svdb_2.10.2.sif
   upd:
     source: docker://hydragenetics/upd:0.1.1
     sif: hydragenetics__upd_0.1.1.sif
