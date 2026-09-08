@@ -1,0 +1,42 @@
+---
+# ---------------------------------------------------------------------------
+#  Referensfiler - Miarka
+#
+#  Anvands som: --configfile config/reference_files/reference_files_miarka.yaml
+#
+#  Alla filer ligger under REFERENCE_DATA. Vardena ar oforandrade fran
+#  config.miarka.yaml + config_twist_comp.miarka.yaml + config_exomedepth_*.miarka.yaml.
+# ---------------------------------------------------------------------------
+
+REFERENCE_DATA: "/proj/ngi2024001/nobackup/bin/wp3_te/design_and_ref_files"
+
+ref_fasta: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
+ref_fai: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
+ref_bwa_amb: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"
+ref_bwa_ann: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann"
+ref_bwa_bwt: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt"
+ref_bwa_pac: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac"
+ref_bwa_sa: "{{REFERENCE_DATA}}/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa"
+ref_known_indels: "{{REFERENCE_DATA}}/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz"
+# OBS: overstyrs inte pa Miarka i dag - detta ar en Marvin-sokvag.
+# Se STATUS.md; behall vardet tills nagon bekraftat vad som ska galla.
+ref_vep_cache: "/beegfs-storage/data/ref_genomes/VEP/"
+ref_design_bed: "{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
+ref_design_intervals: "{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
+ref_design_bed_padded: "{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+ref_comp_design_bed: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+ref_comp_design_intervals: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+ref_comp_design_bed_padded: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+ref_comp_exomedepth_bed: "{{REFERENCE_DATA}}/hastings/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
+ref_coverage_bed: "{{REFERENCE_DATA}}/hastings/hastings_coverage_20250109.bed"
+ref_genepanels: "{{REFERENCE_DATA}}/hastings/genepanels.list"
+ref_exons: "{{REFERENCE_DATA}}/hastings/exons_GRCh38_ensembl109.txt"
+ref_genes: "{{REFERENCE_DATA}}/hastings/genes_GRCh38_ensembl109.txt"
+ref_melt_bed: "{{REFERENCE_DATA}}/hastings/melt/Hg38.genes.bed"
+ref_melt_mei: "{{REFERENCE_DATA}}/hastings/melt/mei_list.txt"
+ref_exomedepth_pon_female_nextseq: "{{REFERENCE_DATA}}/hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata"
+ref_exomedepth_pon_male_nextseq: "{{REFERENCE_DATA}}/hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata"
+ref_exomedepth_pon_female_novaseqx: "{{REFERENCE_DATA}}/hastings/Twist2.0_hg38_RefCount_female_novX.Rdata"
+ref_exomedepth_pon_male_novaseqx: "{{REFERENCE_DATA}}/hastings/Twist2.0_hg38_RefCount_male_novX.Rdata"
+ref_comp_exomedepth_pon_female: "{{REFERENCE_DATA}}/hastings/RefCount_female.Rdata"
+ref_comp_exomedepth_pon_male: "{{REFERENCE_DATA}}/hastings/RefCount_male.Rdata"

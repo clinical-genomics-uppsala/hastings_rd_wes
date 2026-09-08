@@ -3,7 +3,7 @@
 samples: "config/samples_ref.tsv"
 units: "config/units_ref.tsv"
 
-output: "config/output_list_ref.json"
+output: "config/output_files_ref.yaml"
 
 
 exomedepth_reference:

@@ -5,7 +5,7 @@ resources: "config/resources.yaml"
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 
-output: "config/output_list.json"
+output: "config/output_files.yaml"
 
 default_container: "docker://hydragenetics/common:1.11.1"
 

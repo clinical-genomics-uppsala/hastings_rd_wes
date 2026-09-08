@@ -1,0 +1,100 @@
+---
+# ---------------------------------------------------------------------------
+#  Resultatfiler - analysworkflow
+#
+#  `output` ar sokvagen relativt `directory`. `input` ar filen i arbetskatalogen
+#  som ska kopieras dit; null betyder att Snakemake far hitta en regel som
+#  skapar filen direkt pa malsokvagen.
+#
+#  Kopieringsregeln heter _copy_<name>, sa `name` maste vara stabilt.
+#  Valfritt: `types` (default ["N"]) och `when` (villkor, se results.smk).
+#
+#  Sokvagarna ar ordagrant desamma som i det tidigare output_list.json.
+#  Omstruktureringen till gemensam resultatlayout gors i fas 4 (DECISIONS.md D2).
+# ---------------------------------------------------------------------------
+
+directory: results
+
+files:
+  - name: snv_indels_vcf
+    input: "snv_indels/bcftools_view/{sample}_N.ref.vcf.gz"
+    output: "{sample}/{sample}.hard-filtered.vcf.gz"
+
+  - name: snv_indels_tbi
+    input: "snv_indels/bcftools_view/{sample}_N.ref.vcf.gz.tbi"
+    output: "{sample}/{sample}.hard-filtered.vcf.gz.tbi"
+
+  - name: exomedepth_aed
+    input: "cnv_sv/exomedepth_call/{sample}_N.aed"
+    output: "{sample}/cnv_sv/{sample}_exomedepth.aed"
+
+  - name: exomedepth_call
+    input: "cnv_sv/exomedepth_call/{sample}_N.txt"
+    output: "{sample}/cnv_sv/{sample}_exomedepth.txt"
+
+  - name: exomedepth_vcf
+    input: "cnv_sv/exomedepth_call/{sample}_N.filtered.vcf.gz"
+    output: "{sample}/cnv_sv/{sample}.cnv.vcf.gz"
+
+  - name: exomedepth_tbi
+    input: "cnv_sv/exomedepth_call/{sample}_N.filtered.vcf.gz.tbi"
+    output: "{sample}/cnv_sv/{sample}.cnv.vcf.gz.tbi"
+
+  - name: cnv_sv_vcf
+    input: "cnv_sv/svdb_merge/{sample}_N.merged.filtered.vcf.gz"
+    output: "{sample}/cnv_sv/{sample}.cnv_sv.vcf.gz"
+
+  - name: cnv_sv_tbi
+    input: "cnv_sv/svdb_merge/{sample}_N.merged.filtered.vcf.gz.tbi"
+    output: "{sample}/cnv_sv/{sample}.cnv_sv.vcf.gz.tbi"
+
+  - name: melt_softfiltered_vcf
+    input: "cnv_sv/melt/{sample}_N.softfiltered.vcf.gz"
+    output: "{sample}/cnv_sv/{sample}.melt.vcf.gz"
+
+  - name: melt_softfiltered_tbi
+    input: "cnv_sv/melt/{sample}_N.softfiltered.vcf.gz.tbi"
+    output: "{sample}/cnv_sv/{sample}.melt.vcf.gz.tbi"
+
+  - name: scramble_softfiltered_vcf
+    input: "cnv_sv/scramble_vcf/{sample}_N.softfiltered.vcf.gz"
+    output: "{sample}/cnv_sv/{sample}.scramble.vcf.gz"
+
+  - name: scramble_softfiltered_tbi
+    input: "cnv_sv/scramble_vcf/{sample}_N.softfiltered.vcf.gz.tbi"
+    output: "{sample}/cnv_sv/{sample}.scramble.vcf.gz.tbi"
+
+  - name: upd_regions_bed
+    input: "cnv_sv/upd/{sample}_N.upd_regions.bed"
+    output: "{sample}/{sample}.upd_regions.bed"
+    # UPD kraver komplett trio i samples.tsv
+    when: complete_trio
+
+  - name: automap_tsv
+    input: "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.tsv"
+    output: "{sample}/automap/{sample}.HomRegions.tsv"
+
+  - name: automap_pdf
+    input: "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.pdf"
+    output: "{sample}/automap/{sample}.HomRegions.pdf"
+
+  - name: coverage_excel
+    input: "qc/create_cov_excel/{sample}_N.coverage.xlsx"
+    output: "{sample}/{sample}.coverage_analysis.xlsx"
+
+  - name: samtools_cram
+    input: "compression/samtools_view/{sample}_N.cram"
+    output: "{sample}/{sample}_N.cram"
+
+  - name: samtools_crai
+    input: "compression/samtools_view/{sample}_N.cram.crai"
+    output: "{sample}/{sample}_N.cram.crai"
+
+  - name: peddy_html
+    input: "qc/peddy/peddy.html"
+    output: "peddy.html"
+
+  - name: multiqc_html
+    input: "qc/multiqc/multiqc_DNA.html"
+    output: "multiqc_DNA.html"
+

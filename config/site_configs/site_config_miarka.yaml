@@ -1,0 +1,18 @@
+---
+# ---------------------------------------------------------------------------
+#  Site-config - Miarka
+#
+#  Anvands som: --configfile config/site_configs/site_config_miarka.yaml
+# ---------------------------------------------------------------------------
+
+APPTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache
+CONTAINER_CACHE: /proj/ngi2024001/nobackup/bin/wp3_te/apptainer_cache
+
+resources: "config/resources/resources_miarka.yaml"
+
+hydra_local_path: /proj/ngi2024001/nobackup/bin/wp3_te/hastings_rd_wes_{{PIPELINE_VERSION}}/hydra-genetics
+
+# OBS: overstyrs inte pa Miarka i dag - detta ar en Marvin-sokvag och pekar
+# sannolikt pa nagot som inte finns. Vardet ar oforandrat fran dagens config;
+# se STATUS.md innan det rattas.
+MELT_SIF: /projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif

@@ -4,22 +4,22 @@ type: object
 properties:
   directory:
     description: >
-      Path to a directory where output files should be copied
+      path to a directory where output files should be copied
     type: string
     format: uri
     default: ./results
   files:
-    description: Defines a single output file
+    description: defines a single output file
     type: array
     items:
       type: object
       properties:
         name:
-          description: Descriptive name of the output file.
+          description: descriptive name of the output file.
           type: string
         input:
           description: >
-            Path to the file that should be copied to the output directory.
+            path to the file that should be copied to the output directory.
             Snakemake wildcards referring to columns in `units` are allowed.
             An input path that is `null` means that snakemake will find a rule
             that will generate the output file at `output`, and not copy
@@ -30,11 +30,26 @@ properties:
           format: uri
         output:
           description: >
-            Relative path within the output directory where `inputfile` should
+            relative path within the output directory where `inputfile` should
             be copied to. Snakemake wildcards referring to columns in `units`
             are allowed.
           type: string
           format: uri
+        types:
+          description: >
+            unit types the file should be generated for. Defaults to ["N"].
+          type: array
+          items:
+            type: string
+        when:
+          description: >
+            optional condition that must hold for the file to be requested.
+            Implemented in workflow/rules/results.smk. Currently supported:
+            `complete_trio` - only for probands that have both parents in
+            samples.tsv.
+          type: string
+          enum:
+            - complete_trio
       required:
         - name
         - input

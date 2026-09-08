@@ -1,0 +1,21 @@
+---
+# ---------------------------------------------------------------------------
+#  Site-config - Marvin
+#
+#  Anvands som: --configfile config/site_configs/site_config_marvin.yaml
+#
+#  Har bor allt som beror pa klustret men inte pa assayen: var hydra-modulerna
+#  och containrarna ligger, vilken resursfil som galler. Referensfilernas
+#  sokvagar ligger i config/reference_files/reference_files_marvin.yaml.
+# ---------------------------------------------------------------------------
+
+CONTAINER_CACHE: /projects/wp4/nobackup/singularity_cache
+
+resources: "config/resources/resources_marvin.yaml"
+
+# hydra_local_path satts inte pa Marvin i dag, vilket gor att modulerna hamtas
+# fran GitHub vid korning. Det ar en offline-blockerare, se PLAN.md 2.2.
+
+# MELT levereras som en handbyggd sif utanfor containerbiblioteket.
+# Ska flyttas till {{CONTAINER_CACHE}} i fas 2 (PLAN.md 1.4b).
+MELT_SIF: /projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif

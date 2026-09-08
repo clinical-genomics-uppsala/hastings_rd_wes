@@ -1,0 +1,18 @@
+---
+# Resultatfiler for integrationstestet. Speglar config/output_files.yaml.
+
+directory: results
+
+files:
+  - name: exomedepth_ref
+    input: "references/exomedepth_reference/Twist2.0_hg38_RefCount.Rdata"
+    output: "exomedepth_reference/Twist2.0_hg38_RefCount.Rdata"
+
+  - name: exomedepth_male_ref
+    input: "references/exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata"
+    output: "exomedepth_reference/Twist2.0_hg38_RefCount_male.Rdata"
+
+  - name: exomedepth_female_ref
+    input: "references/exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata"
+    output: "exomedepth_reference/Twist2.0_hg38_RefCount_female.Rdata"
+

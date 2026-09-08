@@ -20,12 +20,13 @@ report: "report/workflow.rst"
 
 rule all:
     input:
-        unpack(compile_output_list),
+        unpack(compile_output_file_list),
 
 # Rule precedence is kept close to rule all so restart/debug behavior is easy to
 # audit before module-specific overrides start.
 
-if config["output"] == "config/output_list.json":
+# Analysworkflowet, till skillnad fran referensworkflowet (output_files_ref.yaml).
+if config["output"].endswith("output_files.yaml"):
 
     ruleorder: parabricks_fq2bam > alignment_samtools_index
     ruleorder: _copy_samtools_crai > compression_samtools_index

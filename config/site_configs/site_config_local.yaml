@@ -1,0 +1,13 @@
+---
+# ---------------------------------------------------------------------------
+#  Site-config - lokal korning och CI
+#
+#  Anvands som: --configfile config/site_configs/site_config_local.yaml
+#               tillsammans med profiles/local och reference_files_local.yaml
+# ---------------------------------------------------------------------------
+
+CONTAINER_CACHE: .snakemake/singularity
+
+resources: "config/resources/resources_local.yaml"
+
+MELT_SIF: "{{CONTAINER_CACHE}}/MELT_v2.2.2.sif"

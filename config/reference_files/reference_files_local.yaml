@@ -1,0 +1,38 @@
+---
+# ---------------------------------------------------------------------------
+#  Referensfiler - lokal/CI
+#
+#  Pekar pa shared/mock_references (tomma filer med ratt sokvagar), sa att
+#  --dry-run och integrationstesterna gar att kora utan referensdata.
+# ---------------------------------------------------------------------------
+
+REFERENCE_DATA: "../../../shared/mock_references"
+
+ref_fasta: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa"
+ref_fai: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa.fai"
+ref_bwa_amb: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa.amb"
+ref_bwa_ann: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa.ann"
+ref_bwa_bwt: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa.bwt"
+ref_bwa_pac: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa.pac"
+ref_bwa_sa: "{{REFERENCE_DATA}}/genome/GRCh38_masked.fa.sa"
+ref_known_indels: "{{REFERENCE_DATA}}/genome/known_indels.vcf.gz"
+ref_vep_cache: "{{REFERENCE_DATA}}/annotation/vep"
+ref_design_bed: "{{REFERENCE_DATA}}/capture_kits/twist2.0.bed"
+ref_design_intervals: "{{REFERENCE_DATA}}/capture_kits/twist2.0.interval_list"
+ref_design_bed_padded: "{{REFERENCE_DATA}}/capture_kits/twist2.0_20bp_pad.bed"
+ref_comp_design_bed: "{{REFERENCE_DATA}}/capture_kits/twist_comp.bed"
+ref_comp_design_intervals: "{{REFERENCE_DATA}}/capture_kits/twist_comp.interval_list"
+ref_comp_design_bed_padded: "{{REFERENCE_DATA}}/capture_kits/twist_comp_20bp_pad.bed"
+ref_comp_exomedepth_bed: "{{REFERENCE_DATA}}/capture_kits/twist_comp_with_names.bed"
+ref_coverage_bed: "{{REFERENCE_DATA}}/capture_kits/hastings_coverage.bed"
+ref_genepanels: "{{REFERENCE_DATA}}/gene_panels/genepanels.list"
+ref_exons: "{{REFERENCE_DATA}}/annotation/exons_GRCh38_ensembl109.txt"
+ref_genes: "{{REFERENCE_DATA}}/annotation/genes_GRCh38_ensembl109.txt"
+ref_melt_bed: "{{REFERENCE_DATA}}/melt/Hg38.genes.bed"
+ref_melt_mei: "{{REFERENCE_DATA}}/melt/mei_list.txt"
+ref_exomedepth_pon_female_nextseq: "{{REFERENCE_DATA}}/cnv/exomedepth_female_nextseq.Rdata"
+ref_exomedepth_pon_male_nextseq: "{{REFERENCE_DATA}}/cnv/exomedepth_male_nextseq.Rdata"
+ref_exomedepth_pon_female_novaseqx: "{{REFERENCE_DATA}}/cnv/exomedepth_female_novaseqx.Rdata"
+ref_exomedepth_pon_male_novaseqx: "{{REFERENCE_DATA}}/cnv/exomedepth_male_novaseqx.Rdata"
+ref_comp_exomedepth_pon_female: "{{REFERENCE_DATA}}/cnv/exomedepth_comp_female.Rdata"
+ref_comp_exomedepth_pon_male: "{{REFERENCE_DATA}}/cnv/exomedepth_comp_male.Rdata"

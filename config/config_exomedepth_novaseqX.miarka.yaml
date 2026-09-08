@@ -1,3 +1,0 @@
-exomedepth_call:
-  male_reference: "{{REFERENCE_DATA}}/hastings/Twist2.0_hg38_RefCount_male_novX.Rdata" 
-  female_reference: "{{REFERENCE_DATA}}/hastings/Twist2.0_hg38_RefCount_female_novX.Rdata"

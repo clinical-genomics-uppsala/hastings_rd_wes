@@ -1,59 +1,85 @@
 ---
+# Validerad mot shared/schemas/pipeline_manifest.schema.yaml
 pipeline:
   id: wp3_te
   name: hastings_rd_wes
   assay: rd_wes
   genome_build: GRCh38
-
 entrypoints:
   analysis: workflow/Snakefile
-  references: null
-
+  references: workflow/Snakefile
 layout:
   local_rules_dir: workflow/rules
   local_scripts_dir: workflow/scripts
   schemas_dir: workflow/schemas
   report: report/workflow.rst
-
+  output_spec: config/output_files.yaml
+  container_manifest: containers/manifest.yaml
+site:
+  sites:
+  - marvin
+  - miarka
+  - local
+  site_config_pattern: config/site_configs/site_config_{site}.yaml
+  reference_files_pattern: config/reference_files/reference_files_{site}.yaml
+  profile_pattern: profiles/{site}
+run_modes:
+- name: exomedepth_novaseqx
+  description: Twist Exome 2.0, ExomeDepth mot NovaSeq X panel of normals
+  extra_configfiles:
+  - config/config_exomedepth_novaseqX.yaml
+- name: exomedepth_nextseq
+  description: Twist Exome 2.0, ExomeDepth mot NextSeq panel of normals
+  extra_configfiles:
+  - config/config_exomedepth_nextseq.yaml
+- name: twist_comprehensive
+  description: Twist Comprehensive Exome
+  extra_configfiles:
+  - config/config_twist_comp.yaml
+- name: references
+  description: Bygger ExomeDepth panel of normals
+  extra_configfiles:
+  - config/config_reference.yaml
 rule_groups:
-  common: workflow/rules/common.smk
-  variant_annotation: workflow/rules/add_ref_to_vcf.smk
-  coverage: workflow/rules/coverage.smk
   cnv_export: workflow/rules/exomedepth_export.smk
+  common: workflow/rules/common.smk
+  coverage: workflow/rules/coverage.smk
   peddy: workflow/rules/peddy.smk
+  results: workflow/rules/results.smk
+  variant_annotation: workflow/rules/add_ref_to_vcf.smk
   vcf_export: workflow/rules/tsv2vcf.smk
-
 hydra_modules:
   source: config.modules
   loader: hydra_genetics.utils.misc.get_module_snakefile
   local_module_root_config_key: hydra_local_path
   modules:
-    - alignment
-    - annotation
-    - cnv_sv
-    - compression
-    - filtering
-    - misc
-    - parabricks
-    - prealignment
-    - qc
-    - references
-    - snv_indels
-
+  - alignment
+  - annotation
+  - cnv_sv
+  - compression
+  - filtering
+  - misc
+  - parabricks
+  - prealignment
+  - qc
+  - references
+  - snv_indels
 scripts:
   pipeline_specific:
-    - workflow/scripts/create_excel.py
+  - workflow/scripts/create_excel.py
   shared_report_candidates:
-    - workflow/scripts/create_peddy_fam.py
-    - workflow/scripts/create_peddy_mqc_config.py
+  - workflow/scripts/create_peddy_fam.py
+  - workflow/scripts/create_peddy_mqc_config.py
   shared_tool_candidates:
-    - workflow/scripts/exomedepth_export.R
-    - workflow/scripts/ref_vcf.py
-    - workflow/scripts/tsv2vcf.sh
+  - workflow/scripts/exomedepth_export.R
+  - workflow/scripts/ref_vcf.py
+  - workflow/scripts/tsv2vcf.sh
   naming_notes:
-    - sample_order_for_multiqc.py should be aligned with sample_order_multiqc.py used by other pipelines.
-
+  - sample_order_for_multiqc.py should be aligned with sample_order_multiqc.py used
+    by other pipelines.
 harmonization_notes:
-  - Keep site config minimal: parent installation path and runtime resources only.
-  - Reference file names should come from the common cgu/library layout, not cluster-specific workflow logic.
-  - Local rules should be grouped by domain and mirrored in this manifest before larger refactors.
+- 'Fas 1 klar: site_configs, reference_files, output_files.yaml, profiler per site.'
+- 'Kvar till fas 2: docker://-URI:er i config ska bli {{CONTAINER_DIR}}/*.sif, hydra_local_path
+  saknas for marvin, MELT-sif ligger utanfor containerbiblioteket.'
+- 'Kvar till fas 4: resultatsokvagarna ar oforandrade och foljer annu inte DECISIONS.md
+  D2.'

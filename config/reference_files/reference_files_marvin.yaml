@@ -1,0 +1,52 @@
+---
+# ---------------------------------------------------------------------------
+#  Referensfiler - Marvin
+#
+#  Anvands som: --configfile config/reference_files/reference_files_marvin.yaml
+#
+#  Varje {{ref_*}} i config/config*.yaml loses harifran. Filerna ligger an sa
+#  lange kvar dar de alltid legat, i fyra olika trad. Nar referensbiblioteket
+#  ar pa plats (PLAN.md fas 3) ar det bara den har filen som behover andras.
+# ---------------------------------------------------------------------------
+
+# Genom (GRCh38, GRC-maskad analysis set)
+ref_fasta: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
+ref_fai: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
+ref_bwa_amb: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"
+ref_bwa_ann: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann"
+ref_bwa_bwt: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt"
+ref_bwa_pac: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac"
+ref_bwa_sa: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa"
+ref_known_indels: "/data/ref_data/wp3/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz"
+ref_vep_cache: "/beegfs-storage/data/ref_genomes/VEP/"
+
+# Design: Twist Exome 2.0 (standardkorning)
+ref_design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
+ref_design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
+ref_design_bed_padded: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+
+# Design: Twist Comprehensive Exome (config_twist_comp.yaml)
+ref_comp_design_bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
+ref_comp_design_intervals: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+ref_comp_design_bed_padded: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+ref_comp_exomedepth_bed: "/beegfs-storage/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed"
+
+# Annotering och panelfiler
+ref_coverage_bed: "/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed"
+ref_genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
+ref_exons: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
+ref_genes: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
+
+# MELT
+ref_melt_bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
+ref_melt_mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
+
+# ExomeDepth panel of normals - Twist 2.0, per sekvenserare
+ref_exomedepth_pon_female_nextseq: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female_nextseq.Rdata"
+ref_exomedepth_pon_male_nextseq: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_nextseq.Rdata"
+ref_exomedepth_pon_female_novaseqx: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_female_novX.Rdata"
+ref_exomedepth_pon_male_novaseqx: "/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_novX.Rdata"
+
+# ExomeDepth panel of normals - Twist Comprehensive
+ref_comp_exomedepth_pon_female: "/beegfs-storage/data/ref_data/wp3/RefCount_female.Rdata"
+ref_comp_exomedepth_pon_male: "/beegfs-storage/data/ref_data/wp3/RefCount_male.Rdata"

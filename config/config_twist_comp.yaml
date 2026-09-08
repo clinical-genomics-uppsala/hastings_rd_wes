@@ -1,22 +1,21 @@
 ---
 
 
-resources: "config/resources.yaml"
 
 reference:
-  design_bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
-  design_intervals: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
+  design_bed: "{{ref_comp_design_bed}}"
+  design_intervals: "{{ref_comp_design_intervals}}"
 
 bcftools_view_deepvariant:
-  regions: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  regions: "{{ref_comp_design_bed_padded}}"
 
 deepvariant:
-  bed: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/TWIST/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
+  bed: "{{ref_comp_design_bed_padded}}"
 
 exomedepth_call:
-  bedfile: /beegfs-storage/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
-  male_reference: /beegfs-storage/data/ref_data/wp3/RefCount_male.Rdata 
-  female_reference: /beegfs-storage/data/ref_data/wp3/RefCount_female.Rdata
+  bedfile: "{{ref_comp_exomedepth_bed}}"
+  male_reference: "{{ref_comp_exomedepth_pon_male}}"
+  female_reference: "{{ref_comp_exomedepth_pon_female}}"
 
 
 

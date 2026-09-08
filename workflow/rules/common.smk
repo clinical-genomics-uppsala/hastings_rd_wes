@@ -57,9 +57,14 @@ units = (
 
 validate(units, schema="../schemas/units.schema.yaml")
 
-## read the output json
+## read and validate the output file specification
 with open(config["output"]) as output:
-    output_json = json.load(output)
+    if config["output"].endswith(".json"):
+        output_spec = json.load(output)
+    else:
+        output_spec = yaml.safe_load(output.read())
+
+validate(output_spec, schema="../schemas/output_files.schema.yaml")
 
 ## get version information on pipeline, containers and software
 

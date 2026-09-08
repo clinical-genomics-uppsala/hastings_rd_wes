@@ -1,10 +1,9 @@
 ---
 
-resources: "config/resources.yaml"
 samples: "config/samples.tsv"
 units: "config/units.tsv"
 
-output: "config/output_list.json"
+output: "config/output_files.yaml"
 
 default_container: "docker://hydragenetics/common:1.11.1"
 
@@ -22,13 +21,13 @@ modules:
   snv_indels: "v1.0.0"
 
 reference:
-  coverage_bed: "/beegfs-storage/data/ref_data/refseq/hastings_coverage_20250109.bed"
-  design_bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed"
-  design_intervals: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list"
-  fasta: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta"
-  fai: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai"
-  genepanels: "/beegfs-storage/projects/wp3/Reference_files/Manifest/Clinical_research_exome/Gene_panels/genepanels.list"
-  sites: "/data/ref_data/wp3/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz"
+  coverage_bed: "{{ref_coverage_bed}}"
+  design_bed: "{{ref_design_bed}}"
+  design_intervals: "{{ref_design_intervals}}"
+  fasta: "{{ref_fasta}}"
+  fai: "{{ref_fai}}"
+  genepanels: "{{ref_genepanels}}"
+  sites: "{{ref_known_indels}}"
   skip_chrs:
     - chrM
 
@@ -41,7 +40,7 @@ automap:
   outdir: "cnv_sv/automap"
 
 bcftools_view_deepvariant:
-  regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+  regions: "{{ref_design_bed_padded}}"
 
 bcftools_hardfilter_exomedepth:
   exclude: "'BF<=0'"
@@ -59,11 +58,11 @@ bcftools_view_svdb:
 
 bwa_mem:
   container: "docker://hydragenetics/bwa:0.7.15"
-  amb: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.amb"
-  ann: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.ann"
-  bwt: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.bwt"
-  pac: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.pac"
-  sa: "/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.sa"
+  amb: "{{ref_bwa_amb}}"
+  ann: "{{ref_bwa_ann}}"
+  bwt: "{{ref_bwa_bwt}}"
+  pac: "{{ref_bwa_pac}}"
+  sa: "{{ref_bwa_sa}}"
   extra: "-K 100000000"
 
 create_cov_excel:
@@ -71,15 +70,15 @@ create_cov_excel:
 
 deepvariant:
   container: "docker://google/deepvariant:1.6.1" 
-  bed: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
+  bed: "{{ref_design_bed_padded}}"
   model_type: "WES"
   output_gvcf: True
   
 exomedepth_call:
   container: "docker://hydragenetics/exomedepth:1.1.15"
-  bedfile: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed" 
-  exonsfile: "/data/ref_data/wp3/hastings/exons_GRCh38_ensembl109.txt"
-  genesfile: "/data/ref_data/wp3/hastings/genes_GRCh38_ensembl109.txt"
+  bedfile: "{{ref_design_bed}}" 
+  exonsfile: "{{ref_exons}}"
+  genesfile: "{{ref_genes}}"
   genome_version: "hg38"
 
 exomedepth_export:
@@ -102,10 +101,10 @@ glnexus_trio:
   configfile: "DeepVariantWES"
 
 melt:
-  container: "/projects/wp3/Software/MELTv2.2.2/MELT_v2.2.2.sif"
-  bed: "/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed"
+  container: "{{MELT_SIF}}"
+  bed: "{{ref_melt_bed}}"
   extra: "-r 150 -exome"
-  mei: "/projects/wp3/Software/MELTv2.2.2/mei_list.txt"
+  mei: "{{ref_melt_mei}}"
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"
@@ -199,7 +198,7 @@ upd:
 
 vep_trio:
   container: "docker://ensemblorg/ensembl-vep:release_110.1"
-  vep_cache: "/beegfs-storage/data/ref_genomes/VEP/"
+  vep_cache: "{{ref_vep_cache}}"
   extra: "--assembly GRCh38 --check_existing --pick --max_af "
 
 vt_decompose:

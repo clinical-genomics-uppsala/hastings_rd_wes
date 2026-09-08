@@ -1,0 +1,67 @@
+---
+# Resultatfiler for integrationstestet. Speglar config/output_files.yaml.
+
+directory: results
+
+files:
+  - name: snv_indels_vcf
+    input: "vcf_final/{sample}_N.vcf.gz"
+    output: "{sample}/{sample}.hard-filtered.vcf.gz"
+
+  - name: snv_indels_tbi
+    input: "vcf_final/{sample}_N.vcf.gz.tbi"
+    output: "{sample}/{sample}.hard-filtered.vcf.gz.tbi"
+
+  - name: exomedepth_aed
+    input: "cnv_sv/exomedepth_call/{sample}_N.aed"
+    output: "{sample}/{sample}_exomedepth.aed"
+
+  - name: exomedepth_nexus
+    input: "cnv_sv/exomedepth_call/{sample}_N_SV.txt"
+    output: "{sample}/{sample}_exomedepth_SV.txt"
+
+  - name: exomedepth_call
+    input: "cnv_sv/exomedepth_call/{sample}_N.txt"
+    output: "{sample}/{sample}_exomedepth.txt"
+
+  - name: exomedepth_vcf
+    input: "cnv_sv/exomedepth_call/{sample}_N.filtered.vcf.gz"
+    output: "{sample}/{sample}.cnv.vcf.gz"
+
+  - name: exomedepth_tbi
+    input: "cnv_sv/exomedepth_call/{sample}_N.filtered.vcf.gz.tbi"
+    output: "{sample}/{sample}.cnv.vcf.gz.tbi"
+
+  - name: upd_regions_bed
+    input: "cnv_sv/upd/{sample}_N.upd_regions.bed"
+    output: "{sample}/{sample}.upd_regions.bed"
+    when: complete_trio
+
+  - name: automap_tsv
+    input: "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.tsv"
+    output: "{sample}/automap/{sample}.HomRegions.tsv"
+
+  - name: automap_pdf
+    input: "cnv_sv/automap/{sample}_N/{sample}_N.HomRegions.pdf"
+    output: "{sample}/automap/{sample}.HomRegions.pdf"
+
+  - name: coverage_excel
+    input: "qc/create_cov_excel/{sample}_N.coverage.xlsx"
+    output: "{sample}/{sample}.coverage_analysis.xlsx"
+
+  - name: samtools_cram
+    input: "compression/samtools_view/{sample}_N.cram"
+    output: "{sample}/{sample}_N.cram"
+
+  - name: samtools_crai
+    input: "compression/samtools_view/{sample}_N.cram.crai"
+    output: "{sample}/{sample}_N.cram.crai"
+
+  - name: peddy_html
+    input: "qc/peddy/peddy.html"
+    output: "peddy.html"
+
+  - name: multiqc_html
+    input: "qc/multiqc/multiqc_DNA.html"
+    output: "multiqc_DNA.html"
+
