@@ -7,4 +7,4 @@ output: "config/output_files_ref.yaml"
 
 
 exomedepth_reference:
-  container: "docker://hydragenetics/exomedepth:1.1.15"
+  container: "{{CONTAINER_DIR}}/hydragenetics__exomedepth_1.1.15.sif"

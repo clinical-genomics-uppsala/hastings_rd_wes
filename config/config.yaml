@@ -5,7 +5,7 @@ units: "config/units.tsv"
 
 output: "config/output_files.yaml"
 
-default_container: "docker://hydragenetics/common:1.11.1"
+default_container: "{{CONTAINER_DIR}}/hydragenetics__common_1.11.1.sif"
 
 modules:
   alignment: "v0.6.0"
@@ -34,7 +34,7 @@ reference:
 trimmer_software: "fastp_pe"
 
 automap:
-  container: "docker://hydragenetics/automap:1.2"
+  container: "{{CONTAINER_DIR}}/hydragenetics__automap_1.2.sif"
   build: "hg38"
   extra: "--DP 10 --minsize 3 --chrX"
   outdir: "cnv_sv/automap"
@@ -57,7 +57,7 @@ bcftools_view_svdb:
   extra: "-e 'FILTER~\"LowQual\"'"
 
 bwa_mem:
-  container: "docker://hydragenetics/bwa:0.7.15"
+  container: "{{CONTAINER_DIR}}/hydragenetics__bwa_0.7.15.sif"
   amb: "{{ref_bwa_amb}}"
   ann: "{{ref_bwa_ann}}"
   bwt: "{{ref_bwa_bwt}}"
@@ -69,49 +69,49 @@ create_cov_excel:
   covLimits: "10 20 30"
 
 deepvariant:
-  container: "docker://google/deepvariant:1.6.1" 
+  container: "{{CONTAINER_DIR}}/google__deepvariant_1.6.1.sif" 
   bed: "{{ref_design_bed_padded}}"
   model_type: "WES"
   output_gvcf: True
   
 exomedepth_call:
-  container: "docker://hydragenetics/exomedepth:1.1.15"
+  container: "{{CONTAINER_DIR}}/hydragenetics__exomedepth_1.1.15.sif"
   bedfile: "{{ref_design_bed}}" 
   exonsfile: "{{ref_exons}}"
   genesfile: "{{ref_genes}}"
   genome_version: "hg38"
 
 exomedepth_export:
-  container: "docker://hydragenetics/exomedepth:1.1.15"
+  container: "{{CONTAINER_DIR}}/hydragenetics__exomedepth_1.1.15.sif"
 
 fastp_pe:
-  container: "docker://hydragenetics/fastp:0.20.1"
+  container: "{{CONTAINER_DIR}}/hydragenetics__fastp_0.20.1.sif"
   # Default enabled trimming parameters for fastp. Specified for clarity.
   extra: "--trim_poly_g --qualified_quality_phred 15 --unqualified_percent_limit 40 --n_base_limit 5 --length_required 15"
 
 fastqc:
-  container: "docker://hydragenetics/fastqc:0.11.9"
+  container: "{{CONTAINER_DIR}}/hydragenetics__fastqc_0.11.9.sif"
 
 glnexus_peddy:
-  container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
+  container: "{{CONTAINER_DIR}}/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif"
   configfile: "DeepVariantWES"
 
 glnexus_trio:
-  container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
+  container: "{{CONTAINER_DIR}}/ghcr.io__dnanexus-rnd__glnexus_v1.4.1.sif"
   configfile: "DeepVariantWES"
 
 melt:
-  container: "{{MELT_SIF}}"
+  container: "{{CONTAINER_DIR}}/MELT_v2.2.2.sif"
   bed: "{{ref_melt_bed}}"
   extra: "-r 150 -exome"
   mei: "{{ref_melt_mei}}"
 
 mosdepth_bed:
-  container: "docker://hydragenetics/mosdepth:0.3.2"
+  container: "{{CONTAINER_DIR}}/hydragenetics__mosdepth_0.3.2.sif"
   extra: ""
 
 multiqc:
-  container: "docker://hydragenetics/multiqc:1.21"
+  container: "{{CONTAINER_DIR}}/hydragenetics__multiqc_1.21.sif"
   reports:
     DNA:
       config: "config/multiqc_config_DNA.yaml"
@@ -138,68 +138,68 @@ multiqc:
         - "qc/samtools_idxstats/{sample}_{type}.samtools-idxstats.txt"
 
 pbrun_deepvariant:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
+  container: "{{CONTAINER_DIR}}/nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif"
   extra: "--use-wes-model --mode shortread \
    --disable-use-window-selector-model --gvcf " ## disable window selector model for consistency with deepvariant cpu. Also increases accuracy.
 
 pbrun_fq2bam:
-  container: "docker://nvcr.io/nvidia/clara/clara-parabricks:4.3.1-1"
+  container: "{{CONTAINER_DIR}}/nvcr.io__nvidia__clara__clara-parabricks_4.3.1-1.sif"
   extra: ""
 
 peddy:
-  container: "docker://hydragenetics/peddy:0.4.8"
+  container: "{{CONTAINER_DIR}}/hydragenetics__peddy_0.4.8.sif"
   config: "config/peddy_mqc.yaml"
   extra: "--sites hg38 "
 
 picard_collect_alignment_summary_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_collect_duplication_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_collect_gc_bias_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_collect_hs_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_collect_insert_size_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_collect_multiple_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_collect_wgs_metrics:
-  container: "docker://hydragenetics/picard:2.25.0"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.0.sif"
 
 picard_mark_duplicates:
-  container: "docker://hydragenetics/picard:2.25.4"
+  container: "{{CONTAINER_DIR}}/hydragenetics__picard_2.25.4.sif"
 
 samtools_merge_bam:
   extra: "-c -p"
 
 scramble_cluster_analysis:
-  container: "docker://hydragenetics/scramble:1.0.2"
+  container: "{{CONTAINER_DIR}}/hydragenetics__scramble_1.0.2.sif"
   mei_refs: "/opt/scramble/cluster_analysis/resources/MEI_consensus_seqs.fa" # path in the container
   install_dir: "/opt/scramble/cluster_analysis/bin" # path in the container
 
 scramble_cluster_identifier:
-  container: "docker://hydragenetics/scramble:1.0.2"
+  container: "{{CONTAINER_DIR}}/hydragenetics__scramble_1.0.2.sif"
 
 svdb_merge:
-  container: "docker://hydragenetics/svdb:2.10.2"
+  container: "{{CONTAINER_DIR}}/hydragenetics__svdb_2.10.2.sif"
   overlap: 0.6
   priority: "exomedepth,melt,scramble"
   extra: "--pass_only --no_intra "
 
 upd:
-  container: "docker://hydragenetics/upd:0.1.1"
+  container: "{{CONTAINER_DIR}}/hydragenetics__upd_0.1.1.sif"
   extra: "--vep "
 
 vep_trio:
-  container: "docker://ensemblorg/ensembl-vep:release_110.1"
+  container: "{{CONTAINER_DIR}}/ensemblorg__ensembl-vep_release_110.1.sif"
   vep_cache: "{{ref_vep_cache}}"
   extra: "--assembly GRCh38 --check_existing --pick --max_af "
 
 vt_decompose:
-  container: "docker://hydragenetics/vt:2015.11.10"
+  container: "{{CONTAINER_DIR}}/hydragenetics__vt_2015.11.10.sif"

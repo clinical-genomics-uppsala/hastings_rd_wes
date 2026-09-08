@@ -79,7 +79,9 @@ scripts:
     by other pipelines.
 harmonization_notes:
 - 'Fas 1 klar: site_configs, reference_files, output_files.yaml, profiler per site.'
-- 'Kvar till fas 2: docker://-URI:er i config ska bli {{CONTAINER_DIR}}/*.sif, hydra_local_path
-  saknas for marvin, MELT-sif ligger utanfor containerbiblioteket.'
-- 'Kvar till fas 4: resultatsokvagarna ar oforandrade och foljer annu inte DECISIONS.md
-  D2.'
+- 'Fas 2 klar: alla containrar gar via {{CONTAINER_DIR}}/<sif>, hydra_local_path satt
+  for alla sites, wrapper-prefix mot lokal klon, offline-preflight i startscriptet.
+  Verifiera pa kluster med tools/check_offline.py --installed <rot>.'
+- 'Kvar till fas 3: referensfilerna ligger an sa lange kvar i sina fyra ursprungliga
+  trad; bara reference_files_<site>.yaml behover andras.'
+- 'Kvar till fas 4: resultatsokvagarna foljer annu inte DECISIONS.md D2.'

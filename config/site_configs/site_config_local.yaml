@@ -6,8 +6,14 @@
 #               tillsammans med profiles/local och reference_files_local.yaml
 # ---------------------------------------------------------------------------
 
-CONTAINER_CACHE: .snakemake/singularity
+PIPELINE_HOME: "."
+
+# Lokalt containerbibliotek. Bygg med:
+#   tools/build_containers.sh <pipeline> --dest ~/.cgu/containers
+CONTAINER_DIR: "{{PIPELINE_HOME}}/.containers"
 
 resources: "config/resources/resources_local.yaml"
 
-MELT_SIF: "{{CONTAINER_CACHE}}/MELT_v2.2.2.sif"
+# Lokala hydra-moduler. Peka pa en katalog med en klon per modul, med taggar:
+#   hydra-genetics/{alignment,annotation,cnv_sv,...}
+hydra_local_path: "{{PIPELINE_HOME}}/../../../shared/hydra-modules"
