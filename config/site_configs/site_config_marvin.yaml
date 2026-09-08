@@ -19,5 +19,9 @@ resources: "config/resources/resources_marvin.yaml"
 # Lokala hydra-genetics-moduler. Utan detta faller get_module_snakefile()
 # tillbaka pa GithubFile och korningen kraver natverk. Klonerna maste ha de
 # taggar som config["modules"] pekar pa - kontrolleras av assert_offline_ready.
-hydra_local_path: /projects/bin/wp3_te/hastings_rd_wes_{{PIPELINE_VERSION}}/hydra-genetics
+#
+# OBS: nagon sadan klon finns INTE pa Marvin i dag - det ar just darfor
+# modulerna har hamtats fran GitHub. Katalogen maste skapas vid installation.
+# Sokvagen foljer Marvins layout: versionen ar en underkatalog, inte ett suffix.
+hydra_local_path: /projects/bin/wp3_te/hastings_rd_wes/{{PIPELINE_VERSION}}/hydra-genetics
 
