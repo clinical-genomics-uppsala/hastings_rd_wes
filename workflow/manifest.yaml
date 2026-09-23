@@ -85,3 +85,51 @@ harmonization_notes:
 - 'Kvar till fas 3: referensfilerna ligger an sa lange kvar i sina fyra ursprungliga
   trad; bara reference_files_<site>.yaml behover andras.'
 - 'Kvar till fas 4: resultatsokvagarna foljer annu inte DECISIONS.md D2.'
+
+# Hur pipelinen startas av den gemensamma launchern
+# (pipeline_start_scripts/tools/launch.py, DECISIONS.md D13). Klusterfakta -
+# installationsrot, venv, wrapper-klon, drmaa-modul - står i startscriptens
+# register, inte här.
+launch:
+  profile: profiles/{SITE}
+  snakefile: workflow/Snakefile
+  copy:
+    - {from: config, to: config}
+  hook: workflow/scripts/prepare_run.py
+  inputs:
+    sample_regex: '([A-Za-z0-9-]+)_S[0-9]+_.+.gz$'
+    copy_from_inbox: [samples_and_settings.json]
+    create_input_files:
+      - -f
+      - -p
+      - Illumina
+      - -d
+      - "{INBOX}/"
+      - -t
+      - N
+      - -b
+      - NNNNNNNNN+NNNNNNNNN
+      - --data-json
+      - samples_and_settings.json
+      - --data-columns
+      - "{PIPELINE_HOME}/config/wp3_te_columns.json"
+      - -s
+      - "{SAMPLE_REGEX}"
+    derived_files: [samples_comprehensive.tsv, units_comprehensive.tsv, samples_twist2.0.tsv, units_twist2.0.tsv]
+  compute:
+    default: cpu
+    modes:
+      cpu: {aligner: bwa_cpu, snp_caller: deepvariant_cpu}
+      gpu: {aligner: bwa_gpu, snp_caller: deepvariant_gpu}
+  snakemake:
+    configfiles:
+      - config/config.yaml
+      - "config/reference_files/reference_files_{SITE}.yaml"
+      - "config/site_configs/site_config_{SITE}.yaml"
+    config:
+      PIPELINE_VERSION: "{PIPELINE_VERSION}"
+      CGU_LIBRARY_ROOT: "{CGU_LIBRARY_ROOT}"
+    args: [--prioritize, prealignment_fastp_pe, -p]
+    wrapper_prefix: true
+  runs: hook               # Comprehensive och/eller Twist 2.0, se prepare_run.py
+  preflight: offline
