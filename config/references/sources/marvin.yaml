@@ -78,7 +78,7 @@ exomedepth:
         url: file:/data/ref_data/wp3/hastings/Twist2.0_hg38_RefCount_male_novX.Rdata
 exomedepth_call:
   bedfile:
-    checksum: null
+    checksum: 77a996dea75867d84aae036a3e856166
     path: pipelines/hastings/capture_kits/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
     type: file
     url: file:/data/ref_data/wp3/exomedepth_hg38/Twist_Comprehensive_Exome_Covered_Targets_hg38_with_names.bed
@@ -95,12 +95,12 @@ fasta_reference:
     url: file:/data/ref_data/wp3/hastings/GCA_000001405.15_GRCh38_no_alt_analysis_set_masked_chr.fasta.fai
 melt:
   bed:
-    checksum: null
+    checksum: b7cc511549a1ee6fd5a3ba73955a10ae
     path: pipelines/hastings/capture_kits/Hg38.genes.bed
     type: file
     url: file:/projects/wp3/Software/MELTv2.2.2/add_bed_files/Hg38/Hg38.genes.bed
   mei:
-    checksum: null
+    checksum: 47eefadac3d3ed1a3fa433fad22e2080
     path: pipelines/hastings/misc/mei_list.txt
     type: file
     url: file:/projects/wp3/Software/MELTv2.2.2/mei_list.txt
