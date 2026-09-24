@@ -373,12 +373,12 @@ sites:
   checksum: 14cc588a271951ac1806f9be895fb51f
   path: GRCh38/annotation/known_indels/Homo_sapiens_assembly38.known_indels.vcf.gz
   type: file
-  url: file:/data/ref_data/wp3/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz
+  url: file:/data/ref_genomes/GRCh38/GRCmasked/Homo_sapiens_assembly38.known_indels.vcf.gz
 sites_tbi:
-  checksum: null
+  checksum: 1a55fdfa6533ae5cbc70e8188e779229
   path: GRCh38/annotation/known_indels/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
   type: file
-  url: file:/data/ref_data/wp3/hastings/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
+  url: file:/data/ref_genomes/GRCh38/GRCmasked/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
 vep:
   vep_cache:
     content_checksum:
