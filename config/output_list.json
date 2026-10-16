@@ -18,5 +18,12 @@
   "results/{sample}/{sample}_N.cram": {"name": "_copy_samtools_cram", "file": "compression/samtools_view/{sample}_N.cram", "types": ["N"]},
   "results/{sample}/{sample}_N.cram.crai": {"name": "_copy_samtools_crai", "file": "compression/samtools_view/{sample}_N.cram.crai", "types": ["N"]},
   "results/peddy.html": {"name": "_copy_peddy_html", "file": "qc/peddy/peddy.html", "types": ["N"]},
-  "results/multiqc_DNA.html": {"name": "_copy_multiqc_html", "file": "qc/multiqc/multiqc_DNA.html", "types": ["N"]}
+  "results/multiqc_DNA.html": {"name": "_copy_multiqc_html", "file": "qc/multiqc/multiqc_DNA.html", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.mosaicforecast.phasing": {"name": "_copy_mosaicforecast_phase", "file": "snv_indels/mosaicforecast_phasing/{sample}_N/all.phasing", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.mosaicforecast.DEL.predictions": {"name": "_copy_mosaicforecast_del", "file": "snv_indels/mosaicforecast_genotype_prediction/{sample}_N.DEL.predictions", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.mosaicforecast.INS.predictions": {"name": "_copy_mosaicforecast_ins", "file": "snv_indels/mosaicforecast_genotype_prediction/{sample}_N.INS.predictions", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.mosaicforecast.SNP.predictions": {"name": "_copy_mosaicforecast_snp", "file": "snv_indels/mosaicforecast_genotype_prediction/{sample}_N.SNP.predictions", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.deepmosaic.txt": {"name": "_copy_deepsomatic_prediction_txt", "file": "snv_indels/deepmosaic/{sample}_N/final_predictions.txt", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.deepsomatic.vcf.gz.tbi": {"name": "_copy_deepsomatic_tumour_only_tbi", "file": "snv_indels/deepsomatic_t_only/{sample}_N.vcf.gz.tbi", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.deepsomatic.vcf.gz": {"name": "_copy_deepsomatic_tumour_only_vcf", "file": "snv_indels/deepsomatic_t_only/{sample}_N.vcf.gz", "types": ["N"]}
 }
