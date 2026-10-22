@@ -26,6 +26,6 @@
   "results/{sample}/mosaic/{sample}.deepmosaic.txt": {"name": "_copy_deepsomatic_prediction_txt", "file": "snv_indels/deepmosaic/{sample}_N/final_predictions.txt", "types": ["N"]},
   "results/{sample}/mosaic/{sample}.deepsomatic.vcf.gz.tbi": {"name": "_copy_deepsomatic_tumour_only_tbi", "file": "snv_indels/deepsomatic_t_only/{sample}_N.vcf.gz.tbi", "types": ["N"]},
   "results/{sample}/mosaic/{sample}.deepsomatic.vcf.gz": {"name": "_copy_deepsomatic_tumour_only_vcf", "file": "snv_indels/deepsomatic_t_only/{sample}_N.vcf.gz", "types": ["N"]},
-  "results/{sample}/mosaic/{sample}.deepsomatic.hardfiltered.vcf.gz": {"name": "_copy_deepsomatic_vcf_hardfilter", "file": "snv_indels/bcftools_view/{sample}_{type}.ds.nogermline.vcf.gz", "types": ["N"]},
-  "results/{sample}/mosaic/{sample}.deepsomatic.hardfiltered.vcf.gz.tbi": {"name": "_copy_deepsomatic_tbi_hardfilter", "file": "snv_indels/bcftools_view/{sample}_{type}.ds.nogermline.vcf.gz.tbi", "types": ["N"]}
+  "results/{sample}/mosaic/{sample}.deepsomatic.hardfiltered.vcf.gz": {"name": "_copy_deepsomatic_vcf_hardfilter", "file": "snv_indels/bcftools_view/{sample}_N.ds.nogermline.vcf.gz", "types": ["N"]},
+  "results/{sample}/mosaic/{sample}.deepsomatic.hardfiltered.vcf.gz.tbi": {"name": "_copy_deepsomatic_tbi_hardfilter", "file": "snv_indels/bcftools_view/{sample}_N.ds.nogermline.vcf.gz.tbi", "types": ["N"]}
 }
