@@ -3,6 +3,7 @@ __copyright__ = "Copyright 2026"
 __email__ = "nina.hollfelder@scilifelab.uu.se"
 __license__ = "GPL-3"
 
+
 rule bcftools_isec:
     input:
         vcfa="snv_indels/bcftools_view/{sample}_{type}.pass.vcf.gz",
