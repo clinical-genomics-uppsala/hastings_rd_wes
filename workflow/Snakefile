@@ -212,8 +212,8 @@ use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_har
 
 use rule bcftools_view from filtering as filtering_bcftools_view_passonly with:
     input:
-        vcf="snv_indels/bcftools_view/{sample}_N.ref.vcf.gz",
-        tbi="snv_indels/bcftools_view/{sample}_N.ref.vcf.gz tbi",
+        vcf="snv_indels/bcftools_view/{sample}_{type}.ref.vcf.gz",
+        tbi="snv_indels/bcftools_view/{sample}_{type}.ref.vcf.gz.tbi",
     output:
         vcf=temp("snv_indels/bcftools_view/{sample}_{type}.pass.vcf"),
     log:
