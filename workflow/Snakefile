@@ -10,7 +10,7 @@ include: "rules/add_ref_to_vcf.smk"
 include: "rules/coverage.smk"
 include: "rules/exomedepth_export.smk"
 include: "rules/peddy.smk"
-
+include: "rules/bcftools_isec.smk"
 
 report: "report/workflow.rst"
 
@@ -207,6 +207,23 @@ use rule bcftools_filter_exclude_region from filtering as filtering_bcftools_har
         repeat(
             "cnv_sv/exomedepth_call/{sample}_{type}.hardfiltered.vcf.benchmark.tsv",
             config.get("bcftools_hardfilter_exomedepth", {}).get("benchmark_repeats", 1),
+        )
+
+
+use rule bcftools_view from filtering as filtering_bcftools_view_passonly with:
+    input:
+        vcf="snv_indels/bcftools_view/{sample}_N.ref.vcf.gz",
+        tbi="snv_indels/bcftools_view/{sample}_N.ref.vcf.gz tbi",
+    output:
+        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.pass.vcf"),
+    log:
+        "snv_indels/bcftools_view/{sample}_{type}.pass.vcf.log",
+    params:
+        extra=config.get("bcftools_view_passonly", {}).get("extra", ""),
+    benchmark:
+        repeat(
+            "snv_indels/bcftools_view/{sample}_{type}.pass.benchmark.tsv",
+            config.get("bcftools_view", {}).get("benchmark_repeats", 1),
         )
 
 

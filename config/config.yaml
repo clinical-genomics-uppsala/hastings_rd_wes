@@ -58,6 +58,9 @@ bcftools_view_deepsomatic:
 bcftools_view_deepvariant:
   regions: "/data/ref_data/wp3/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted_20bp_pad.bed"
 
+bcftools_view_passonly:
+  extra: " -f PASS "
+
 bcftools_view_svdb:
   extra: "-e 'FILTER~\"LowQual\"'"
 
