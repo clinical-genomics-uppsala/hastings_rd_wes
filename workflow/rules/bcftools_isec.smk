@@ -11,12 +11,12 @@ rule bcftools_isec:
         vcfb="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
         tbib="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz.tbi",
     output:
-        vcf=temp("snv_indels/bcftools_view/{sample}_{type}.ds.nogermline.vcf.gz"),
+        vcf=temp("snv_indels/bcftools_isec/{sample}_{type}.ds.nogermline.vcf.gz"),
     log:
-        "snv_indels/bcftools_view/{sample}_{type}.ds.nogermline.vcf.gz.log",
+        "snv_indels/bcftools_isec/{sample}_{type}.ds.nogermline.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/bcftools_view/{sample}_{type}.ds.nogermline.vcf.gz.benchmark.tsv",
+            "snv_indels/bcftools_isec/{sample}_{type}.ds.nogermline.vcf.gz.benchmark.tsv",
             config.get("bcftools_isec", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("bcftools_isec", {}).get("threads", config["default_resources"]["threads"])
