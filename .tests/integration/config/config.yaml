@@ -20,9 +20,10 @@ modules:
   prealignment: "v1.1.0"
   qc: "v0.4.1"
   references: "e71ee62"
-  snv_indels: "v1.0.0"
+  snv_indels: "v2.1.0"
 
 reference:
+  annovar:  "reference/annovar/"     
   coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
   design_bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
   design_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
@@ -49,6 +50,8 @@ automap:
 bcftools_view_deepvariant:
   regions: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_20bp_pad.bed"
 
+bcftools_view_deepsomatic:
+  extra: "--exclude 'QUAL<1 | FORMAT/DP<10 | FORMAT/GQ<2 | FORMAT/VAF>0.4 && FORMAT/VAF<0.6 | FORMAT/VAF<0.01 | FORMAT/VAF>0.99' "
 
 bcftools_hardfilter_exomedepth:
   exclude: "'BF<=0'"
@@ -63,6 +66,17 @@ bwa_mem:
 
 create_cov_excel:
   covLimits: "10 20 30"
+
+deepmosaic_draw:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepmosaic_predict:
+  container: "library://sanglee8888/deepmosaic/deepmosaic:sha256.28b3dd3b3ab1daa63b53d627c3fba3e6b4da38447ccdb9c7abc073718ff9453e"
+
+deepsomatic_t_only:
+  container: "docker://google/deepsomatic:1.8.0"
+  extra: "--use_default_pon_filtering=true make_examples_extra_args='vsc_min_fraction_snps=0.029,vsc_min_fraction_indels=0.05' " #--use_default_pon_filtering=true or --pon_filtering="pon.vcf" --process_somatic=true or ""
+  model: "WGS_TUMOR_ONLY"
 
 deepvariant:
   container: "docker://hydragenetics/deepvariant:1.4.0"
@@ -98,6 +112,28 @@ glnexus_peddy:
 glnexus_trio:
   container: "docker://ghcr.io/dnanexus-rnd/glnexus:v1.4.1"
   configfile: "DeepVariantWES"
+
+mosaicforecast_input:
+  bcftools_filter: "--exclude 'FILTER!=\"PASS\" || FORMAT/DP<8'"
+
+mosaicforecast_phasing:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  f_format: "bam" # cram/bam
+  umap: "reference/k24.umap.wg.bw"
+
+mosaicforecast_readlevel:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  f_format: "bam" # cram/bam
+  umap: "reference/k24.umap.wg.bw"
+
+mosaicforecast_genotype_prediction:
+  container: "docker://yanmei/mosaicforecast_hg38:0.0.1"
+  model_trained_SNP: "reference/150xRFmodel_addRMSK_Refine.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trained_INS: "reference/insertions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trained_DEL: "reference/deletions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_type_SNP: "Refine"  # phase/refine
+  model_type_INS: "Phase"  # phase/refine
+  model_type_DEL: "Phase"  # phase/refine
 
 mosdepth_bed:
   container: "docker://hydragenetics/mosdepth:0.3.2"

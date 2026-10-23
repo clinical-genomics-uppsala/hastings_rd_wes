@@ -7,6 +7,7 @@ resources: config/resources.miarka.yaml
 
 
 reference:
+  annovar: "{{REFERENCE_DATA}}/hastings/annovar/2025Feb18/"
   coverage_bed: '{{REFERENCE_DATA}}/hastings/hastings_coverage_20250109.bed'
   design_bed: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.bed'
   design_intervals: '{{REFERENCE_DATA}}/hastings/hg38_exome_comp_spikein_v2.0.2_targets_sorted.re_annotated.sorted.interval_list'
@@ -38,3 +39,8 @@ exomedepth_call:
 melt:
   bed: "{{REFERENCE_DATA}}/hastings/melt/Hg38.genes.bed"
   mei: "{{REFERENCE_DATA}}/hastings/melt/mei_list.txt"
+
+mosaicforecast_genotype_prediction:
+  model_trained_SNP: "{{REFERENCE_DATA}}/hastings/150xRFmodel_addRMSK_Refine.rds"
+  model_trained_INS: "{{REFERENCE_DATA}}/hastings/insertions_250x.RF.rds"
+  model_trained_DEL: "{{REFERENCE_DATA}}/hastings/deletions_250x.RF.rds"
