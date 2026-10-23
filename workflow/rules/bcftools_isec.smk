@@ -7,7 +7,9 @@ __license__ = "GPL-3"
 rule bcftools_isec:
     input:
         vcfa="snv_indels/bcftools_view/{sample}_{type}.pass.vcf.gz",
+        tbia="snv_indels/bcftools_view/{sample}_{type}.pass.vcf.gz.tbi",
         vcfb="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz",
+        tbib="snv_indels/bcftools_view/{sample}_{type}.ds.vcf.gz.tbi",
     output:
         vcf=temp("snv_indels/bcftools_view/{sample}_{type}.ds.nogermline.vcf.gz"),
     log:
