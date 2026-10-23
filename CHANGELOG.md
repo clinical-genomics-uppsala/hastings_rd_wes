@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.12.0](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.11.2...v0.12.0) (2026-10-23)
+
+
+### Features
+
+* hardfilter deepsomatic vcf ([3fd63d5](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/3fd63d513a9f66357366341d0b0c0b0f127d79cf))
+* mosaicism ([5fb8aba](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/5fb8abadb183161780f487bdb53210076c1d66cd))
+
+
+### Bug Fixes
+
+* add melt files ([c68535a](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/c68535ad0e65888ca99e43714cdcc4d63db9c920))
+* binding ([4908357](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/49083577f7e2ffc0de16b5f5e86c81fcc52f1ceb))
+* empty variable  ([678571f](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/678571f6c6b33d7619f4b36290edb2682aca1599))
+* filename ([570ebd2](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/570ebd27755fad38c8d90c123c3a0a5450ba92ea))
+* folder ([1501d33](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/1501d339c50867b3b65622f45076b378f21fd1e3))
+* melt ([9ef0729](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/9ef0729754902897bf2543016ca4be669a272712))
+* missing output ([563c38a](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/563c38a9616ebb37b757b001b2df4c41430e0d03))
+* naming outputfile ([c6e4bff](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/c6e4bfff0b652737e37a6ad714be8db259fc5fa9))
+* remove duplicate line ([8065732](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/8065732f93cfaf33f76630af64a80d144ee91c7e))
+* tbi ([682b355](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/682b3557322f7512fcd4ebbf810c4cd85fda3eb2))
+* typo and wildcard ([32388d7](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/32388d7dfaf8904489a8955be18c2693c116a279))
+* wildcard ([c836d4c](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/commit/c836d4c94158dbeffb69b9b14e78f4ee44192edb))
+
 ## [0.11.2](https://github.com/clinical-genomics-uppsala/hastings_rd_wes/compare/v0.11.1...v0.11.2) (2026-06-25)
 
 
