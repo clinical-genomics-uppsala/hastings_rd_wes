@@ -1,6 +1,7 @@
 ---
 
 reference:
+  annovar: "reference/annovar/"
   coverage_bed: "reference/refseq_select_mane_20221123.bed"   #Created bed with https://github.com/zezzipa/UCSCtable2bed
   design_bed: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38.bed"
   design_intervals: "reference/Twist_Comprehensive_Exome_Covered_Targets_hg38_interval_list.bed"
@@ -28,6 +29,17 @@ exomedepth_call:
   genesfile: "reference/genes_GRCh38_ensembl109.txt"
   male_reference: "reference/RefCount_male.Rdata"
   female_reference: "reference/RefCount_female.Rdata"
+
+mosaicforecast_phasing:
+  umap: "reference/k24.umap.wg.bw"
+
+mosaicforecast_readlevel:
+  umap: "reference/k24.umap.wg.bw"
+
+mosaicforecast_genotype_prediction:
+  model_trained_SNP: "reference/150xRFmodel_addRMSK_Refine.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trained_INS: "reference/insertions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
+  model_trained_DEL: "reference/deletions_250x.RF.rds" # 200xRFmodel_addRMSK_Refine.rds or deletions_250x.RF.rds(phase) or insertions_250x.RF.rds(phase)
 
 melt:
   bed: "reference/Hg38.genes.bed"
