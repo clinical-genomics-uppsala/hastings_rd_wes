@@ -186,7 +186,7 @@ peddy:
 picard_collect_alignment_summary_metrics:
   container: "docker://hydragenetics/picard:2.25.0"
 
-  picard_collect_duplication_metrics:
+picard_collect_duplication_metrics:
   container: "docker://hydragenetics/picard:2.25.0"
 
 picard_collect_gc_bias_metrics:
